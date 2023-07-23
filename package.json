@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "webpack --config ./src/main/resources/static/webpack.prod.js"
+    "build": "webpack --config /home/ec2-user/multi-nlpgame/src/main/resources/static/webpack.prod.js"
   },
 
   "dependencies": {
