@@ -8,6 +8,7 @@ const ASSET_NAMES = [
   'circle.png',
   'target.png',
   'meteor.png',
+  'shield.png'
 ];
 
 // assets을 저장할 객체
