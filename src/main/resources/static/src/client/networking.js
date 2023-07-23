@@ -8,7 +8,8 @@ import constants from '../shared/constants';
 // websocket connection
 const roomId = 1;
 const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
-//const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
+// const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
+
 const wsconnectedPromise = new Promise(resolve => {
   // to websocket, 이벤트 핸들러 변경
   // io 와는 다르게 WebSocket 을 사용할 때는 이벤트 핸들러를 직접 등록해야 한다.
@@ -171,6 +172,10 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   }
   // chat 
   // websocket.send(JSON.stringify(chatPacket));
+
+  if (content === 's') {
+    positive = false;
+  }
 
   let info = positive === true ? bullletInstance : shieldInstance;
   const skillPacket = {

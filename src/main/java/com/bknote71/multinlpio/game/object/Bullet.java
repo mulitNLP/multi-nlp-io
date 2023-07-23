@@ -28,7 +28,6 @@ public class Bullet extends GameObject {
     // 참고로 자바에서는 "1틱"이 거의 1ms라고 한다.
     long nextMoveTick = 0;
     public void update() {
-        log.info("bullet update");
         GameRoom room = getGameRoom();
         int objectId = getId();
         if (room == null)

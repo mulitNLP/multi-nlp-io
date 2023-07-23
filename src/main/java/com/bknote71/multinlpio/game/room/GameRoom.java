@@ -60,6 +60,7 @@ public class GameRoom extends JobSerializer {
 
     private TimerTask updateRoomTask;
     private TimerTask createMeteorTask;
+
     // register time task
     public void register() {
         // tick room
@@ -85,25 +86,27 @@ public class GameRoom extends JobSerializer {
         update.leaderboard = new ArrayList<>();
         update.t = System.currentTimeMillis();
 
-        // meteor 및 bullet(projectile) update
+        // meteor, bullet(projectile), shield update
         for (Bullet bullet : bullets.values()) {
             bullet.update();
             update.bullets.add(new UpdateInfo.BulletInfo(bullet.getId(), bullet.pos().x, bullet.pos().y));
         }
 
         for (Meteor meteor : meteors.values()) {
-
             meteor.update();
             update.meteors.add(new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y));
         }
 
         flush();
 
-        // flush 후에 player update 하기 위함 (move 반영)
         for (Player player : players.values()) {
             player.update();
             update.others.add(
-                    new UpdateInfo.UpdatePos(player.getDirection(), player.hp(), player.getId(), player.pos().x, player.pos().y)
+                    new UpdateInfo.UpdatePos(
+                            player.getInfo().getName(),
+                            player.getDirection(), player.hp(), player.getId(), player.pos().x, player.pos().y,
+                            player.getShields().size()
+                    )
             );
         }
 
@@ -119,7 +122,7 @@ public class GameRoom extends JobSerializer {
 
         if (gameObjectType == GameObjectType.Player) {
             Player player = (Player) gameObject;
-            log.info("player({}) enter game", player.getId());
+            // log.info("player({}) enter game", player.getId());
             size++;
             players.put(player.getPlayerId(), player);
             player.init(gameMap.sizeX());
@@ -159,7 +162,7 @@ public class GameRoom extends JobSerializer {
     }
 
     public void leaveGame(int objectId) {
-        log.info("leave game ()-({})", ObjectManager.getObjectTypeById(objectId), objectId);
+        // log.info("leave game ()-({})", ObjectManager.getObjectTypeById(objectId), objectId);
 
         GameObjectType type = ObjectManager.getObjectTypeById(objectId);
         if (type == GameObjectType.Player) {
@@ -181,12 +184,6 @@ public class GameRoom extends JobSerializer {
                 session.send(leavePacket);
 
             player.flushAttackers();
-        } else if (type == GameObjectType.Bullet) {
-            Bullet bullet; // 제거할 총알
-            if ((bullet = bullets.remove(objectId)) == null)
-                return;
-
-            bullet.setGameRoom(null);
         } else if (type == GameObjectType.Meteor) {
             Meteor meteor;
             if ((meteor = meteors.remove(objectId)) == null)
@@ -194,8 +191,13 @@ public class GameRoom extends JobSerializer {
 
             meteor.setGameRoom(null);
             meteor.flushAttackers();
-        }
+        } else if (type == GameObjectType.Bullet) {
+            Bullet bullet; // 제거할 총알
+            if ((bullet = bullets.remove(objectId)) == null)
+                return;
 
+            bullet.setGameRoom(null);
+        }
         // 만약 플레이어나 메테오의 경우, 자신을 향해 날라오는 총알을 다 없애야 한다. (일단은 임시로)
     }
 
@@ -270,6 +272,12 @@ public class GameRoom extends JobSerializer {
                 }
                 bullet.setTarget(target);
                 push(this::enterGame, bullet);
+            }
+
+            case SHIELD -> {
+                Shield shield = new Shield();
+                shield.setRemoveTime(skill);
+                player.addShield(shield);
             }
         }
     }
