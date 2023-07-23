@@ -14,4 +14,4 @@ if [ -n "$process_id" ]; then
 fi
 
 ./gradlew clean build
-java -jar /home/ec2-user/multi-nlpgame/build/libs/*
+java -jar build/libs/*
