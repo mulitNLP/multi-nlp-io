@@ -29,6 +29,7 @@ function renderPlayer(me, player) {
     context.restore();
 
     if(shields > 0 ){
+        shields = shields > 3 ? 3 : shields;
         renderShields(me,player,shields);
     }
 
