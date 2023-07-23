@@ -1,8 +1,8 @@
 RESOURCES_PATH="./src/main/resources"
 TARGET_PORT=8080
 
-npm install
-npm run build
+# npm install
+# npm run build
 
 # copy
 cp -f  "${RESOURCES_PATH}/static/dist/index.html" "${RESOURCES_PATH}/templates/"
