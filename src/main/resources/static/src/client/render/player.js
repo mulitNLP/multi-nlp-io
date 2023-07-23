@@ -28,10 +28,10 @@ function renderPlayer(me, player) {
     );
     context.restore();
 
-    for(let i = shields ; i > 0 ; i--){
-        renderShields(me,player, i);
+    if(shields > 0 ){
+        renderShields(me,player,shields);
     }
-    
+
     context.fillStyle = 'white'; // 텍스트 색상 설정
     context.font = '20px Arial'; // 텍스트 폰트 설정
     context.textAlign = 'center'; // 텍스트 정렬 설정
