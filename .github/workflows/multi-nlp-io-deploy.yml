@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          rm ./src/main/resources/static/dist/*
+          rm -f ./src/main/resources/static/dist/*
 
       - run: |
           echo The PR was merged
