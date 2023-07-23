@@ -60,6 +60,7 @@ public class GameRoom extends JobSerializer {
 
     private TimerTask updateRoomTask;
     private TimerTask createMeteorTask;
+
     // register time task
     public void register() {
         // tick room
@@ -85,21 +86,19 @@ public class GameRoom extends JobSerializer {
         update.leaderboard = new ArrayList<>();
         update.t = System.currentTimeMillis();
 
-        // meteor 및 bullet(projectile) update
+        // meteor, bullet(projectile), shield update
         for (Bullet bullet : bullets.values()) {
             bullet.update();
             update.bullets.add(new UpdateInfo.BulletInfo(bullet.getId(), bullet.pos().x, bullet.pos().y));
         }
 
         for (Meteor meteor : meteors.values()) {
-
             meteor.update();
             update.meteors.add(new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y));
         }
 
         flush();
 
-        // flush 후에 player update 하기 위함 (move 반영)
         for (Player player : players.values()) {
             player.update();
             update.others.add(
@@ -181,12 +180,6 @@ public class GameRoom extends JobSerializer {
                 session.send(leavePacket);
 
             player.flushAttackers();
-        } else if (type == GameObjectType.Bullet) {
-            Bullet bullet; // 제거할 총알
-            if ((bullet = bullets.remove(objectId)) == null)
-                return;
-
-            bullet.setGameRoom(null);
         } else if (type == GameObjectType.Meteor) {
             Meteor meteor;
             if ((meteor = meteors.remove(objectId)) == null)
@@ -194,8 +187,13 @@ public class GameRoom extends JobSerializer {
 
             meteor.setGameRoom(null);
             meteor.flushAttackers();
-        }
+        } else if (type == GameObjectType.Bullet) {
+            Bullet bullet; // 제거할 총알
+            if ((bullet = bullets.remove(objectId)) == null)
+                return;
 
+            bullet.setGameRoom(null);
+        }
         // 만약 플레이어나 메테오의 경우, 자신을 향해 날라오는 총알을 다 없애야 한다. (일단은 임시로)
     }
 
@@ -270,6 +268,10 @@ public class GameRoom extends JobSerializer {
                 }
                 bullet.setTarget(target);
                 push(this::enterGame, bullet);
+            }
+
+            case SHIELD -> {
+
             }
         }
     }

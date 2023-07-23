@@ -5,4 +5,5 @@ public enum GameObjectType {
     Player,
     Meteor,
     Bullet,
+    Shield
 }

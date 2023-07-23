@@ -21,7 +21,8 @@
       "skillId": "2",
       "name": "shield",
       "damage": "0",
-      "skillType": "SHIELD"
+      "skillType": "SHIELD",
+      "duration" : 3000
     }
   ]
 }

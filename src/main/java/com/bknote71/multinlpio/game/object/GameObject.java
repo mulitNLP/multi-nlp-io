@@ -114,9 +114,11 @@ public class GameObject { // player, bullet, meteor
             return;
         }
 
-        log.info("before hp {}", hp());
+        // 현재 오브젝트에서 쉴드가 있다면 방어가 가능 <<
+        if (guard())
+            return;
+
         info.getStatInfo().setHp(Math.max(hp() - damage, 0));
-        log.info("after hp {}", hp());
 
         SChangeHp changePacket = new SChangeHp();
         changePacket.setObjectId(getId());
@@ -140,5 +142,9 @@ public class GameObject { // player, bullet, meteor
 
         GameRoom room = gameRoom;
         room.push(room::leaveGame, getId());
+    }
+
+    protected boolean guard() {
+        return false;
     }
 }

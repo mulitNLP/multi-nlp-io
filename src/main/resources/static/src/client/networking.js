@@ -7,7 +7,7 @@ import constants from '../shared/constants';
 
 // websocket connection
 const roomId = 1;
-const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
+const websocket = new WebSocket(`ws://127.0.0.1:8080/room/${roomId}`);
 
 const wsconnectedPromise = new Promise(resolve => {
   // to websocket, 이벤트 핸들러 변경
