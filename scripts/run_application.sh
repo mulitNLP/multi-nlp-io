@@ -1,15 +1,15 @@
 #!/bin/bash
 
-RESOURCES_PATH="../src/main/resources"
+RESOURCES_PATH="/home/ec2-user/multi-mlpgame/src/main/resources"
 
 # cd basic-websocket-gameserver
-mv_dir=$(dirname "$0")
-cd ${mv_dir}
-npm install
-npm run build
+cd /home/ec2-user/multi-mlpgame/
+
+npm install > /home/ec2-user/nohup.out 2>&1
+npm run build > /home/ec2-user/nohup.out 2>&1
 
 # copy
-cp -f  "${RESOURCES_PATH}/static/dist/index.html" "${RESOURCES_PATH}/templates/"
+cp -f "${RESOURCES_PATH}/static/dist/index.html" "${RESOURCES_PATH}/templates/"
 
 TARGET_PORT=8080
 
