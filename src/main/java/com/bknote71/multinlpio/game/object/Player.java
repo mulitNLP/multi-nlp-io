@@ -41,19 +41,9 @@ public class Player extends GameObject {
 
     public void update() {
         // shield update ??
-        Shield removePoint = null;
-        for (Shield shield : shields) {
-            if (!shield.update()) {
-                removePoint = shield;
-                break;
-            }
-        }
-
-        if (removePoint != null) {
-            // 처음부터 ~ removePoint 까지 모두 제거
-            while (shields.peekFirst() != removePoint)
-                shields.pollFirst();
-        }
+        // 처음부터 ~ removePoint 까지 모두 제거
+        while (!shields.isEmpty() && System.currentTimeMillis() > shields.peekFirst().getRemoveTime())
+            shields.pollFirst();
 
         Vector2d curpos = pos();
 
@@ -86,6 +76,10 @@ public class Player extends GameObject {
 
         Shield shield = shields.pollFirst();
         return true;
+    }
+
+    public void addShield(Shield shield) {
+        shields.offerLast(shield);
     }
 
     public void addDir(MoveDir dir) {

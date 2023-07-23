@@ -115,9 +115,10 @@ public class GameObject { // player, bullet, meteor
         }
 
         // 현재 오브젝트에서 쉴드가 있다면 방어가 가능 <<
-        if (guard())
+        if (guard()) {
+            log.info("한 번 막음");
             return;
-
+        }
         info.getStatInfo().setHp(Math.max(hp() - damage, 0));
 
         SChangeHp changePacket = new SChangeHp();

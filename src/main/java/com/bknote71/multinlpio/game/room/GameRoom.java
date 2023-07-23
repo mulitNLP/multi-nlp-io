@@ -102,7 +102,11 @@ public class GameRoom extends JobSerializer {
         for (Player player : players.values()) {
             player.update();
             update.others.add(
-                    new UpdateInfo.UpdatePos(player.getDirection(), player.hp(), player.getId(), player.pos().x, player.pos().y)
+                    new UpdateInfo.UpdatePos(
+                            player.getInfo().getName(),
+                            player.getDirection(), player.hp(), player.getId(), player.pos().x, player.pos().y,
+                            player.getShields().size()
+                    )
             );
         }
 
@@ -118,7 +122,7 @@ public class GameRoom extends JobSerializer {
 
         if (gameObjectType == GameObjectType.Player) {
             Player player = (Player) gameObject;
-            log.info("player({}) enter game", player.getId());
+            // log.info("player({}) enter game", player.getId());
             size++;
             players.put(player.getPlayerId(), player);
             player.init(gameMap.sizeX());
@@ -158,7 +162,7 @@ public class GameRoom extends JobSerializer {
     }
 
     public void leaveGame(int objectId) {
-        log.info("leave game ()-({})", ObjectManager.getObjectTypeById(objectId), objectId);
+        // log.info("leave game ()-({})", ObjectManager.getObjectTypeById(objectId), objectId);
 
         GameObjectType type = ObjectManager.getObjectTypeById(objectId);
         if (type == GameObjectType.Player) {
@@ -271,7 +275,9 @@ public class GameRoom extends JobSerializer {
             }
 
             case SHIELD -> {
-
+                Shield shield = new Shield();
+                shield.setRemoveTime(skill);
+                player.addShield(shield);
             }
         }
     }
