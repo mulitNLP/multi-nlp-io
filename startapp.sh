@@ -1,21 +1,19 @@
-npm install
-
 RESOURCES_PATH="./src/main/resources"
+TARGET_PORT=8080
 
-# cd basic-websocket-gameserver
-# mv_dir=$(dirname "$0")
-# cd ${mv_dir}
-
+npm install
 npm run build
 
 # copy
 cp -f  "${RESOURCES_PATH}/static/dist/index.html" "${RESOURCES_PATH}/templates/"
+echo "시발" > /home/ec2-user/nohup.out
 
 process_id=$(lsof -ti:8080)
 
-if [ ! -z "$process_id" ]; then
+if [ -n "$process_id" ]; then
   kill $process_id
 fi
 
 ./gradlew clean build
-java -jar build/libs/multi-nlp-io-0.0.1-SNAPSHOT.jar
+nohup java -jar -Dserver.port=${TARGET_PORT} /home/ec2-user/multi-nlpgame/build/libs/* > /home/ec2-user/nohup.out 2>&1 &
+
