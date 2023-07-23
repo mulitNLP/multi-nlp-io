@@ -5,6 +5,7 @@ RESOURCES_PATH="../src/main/resources"
 # cd basic-websocket-gameserver
 mv_dir=$(dirname "$0")
 cd ${mv_dir}
+npm install
 npm run build
 
 # copy
