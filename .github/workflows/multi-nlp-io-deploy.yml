@@ -23,9 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          rm -f ./src/main/resources/static/dist/*
-
-      - run: |
           echo The PR was merged
       - name: Checkout
         uses: actions/checkout@v3
