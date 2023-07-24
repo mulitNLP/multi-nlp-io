@@ -14,15 +14,12 @@ public class UpdateInfo {
     public List<UpdatePos> others;
     public List<BulletInfo> bullets;
     public List<MeteorInfo> meteors;
-    public List<LeaderBoardInfo> leaderboard;
 
     public UpdateInfo() {
         t = System.currentTimeMillis();
         others = new ArrayList<>();
         bullets = new ArrayList<>();
         meteors = new ArrayList<>();
-        leaderboard = new ArrayList<>();
-
     }
 
     @Data
@@ -57,11 +54,4 @@ public class UpdateInfo {
         boolean invisible;
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LeaderBoardInfo {
-        String username;
-        int score;
-    }
 }
