@@ -3,7 +3,8 @@
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
 import { enterKeyBoard } from './input/nlp';
 import { getCurrentState } from './state';
-import { getnearbyothers , getnearmeteors } from './render';
+import { getnearbyothers, getnearmeteors } from './render';
+import { enterSpacebar } from './mic';
 const Constants = require('../shared/constants');
 const canvas = document.getElementById('game-canvas');
 
@@ -16,13 +17,16 @@ function onkeyDown(e) {
   if (e.keyCode === 13) {
     enterKeyBoard();
   }
+  if (e.keyCode === 32) {
+    enterSpacebar();
+  }
 
-  if (e.keyCode === 222){
+  if (e.keyCode === 222) {
     // 엔터키 옆 '
     playertargeting();
   }
 
-  if (e.keyCode === 186){
+  if (e.keyCode === 186) {
     // 엔터키 옆옆 ; 
     meteortargeting();
   }
@@ -62,38 +66,38 @@ export function stopCapturingInput() {
 
 export let targetId = -1;
 
-export function lnittargetId(){
+export function lnittargetId() {
   targetId = -1;
 }
 
-function playertargeting(){
+function playertargeting() {
   let others = getnearbyothers();
   targetlogic(others)
 }
 
-function meteortargeting(){
+function meteortargeting() {
   let others = getnearmeteors();
   targetlogic(others)
 }
 
 
 
-function targetlogic(others){
-  if(others && others.length > 0){
-    if(targetId === -1){
+function targetlogic(others) {
+  if (others && others.length > 0) {
+    if (targetId === -1) {
       targetId = others[0].id;
       console.log(others[0].id);
       return;
-    }else{
-      for(let i = 0; i < others.length; i++){
-        if(targetId === others[i].id){
-          if(i === others.length -1){
+    } else {
+      for (let i = 0; i < others.length; i++) {
+        if (targetId === others[i].id) {
+          if (i === others.length - 1) {
             targetId = others[0].id;
             console.log(others[0].id);
             return;
           }
-          targetId = others[i+1].id;
-          console.log(others[i+1].id);
+          targetId = others[i + 1].id;
+          console.log(others[i + 1].id);
           return;
         }
       }

@@ -11,7 +11,7 @@ import { setLeaderboardHidden } from './leaderboard';
 // easy to unnecessarily bloat your site.
 import './css/bootstrap-reboot.css';
 import './css/main.css';
-const $ = (el) => document.querySelector(el);
+
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');

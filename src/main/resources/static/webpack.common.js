@@ -16,7 +16,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   externals: {
-    'pixi.js' : 'PIXI'
+    'pixi.js': 'PIXI'
   },
   module: {
     rules: [
