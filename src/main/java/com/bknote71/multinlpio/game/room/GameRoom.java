@@ -68,7 +68,6 @@ public class GameRoom extends JobSerializer {
                     LeaderBoardTemplate.updateLeaderBoard(roomId, player.getInfo().getName(), player.getScore());
             }
         };
-
     }
 
     // register time task
@@ -81,6 +80,10 @@ public class GameRoom extends JobSerializer {
         Timer createMeteorTimer = new Timer();
         createMeteorTimer.schedule(createMeteorTask, 1000, 3000);
         RoomManager.Instance.registerTimerTask(createMeteorTimer);
+
+        Timer updateLeaderBoardTimer = new Timer();
+        updateLeaderBoardTimer.schedule(updateLeaderboardTask, 0, 3000);
+        RoomManager.Instance.registerTimerTask(updateLeaderBoardTimer);
     }
 
     public void release() {
@@ -93,7 +96,6 @@ public class GameRoom extends JobSerializer {
         // update packet 보내기
         SUpdate updatePacket = new SUpdate();
         UpdateInfo update = new UpdateInfo();
-        update.leaderboard = new ArrayList<>();
         update.t = System.currentTimeMillis();
 
         // meteor, bullet(projectile), shield update

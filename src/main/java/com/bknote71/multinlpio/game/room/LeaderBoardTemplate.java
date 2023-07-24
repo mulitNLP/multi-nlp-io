@@ -8,7 +8,9 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class LeaderBoardTemplate {
@@ -24,6 +26,14 @@ public class LeaderBoardTemplate {
     public static void updateLeaderBoard(int roomId, String username, int score) {
         ops.add("gameroom:" + roomId, username, score);
     }
+
+    public static List<LeaderBoardInfo> getLeaderBoard(int roomId) {
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = ops.reverseRangeWithScores("gameroom:" + roomId, 0, -1);
+        return typedTuples.stream()
+                .map(typedTuple -> new LeaderBoardInfo(typedTuple.getValue(), typedTuple.getScore().intValue()))
+                .collect(Collectors.toList());
+    }
+
 
     public static void union() {
         // 모든 룸들의 플레이어들을 통합 <<
@@ -45,4 +55,12 @@ public class LeaderBoardTemplate {
 
         return keys;
     }
+
+    public static List<LeaderBoardInfo> getTodayRanking() {
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = ops.reverseRangeWithScores("today_ranking", 0, -1);
+        return typedTuples.stream()
+                .map(typedTuple -> new LeaderBoardInfo(typedTuple.getValue(), typedTuple.getScore().intValue()))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -15,9 +15,6 @@ class UpdateInfoTest {
     void updateinfo_json() throws JsonProcessingException {
         UpdateInfo updateInfo = new UpdateInfo();
 
-        List<UpdateInfo.LeaderBoardInfo> l = new ArrayList<>();
-        UpdateInfo.LeaderBoardInfo tl = new UpdateInfo.LeaderBoardInfo();
-        l.add(tl);
 
 
 
@@ -29,7 +26,6 @@ class UpdateInfoTest {
             os.add(tm);
         }
 
-        updateInfo.setLeaderboard(l);
 //        updateInfo.me = me;
 //        updateInfo.others = os;
 
