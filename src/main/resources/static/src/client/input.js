@@ -1,7 +1,7 @@
 // Learn more about this file at:
 // https://victorzhou.com/blog/build-an-io-game-part-1/#6-client-input-%EF%B8%8F
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
-import { enterKeyBoard } from './index';
+import { enterKeyBoard } from './input/nlp';
 import { getCurrentState } from './state';
 
 const Constants = require('../shared/constants');

@@ -4,8 +4,8 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
+import redis from 'redis';
 
-const redis = require('redis');
 
 // websocket connection
 const roomId = 1;
