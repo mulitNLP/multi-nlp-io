@@ -38,6 +38,9 @@ public class GameRoom extends JobSerializer {
     private Map<Integer, Bullet> bullets = new HashMap<>();
     private Map<Integer, Meteor> meteors = new HashMap<>();
 
+    private TimerTask updateRoomTask;
+    private TimerTask createMeteorTask;
+    private TimerTask updateLeaderboardTask;
 
     public GameRoom(int id) {
         this.roomId = id;
@@ -55,11 +58,18 @@ public class GameRoom extends JobSerializer {
                     createMeteor();
             }
         };
+        this.updateLeaderboardTask = new TimerTask() {
+            @Override
+            public void run() {
+                // call redis server
+                // 동시성 문제
+                List<Player> tplayers = new ArrayList<>(players.values());
+                for (Player player : tplayers)
+                    LeaderBoardTemplate.updateLeaderBoard(roomId, player.getInfo().getName(), player.getScore());
+            }
+        };
 
     }
-
-    private TimerTask updateRoomTask;
-    private TimerTask createMeteorTask;
 
     // register time task
     public void register() {
@@ -94,7 +104,7 @@ public class GameRoom extends JobSerializer {
 
         for (Meteor meteor : meteors.values()) {
             meteor.update();
-            update.meteors.add(new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y));
+            update.meteors.add(new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y, meteor.isInvisible()));
         }
 
         flush();

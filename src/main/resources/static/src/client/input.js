@@ -1,7 +1,7 @@
 // Learn more about this file at:
 // https://victorzhou.com/blog/build-an-io-game-part-1/#6-client-input-%EF%B8%8F
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
-import { enterKeyBoard } from './index';
+import { enterKeyBoard } from './input/nlp';
 import { getCurrentState } from './state';
 import { getnearbyothers , getnearmeteors } from './render';
 const Constants = require('../shared/constants');
@@ -35,7 +35,17 @@ function onkeyUp(e) {
     updateInputKeyBoardUp(e.keyCode);
   }
 }
+function onkeySpeak(e) {
+  let isRecording = false
+  if (e.keyCode === 32 && isRecording === false) {
+    isRecording = true
+    //speech recording start
+  } else {
+    //speech recording end
 
+  }
+  isRecording = false
+}
 // function onTouchInput(e) {
 //   const touch = e.touches[0];
 //   handleInput(touch.clientX, touch.clientY);
