@@ -11,6 +11,7 @@ function renderTarget(me,nearplayers,nearmeteors) {
   const lockedEntity = lockedEntities.find(e => e.id === targetId);
 
   if (!lockedEntity) {
+    targetId = -1;
     return;
   }
 
