@@ -25,17 +25,7 @@ function onkeyUp(e) {
     updateInputKeyBoardUp(e.keyCode);
   }
 }
-function onkeySpeak(e) {
-  let isRecording = false
-  if (e.keyCode === 32 && isRecording === false) {
-    isRecording = true
-    //speech recording start
-  } else {
-    //speech recording end
 
-  }
-  isRecording = false
-}
 // function onTouchInput(e) {
 //   const touch = e.touches[0];
 //   handleInput(touch.clientX, touch.clientY);

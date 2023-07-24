@@ -14,7 +14,7 @@ import { playerId } from './input';
 // easy to unnecessarily bloat your site.
 import './css/bootstrap-reboot.css';
 import './css/main.css';
-
+const $ = (el) => document.querySelector(el);
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
@@ -60,8 +60,9 @@ function performSentimentAnalysis(playerID, targetID, inputValue) {
     .then(response => response.json())
     .then(data => {
       const result = data.result;
-      handleChatAttack(targetId, inputValue, result, 0);
-      console.log(result);
+      const predictions = data.percentage
+      handleChatAttack(targetId, inputValue, result, predictions);
+      console.log(result, predictions);
       // Update the UI with the sentiment analysis result as needed
     })
     .catch(error => {
@@ -98,10 +99,10 @@ export const enterKeyBoard = throttle(10, () => {
 
   }
 });
-    // } else {
-    //   handleChatAttack(targetId, enterInputBar.value(), true, 0); //본인 아이디를 넘겨줘야함!
-    //   enterInputBar.value = "";
-    //   enterInputBar.blur();
-    // }
-  // }
-  // }
+// } else {
+//   handleChatAttack(targetId, enterInputBar.value(), true, 0); //본인 아이디를 넘겨줘야함!
+//   enterInputBar.value = "";
+//   enterInputBar.blur();
+// }
+// }
+// }
