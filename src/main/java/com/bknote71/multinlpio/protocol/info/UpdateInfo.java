@@ -14,6 +14,7 @@ public class UpdateInfo {
     public List<UpdatePos> others;
     public List<BulletInfo> bullets;
     public List<MeteorInfo> meteors;
+    public ArrayList<Object> leaderboard;
 
     public UpdateInfo() {
         t = System.currentTimeMillis();
