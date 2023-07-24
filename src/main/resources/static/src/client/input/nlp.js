@@ -6,7 +6,7 @@ import { playerId } from '../input';
 const enterInputBar = document.getElementById('inputbar');
 
 function performSentimentAnalysis(playerID, targetID, inputValue) {
-    const url = 'http://localhost:5000/sentiment-analysis'; // Adjust the URL to match your Python server
+    const url = 'http://localhost:5050/sentiment-analysis'; // Adjust the URL to match your Python server
     const dataString = playerID + '|' + targetID + '|' + inputValue;
     // Send the input value to the Python server using fetch API
     fetch(url, {
@@ -19,8 +19,8 @@ function performSentimentAnalysis(playerID, targetID, inputValue) {
     })
       .then(response => response.json())
       .then(data => {
-        const result = data.result;
-        handleChatAttack(targetId, inputValue, result, 0);
+        const result =data.result;
+        handleChatAttack(targetId, inputValue, result, data.percentage);
         console.log(result);
         // Update the UI with the sentiment analysis result as needed
       })
