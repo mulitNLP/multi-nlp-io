@@ -70,34 +70,57 @@ export function lnittargetId() {
   targetId = -1;
 }
 
+<<<<<<< HEAD
 function playertargeting() {
+=======
+function playertargeting(){
+ 
+>>>>>>> 97248b1273ab1907a068da77d54ab6d981d040c2
   let others = getnearbyothers();
-  targetlogic(others)
+  if(targetId !== -1){
+    if((targetId >> 24) & 0x7f !== 1){
+      targetId = -1;
+    }
+  }
+  targetlogic(others);
 }
 
 function meteortargeting() {
   let others = getnearmeteors();
-  targetlogic(others)
+  if(targetId !== -1){
+    if((targetId >> 24) & 0x7f !== 2){
+      targetId = -1;
+    }
+  }
+  targetlogic(others);
 }
 
+<<<<<<< HEAD
 
 
 function targetlogic(others) {
   if (others && others.length > 0) {
     if (targetId === -1) {
+=======
+function targetlogic(others){
+  if(others.length > 0){
+    if(targetId === -1){
+>>>>>>> 97248b1273ab1907a068da77d54ab6d981d040c2
       targetId = others[0].id;
-      console.log(others[0].id);
       return;
     } else {
       for (let i = 0; i < others.length; i++) {
         if (targetId === others[i].id) {
           if (i === others.length - 1) {
             targetId = others[0].id;
-            console.log(others[0].id);
             return;
           }
+<<<<<<< HEAD
           targetId = others[i + 1].id;
           console.log(others[i + 1].id);
+=======
+          targetId = others[i+1].id;
+>>>>>>> 97248b1273ab1907a068da77d54ab6d981d040c2
           return;
         }
       }
