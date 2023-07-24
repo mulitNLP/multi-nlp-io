@@ -165,7 +165,7 @@ const shieldInstance = {
 };
 
 export const handleChatAttack = (targetId, content, positive, percent) => {
-  // console.log(`${content}, ${positive}, ${percent}`);
+  console.log(`${targetId} ${content}, ${positive}, ${percent}`);
   // if (content === 's') {
   //   positive = false;
   // }
@@ -179,10 +179,14 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
       result = false;
   } else if (targetType === 2) { // 2: meteor
     if (positive === true)
-      positive = true;
+      result = true;
     else
       return;
   }
+
+
+  console.log(`${targetId} ${result}`)
+
   sendSkill(targetId, result);
 
 
