@@ -170,7 +170,7 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   // }
 
   const targetType = (targetId >> 24) & 0x7f;
-  const url = 'http://localhost:5000/use-skill';
+  const url = 'http://localhost:5050/use-skill';
 
   fetch(url, {
     method: 'POST',
