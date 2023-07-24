@@ -108,11 +108,13 @@ public class GameObject { // player, bullet, meteor
         if (gameRoom == null)
             return;
 
-        if (attacker.getType() == GameObjectType.Bullet && !attackers.remove(attacker))
-        {
-            log.info("어태커s중에 이 어테커는 없다? 말이 안됨");
+        GameObjectType attackerType = attacker.getType();
+        if (attackerType == GameObjectType.Bullet && !attackers.remove(attacker))
             return;
-        }
+
+        // 만약 메테오에 맞았는데 그 메테오가 invisible 이면 리턴
+        if (attackerType == GameObjectType.Meteor && ((Meteor) attacker).isInvisible())
+            return;
 
         // 현재 오브젝트에서 쉴드가 있다면 방어가 가능 <<
         if (guard()) {

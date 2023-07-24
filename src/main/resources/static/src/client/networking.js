@@ -4,11 +4,12 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
+// import redis from 'redis';
 
 // websocket connection
 const roomId = 1;
-const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
-// const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
+// const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
+const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
 
 const wsconnectedPromise = new Promise(resolve => {
   // to websocket, 이벤트 핸들러 변경
@@ -54,7 +55,6 @@ export const connect = onGameOver => (
           meteors: message.update.meteors,
           leaderboard: message.update.leaderboard,
         };
-        // console.log(update);
         processGameUpdate(update);
 
       } else if (message.type === 'smove') { // move update (움직임 패킷)
@@ -165,18 +165,43 @@ const shieldInstance = {
 
 export const handleChatAttack = (targetId, content, positive, percent) => {
   // console.log(`${content}, ${positive}, ${percent}`);
-  const chatPacket = {
-    type: 'cchat',
-    protocol: 'C_Chat',
-    content: content,
-  }
-  // chat 
-  // websocket.send(JSON.stringify(chatPacket));
+  // if (content === 's') {
+  //   positive = false;
+  // }
 
-  if (content === 's') {
-    positive = false;
-  }
+  const targetType = (targetId >> 24) & 0x7f;
+  const url = 'http://localhost:5050/use-skill';
 
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      targetId: targetId,
+      content: content,
+      playerId: playerId,
+    }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (targetType === 1) { // 1: player
+        if (data.result == true)
+          positive = true;
+        else
+          positive = false;
+      } else if (targetType === 2) { // 2: meteor
+        if (data.result === true)
+          positive = true;
+        else
+          return;
+      }
+      sendSkill(targetId, positive);
+    })
+}
+
+function sendSkill(targetId, positive) {
   let info = positive === true ? bullletInstance : shieldInstance;
   const skillPacket = {
     type: 'cskill',
@@ -186,6 +211,30 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   }
   // skill
   websocket.send(JSON.stringify(skillPacket));
-
-  // console.log(JSON.stringify(skillPacket));
 }
+
+
+// get leaderboard
+export const requestLeaderBoard = (roomId) => {
+  const url = 'http://localhost:8080/get/leaderboard?roomId=' + roomId;
+  fetch(url, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    });
+};
+
+export const requestTodayRanking = () => {
+  const url = 'http://localhost:8080/get/today_ranking';
+  fetch(url, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    });
+};
+
+requestLeaderBoard(10);

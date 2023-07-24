@@ -5,12 +5,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  externals: {
+    'pixi.js': 'pixi.js'
+  },
   entry: {
     game: './src/main/resources/static/src/client/index.js',
   },
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  externals: {
+    'pixi.js' : 'PIXI'
   },
   module: {
     rules: [
@@ -21,6 +27,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-proposal-optional-chaining']
           },
         },
       },

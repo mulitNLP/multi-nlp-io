@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class GameRoom extends JobSerializer {
@@ -38,6 +39,9 @@ public class GameRoom extends JobSerializer {
     private Map<Integer, Bullet> bullets = new HashMap<>();
     private Map<Integer, Meteor> meteors = new HashMap<>();
 
+    private TimerTask updateRoomTask;
+    private TimerTask createMeteorTask;
+    private TimerTask updateLeaderboardTask;
 
     public GameRoom(int id) {
         this.roomId = id;
@@ -55,11 +59,17 @@ public class GameRoom extends JobSerializer {
                     createMeteor();
             }
         };
-
+        this.updateLeaderboardTask = new TimerTask() {
+            @Override
+            public void run() {
+                // call redis server
+                // 동시성 문제
+                List<Player> tplayers = new ArrayList<>(players.values());
+                for (Player player : tplayers)
+                    LeaderBoardTemplate.updateLeaderBoard(roomId, player.getInfo().getName(), player.getScore());
+            }
+        };
     }
-
-    private TimerTask updateRoomTask;
-    private TimerTask createMeteorTask;
 
     // register time task
     public void register() {
@@ -71,6 +81,10 @@ public class GameRoom extends JobSerializer {
         Timer createMeteorTimer = new Timer();
         createMeteorTimer.schedule(createMeteorTask, 1000, 3000);
         RoomManager.Instance.registerTimerTask(createMeteorTimer);
+
+        Timer updateLeaderBoardTimer = new Timer();
+        updateLeaderBoardTimer.schedule(updateLeaderboardTask, 0, 3000);
+        RoomManager.Instance.registerTimerTask(updateLeaderBoardTimer);
     }
 
     public void release() {
@@ -94,7 +108,8 @@ public class GameRoom extends JobSerializer {
 
         for (Meteor meteor : meteors.values()) {
             meteor.update();
-            update.meteors.add(new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y));
+            update.meteors.add(
+                    new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y, meteor.isInvisible()));
         }
 
         flush();
@@ -105,9 +120,7 @@ public class GameRoom extends JobSerializer {
                     new UpdateInfo.UpdatePos(
                             player.getInfo().getName(),
                             player.getDirection(), player.hp(), player.getId(), player.pos().x, player.pos().y,
-                            player.getShields().size()
-                    )
-            );
+                            player.getShields().size()));
         }
 
         updatePacket.update = update;
@@ -140,7 +153,8 @@ public class GameRoom extends JobSerializer {
             session.send(enterPacket);
         } else if (gameObjectType == GameObjectType.Bullet) {
             Bullet bullet = (Bullet) gameObject;
-            // log.info("bullet({}) enter game target: {}", bullet.getId(), bullet.getTarget().getId());
+            // log.info("bullet({}) enter game target: {}", bullet.getId(),
+            // bullet.getTarget().getId());
             // log.info("bullet info: {}", bullet.getInfo());
             bullets.put(bullet.getId(), bullet);
             bullet.setGameRoom(this);
@@ -153,16 +167,18 @@ public class GameRoom extends JobSerializer {
 
         // 주변 플레이어들에게 내 스폰 정보를 넘김 (당연히 나 제외)
         /*
-        SSpawn resSpawnPacket = new SSpawn();
-        resSpawnPacket.add(gameObject.getInfo());
-        for (Player p : players.values()) {
-            if (p.getPlayerId() != gameObject.getId())
-                p.getSession().send(resSpawnPacket);
-        }*/
+         * SSpawn resSpawnPacket = new SSpawn();
+         * resSpawnPacket.add(gameObject.getInfo());
+         * for (Player p : players.values()) {
+         * if (p.getPlayerId() != gameObject.getId())
+         * p.getSession().send(resSpawnPacket);
+         * }
+         */
     }
 
     public void leaveGame(int objectId) {
-        // log.info("leave game ()-({})", ObjectManager.getObjectTypeById(objectId), objectId);
+        // log.info("leave game ()-({})", ObjectManager.getObjectTypeById(objectId),
+        // objectId);
 
         GameObjectType type = ObjectManager.getObjectTypeById(objectId);
         if (type == GameObjectType.Player) {
@@ -302,7 +318,7 @@ public class GameRoom extends JobSerializer {
     public List<Player> findPlayer(Predicate<Player> condition) {
         return players.values().stream()
                 .filter(condition)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void broadcast(Protocol packet) {

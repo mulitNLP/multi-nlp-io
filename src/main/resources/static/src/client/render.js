@@ -27,38 +27,54 @@ function setCanvasDimensions() {
   // canvas.height = scaleRatio * window.innerHeight;
 
   canvas.width = 1200;
-  canvas.height = 800;
+  canvas.height = 900;
 }
 
 // 화면 크기가 변경될 때 캔버스 크기를 업데이트
 window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 let animationFrameRequestId;
-
+let nearplayers = [];
+let nearmeteors = [];
+let nearbullets = [];
 // 게임의 현재 상태를 그리는 함수
 function render() {
   const { me, others, bullets, meteors } = getCurrentState();
   if (me) {
-
+    nearbullets = Object.values(bullets).filter(p => distanceTo(me,p) <= Constants.MAP_SIZE /2);
+    nearplayers = Object.values(others).filter(p => distanceTo(me,p) <= 600)
+                        .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
+    nearmeteors = Object.values(meteors).filter(p => distanceTo(me,p) <= 600)
+                        .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
+    
     // 배경 그리기
     renderBackground(me.x, me.y);
 
     // 경계선 그리기
     renderLine(me);
 
-    renderTarget();
+    renderTarget(me,nearplayers,nearmeteors);
     // 모든 총알 그리기
-    bullets.forEach(renderBullet.bind(null, me));
-    meteors.forEach(renderMeteor.bind(null, me));
-
+    nearbullets.forEach(renderBullet.bind(null, me));
+    nearmeteors.forEach(renderMeteor.bind(null, me));
     // 모든 플레이어 그리기
     renderPlayer(me, me);
-    others.forEach(renderPlayer.bind(null, me));
+    nearplayers.forEach(renderPlayer.bind(null, me));
   }
-
+ 
   // 다음 프레임에서 이 render 함수를 다시 실행
   animationFrameRequestId = requestAnimationFrame(render);
 }
+
+// 나와 상대방의 거리
+function distanceTo(me,other){
+    let dx = other.x - me.x;
+    let dy = other.y - me.y;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+
+
 
 // 메인 메뉴를 그리는 함수
 function renderMainMenu() {
@@ -86,4 +102,14 @@ export function startRendering() {
 export function stopRendering() {
   cancelAnimationFrame(animationFrameRequestId);
   animationFrameRequestId = requestAnimationFrame(renderMainMenu);
+}
+
+export function getnearbyothers(){
+  //nearplayers.sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
+  return nearplayers;
+}
+
+export function getnearmeteors(){
+  //nearmeteors.sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
+  return nearmeteors;
 }

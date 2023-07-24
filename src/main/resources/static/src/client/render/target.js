@@ -1,17 +1,17 @@
 import { getAsset } from '../assets';
 import { getCurrentState } from '../state';
-import { targetId } from '../input';
+import { targetId ,lnittargetId } from '../input';
 
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
 
-function renderTarget() {
-  const { me, others, meteors } = getCurrentState();
-  const lockedEntities = [...others, ...meteors];
+function renderTarget(me,nearplayers,nearmeteors) {
+  const lockedEntities = [...nearplayers, ...nearmeteors];
   const lockedEntity = lockedEntities.find(e => e.id === targetId);
 
   if (!lockedEntity) {
+    lnittargetId();
     return;
   }
 
