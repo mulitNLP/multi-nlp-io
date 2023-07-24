@@ -59,6 +59,8 @@ def sentiment_analysis():
     predictions = model.predict(pad_new)
     predictions = float(predictions[0])
     print('targetID: 1 is Player 2 is Meteor', target_ID)
+
+    
     if target_ID == 1 and predictions > 0.5:
         result = True
         print("targetID 1 ATTACK")
