@@ -55,7 +55,7 @@ export const connect = onGameOver => (
           meteors: message.update.meteors,
           leaderboard: message.update.leaderboard,
         };
-        console.log(update);
+        // console.log(update);
         processGameUpdate(update);
 
       } else if (message.type === 'smove') { // move update (움직임 패킷)
@@ -171,6 +171,23 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   // }
 
   const targetType = (targetId >> 24) & 0x7f;
+  var result;
+  if (targetType === 1) { // 1: player
+    if (positive == true)
+      result = true;
+    else
+      result = false;
+  } else if (targetType === 2) { // 2: meteor
+    if (positive === true)
+      positive = true;
+    else
+      return;
+  }
+  sendSkill(targetId, result);
+
+
+
+  /*
   const url = 'http://localhost:5000/use-skill';
 
   fetch(url, {
@@ -199,7 +216,7 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
           return;
       }
       sendSkill(targetId, positive);
-    })
+    })*/
 }
 
 function sendSkill(targetId, positive) {
