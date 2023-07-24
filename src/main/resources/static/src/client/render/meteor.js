@@ -8,7 +8,7 @@ const context = canvas.getContext('2d');
 
 // 주어진 좌표에서 운석을 그리는 함수
 function renderMeteor(old_pos, new_pos) {
-    const { x, y, direction,word } = new_pos;
+    const { x, y, direction,word , invisible } = new_pos;
     const canvasX = canvas.width / 2 + x - old_pos.x;
     const canvasY = canvas.height / 2 + y - old_pos.y;
 
@@ -23,6 +23,9 @@ function renderMeteor(old_pos, new_pos) {
         PLAYER_RADIUS * 2,
         PLAYER_RADIUS * 2,
     );
+    if(invisible){
+        context.globalAlpha = 0.3;
+    }
     context.restore();
 
     context.fillStyle = 'white'; // 텍스트 색상 설정

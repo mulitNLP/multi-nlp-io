@@ -3,7 +3,7 @@
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
 import { enterKeyBoard } from './input/nlp';
 import { getCurrentState } from './state';
-
+import { getnearbyothers , getnearmeteors } from './render';
 const Constants = require('../shared/constants');
 const canvas = document.getElementById('game-canvas');
 
@@ -13,9 +13,18 @@ function onkeyDown(e) {
   if (e.keyCode === 87 || e.keyCode === 83 || e.keyCode === 68 || e.keyCode === 65) {
     updateInputKeyBoardDown(e.keyCode);
   }
-
   if (e.keyCode === 13) {
     enterKeyBoard();
+  }
+
+  if (e.keyCode === 222){
+    // 엔터키 옆 '
+    playertargeting();
+  }
+
+  if (e.keyCode === 186){
+    // 엔터키 옆옆 ; 
+    meteortargeting();
   }
 
 }
@@ -61,6 +70,48 @@ export function stopCapturingInput() {
 
 /* ------------------------------------------------------------ */
 
+export let targetId = -1;
+
+export function lnittargetId(){
+  targetId = -1;
+}
+
+function playertargeting(){
+  let others = getnearbyothers();
+  targetlogic(others)
+}
+
+function meteortargeting(){
+  let others = getnearmeteors();
+  targetlogic(others)
+}
+
+
+
+function targetlogic(others){
+  if(others && others.length > 0){
+    if(targetId === -1){
+      targetId = others[0].id;
+      console.log(others[0].id);
+      return;
+    }else{
+      for(let i = 0; i < others.length; i++){
+        if(targetId === others[i].id){
+          if(i === others.length -1){
+            targetId = others[0].id;
+            console.log(others[0].id);
+            return;
+          }
+          targetId = others[i+1].id;
+          console.log(others[i+1].id);
+          return;
+        }
+      }
+    }
+  }
+  targetId = -1
+}
+
 // 여기에 상대 플레이어를 마우스 클릭 하는 기능을 구현하고 싶어
 function onMouseInput(e) {
   const rect = canvas.getBoundingClientRect();
@@ -77,7 +128,7 @@ function onMouseInput(e) {
   clickPlayer(gameX, gameY);
 }
 
-export let targetId = -1;
+
 
 function clickPlayer(x, y) {
 

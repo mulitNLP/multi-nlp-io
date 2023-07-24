@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   externals: {
-    redis: 'redis',
+    'pixi.js': 'pixi.js'
   },
   entry: {
     game: './src/main/resources/static/src/client/index.js',
@@ -14,6 +14,9 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  externals: {
+    'pixi.js' : 'PIXI'
   },
   module: {
     rules: [
