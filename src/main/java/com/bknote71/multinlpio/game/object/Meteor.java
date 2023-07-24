@@ -3,6 +3,7 @@ package com.bknote71.multinlpio.game.object;
 import com.bknote71.multinlpio.game.room.GameRoom;
 import com.bknote71.multinlpio.protocol.info.GameObjectType;
 import com.bknote71.multinlpio.game.Vector2d;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -17,8 +18,15 @@ public class Meteor extends GameObject {
     private double range = 50;
     private int damage = 1000;
 
+    // 태어나고 1초 뒤에 false 됨 <<
+    @Getter
+    private boolean invisible;
+    private long createdAt;
+
     public Meteor() {
         setType(GameObjectType.Meteor);
+        invisible = true;
+        createdAt = System.currentTimeMillis();
     }
 
     public Meteor(Vector2d vector2d) {
@@ -28,6 +36,9 @@ public class Meteor extends GameObject {
 
     // 상태: 움직임
     public void update() {
+        // invisible 세팅
+        if (System.currentTimeMillis() > createdAt + 1000)
+            invisible = false;
         updateMoving(); // 무조건 움직이도록 한다.
     }
 

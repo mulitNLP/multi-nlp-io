@@ -54,6 +54,7 @@ public class UpdateInfo {
         int id;
         double x;
         double y;
+        boolean invisible;
     }
 
     @Data
