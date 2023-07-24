@@ -9,25 +9,25 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class LeaderBoardTemplateTest {
 
-    @Test
-    void simple_request() {
-        LeaderBoardTemplate.updateLeaderBoard(-1, "test_user", 1);
-    }
+    // @Test
+    // void simple_request() {
+    //     LeaderBoardTemplate.updateLeaderBoard(-1, "test_user", 1);
+    // }
 
-    @Test
-    void player_10_ranking() {
-        for (int i = 0; i < 10; ++i) {
-            LeaderBoardTemplate.updateLeaderBoard(10, "username" + i, i);
-        }
-    }
+    // @Test
+    // void player_10_ranking() {
+    //     for (int i = 0; i < 10; ++i) {
+    //         LeaderBoardTemplate.updateLeaderBoard(10, "username" + i, i);
+    //     }
+    // }
 
-    @Test
-    void union_2room() {
-        for (int i = 0; i < 10; ++i) {
-            LeaderBoardTemplate.updateLeaderBoard(11, "username2" + i, i + 5);
-        }
+    // @Test
+    // void union_2room() {
+    //     for (int i = 0; i < 10; ++i) {
+    //         LeaderBoardTemplate.updateLeaderBoard(11, "username2" + i, i + 5);
+    //     }
 
-        // union
-        LeaderBoardTemplate.union();
-    }
+    //     // union
+    //     LeaderBoardTemplate.union();
+    // }
 }

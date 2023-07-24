@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  externals: {
+    redis: 'redis',
+  },
   entry: {
     game: './src/main/resources/static/src/client/index.js',
   },
@@ -21,6 +24,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-proposal-optional-chaining']
           },
         },
       },
