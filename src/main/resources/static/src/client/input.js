@@ -77,33 +77,39 @@ export function lnittargetId(){
 }
 
 function playertargeting(){
+ 
   let others = getnearbyothers();
-  targetlogic(others)
+  if(targetId !== -1){
+    if((targetId >> 24) & 0x7f !== 1){
+      targetId = -1;
+    }
+  }
+  targetlogic(others);
 }
 
 function meteortargeting(){
   let others = getnearmeteors();
-  targetlogic(others)
+  if(targetId !== -1){
+    if((targetId >> 24) & 0x7f !== 2){
+      targetId = -1;
+    }
+  }
+  targetlogic(others);
 }
 
-
-
 function targetlogic(others){
-  if(others && others.length > 0){
+  if(others.length > 0){
     if(targetId === -1){
       targetId = others[0].id;
-      console.log(others[0].id);
       return;
     }else{
       for(let i = 0; i < others.length; i++){
         if(targetId === others[i].id){
           if(i === others.length -1){
             targetId = others[0].id;
-            console.log(others[0].id);
             return;
           }
           targetId = others[i+1].id;
-          console.log(others[i+1].id);
           return;
         }
       }
