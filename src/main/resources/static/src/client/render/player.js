@@ -29,7 +29,8 @@ function renderPlayer(me, player) {
     context.restore();
 
     if(shields > 0 ){
-        renderShields(me,player,shields);
+        let shield = shields > 3 ? 3 : shields;
+        renderShields(me,player,shield);
     }
 
     context.fillStyle = 'white'; // 텍스트 색상 설정
