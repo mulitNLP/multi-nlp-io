@@ -12,6 +12,9 @@ module.exports = {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
   },
+  externals: {
+    'pixi.js' : 'PIXI'
+  },
   module: {
     rules: [
       {
