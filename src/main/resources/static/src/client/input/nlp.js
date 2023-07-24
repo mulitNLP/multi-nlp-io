@@ -1,7 +1,6 @@
 import { handleChatAttack } from '../networking';
 import { throttle } from 'throttle-debounce';
 import { targetId } from '../input';
-import { playerId } from '../input';
 
 const enterInputBar = document.getElementById('inputbar');
 
