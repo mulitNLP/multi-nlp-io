@@ -5,10 +5,12 @@ import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
 
+const redis = require('redis');
+
 // websocket connection
 const roomId = 1;
-const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
-// const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
+// const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
+const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
 
 const wsconnectedPromise = new Promise(resolve => {
   // to websocket, 이벤트 핸들러 변경
@@ -165,18 +167,43 @@ const shieldInstance = {
 
 export const handleChatAttack = (targetId, content, positive, percent) => {
   // console.log(`${content}, ${positive}, ${percent}`);
-  const chatPacket = {
-    type: 'cchat',
-    protocol: 'C_Chat',
-    content: content,
-  }
-  // chat 
-  // websocket.send(JSON.stringify(chatPacket));
+  // if (content === 's') {
+  //   positive = false;
+  // }
 
-  if (content === 's') {
-    positive = false;
-  }
+  const targetType = (targetId >> 24) & 0x7f;
+  const url = 'http://localhost:5000/use-skill';
 
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      targetId: targetId,
+      content: content,
+      playerId: playerId,
+    }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if (targetType === 1) { // 1: player
+        if (data.result == true)
+          positive = true;
+        else
+          positive = false;
+      } else if (targetType === 2) { // 2: meteor
+        if (data.result === true)
+          positive = true;
+        else
+          return;
+      }
+      sendSkill(targetId, positive);
+    })
+}
+
+function sendSkill(targetId, positive) {
   let info = positive === true ? bullletInstance : shieldInstance;
   const skillPacket = {
     type: 'cskill',
@@ -186,6 +213,46 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   }
   // skill
   websocket.send(JSON.stringify(skillPacket));
-
-  // console.log(JSON.stringify(skillPacket));
 }
+
+// redis
+const client = redis.createClient({
+  host: 'localhost',
+  port: 6379,
+});
+
+client.on('connect', () => {
+  console.log('Connected to Redis Server');
+  getLeaderBoard();
+})
+
+async function getLeaderBoard() {
+  const result = await requestLeaderBoard(1);
+  console.log('zrevrange result: ', result);
+  return result;
+}
+
+// get leaderboard
+export const requestLeaderBoard = (roomId) => {
+  return new Promise((resolve, reject) => {
+    client.sendCommand(['ZREVRANGE', `gameroom:${roomId}`, '0', '-1'], (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+export const requestTodayLeaderBoard = () => {
+  return new Promise((resolve, reject) => {
+    client.sendCommand(['ZREVRANGE', `today_ranking`, '0', '-1'], (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
