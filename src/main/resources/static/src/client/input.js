@@ -10,7 +10,6 @@ const canvas = document.getElementById('game-canvas');
 const { PLAYER_RADIUS, MAP_SIZE } = Constants;
 
 function onkeyDown(e) {
-  console.log(e.keyCode);
   if (e.keyCode === 87 || e.keyCode === 83 || e.keyCode === 68 || e.keyCode === 65) {
     updateInputKeyBoardDown(e.keyCode);
   }
@@ -71,17 +70,23 @@ export function stopCapturingInput() {
 
 /* ------------------------------------------------------------ */
 
+export let targetId = -1;
+
+export function lnittargetId(){
+  targetId = -1;
+}
+
 function playertargeting(){
   let others = getnearbyothers();
-  console.log("playertargeting 눌러지긴 함?")
   targetlogic(others)
 }
 
 function meteortargeting(){
   let others = getnearmeteors();
-  console.log("meteortargeting 눌러지긴 함?")
   targetlogic(others)
 }
+
+
 
 function targetlogic(others){
   if(others && others.length > 0){
@@ -123,7 +128,7 @@ function onMouseInput(e) {
   clickPlayer(gameX, gameY);
 }
 
-export let targetId = -1;
+
 
 function clickPlayer(x, y) {
 

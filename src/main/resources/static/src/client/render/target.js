@@ -1,6 +1,6 @@
 import { getAsset } from '../assets';
 import { getCurrentState } from '../state';
-import { targetId } from '../input';
+import { targetId ,lnittargetId } from '../input';
 
 
 const canvas = document.getElementById('game-canvas');
@@ -11,7 +11,7 @@ function renderTarget(me,nearplayers,nearmeteors) {
   const lockedEntity = lockedEntities.find(e => e.id === targetId);
 
   if (!lockedEntity) {
-    targetId = -1;
+    lnittargetId();
     return;
   }
 
