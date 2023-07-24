@@ -35,7 +35,7 @@ model.load_weights('DATA/DATA_SENTI_OUT/cnn_classifier_kr/weights.h5')
 WSGIRequestHandler.protocol_version = 'HTTP/1.1' #keep alive를 지원
 @app.route('/sentiment-analysis', methods=['POST'])
 def sentiment_analysis():
-    global result, percentage
+    result, percentage
     dataString = request.get_data(as_text=True)
     values = dataString.split('|')
     print(values)
@@ -88,9 +88,6 @@ def sentiment_analysis():
     #     print("{:.2f}% 확률로 부정 리뷰입니다.\n".format((1 - predictions) * 100)) #PlayerID
     #     use_skill(False, (1 - predictions) * 100)
     #     return jsonify({'ID' : playerID, "user" : "player" , "skill" : "shield", 'predictions' :predictions})
-@app.route('/use-skill', methods = ['POST'])
-def use_skill():
-    return jsonify(result, percentage)
     
 if __name__ == '__main__':
     app.run(debug=True)
