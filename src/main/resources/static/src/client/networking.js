@@ -4,8 +4,7 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
-import redis from 'redis';
-
+// import redis from 'redis';
 
 // websocket connection
 const roomId = 1;
@@ -56,7 +55,6 @@ export const connect = onGameOver => (
           meteors: message.update.meteors,
           leaderboard: message.update.leaderboard,
         };
-        // console.log(update);
         processGameUpdate(update);
 
       } else if (message.type === 'smove') { // move update (움직임 패킷)
@@ -215,44 +213,28 @@ function sendSkill(targetId, positive) {
   websocket.send(JSON.stringify(skillPacket));
 }
 
-// redis
-const client = redis.createClient({
-  host: 'localhost',
-  port: 6379,
-});
-
-client.on('connect', () => {
-  console.log('Connected to Redis Server');
-  getLeaderBoard();
-})
-
-async function getLeaderBoard() {
-  const result = await requestLeaderBoard(1);
-  console.log('zrevrange result: ', result);
-  return result;
-}
 
 // get leaderboard
 export const requestLeaderBoard = (roomId) => {
-  return new Promise((resolve, reject) => {
-    client.sendCommand(['ZREVRANGE', `gameroom:${roomId}`, '0', '-1'], (err, result) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
-      }
+  const url = 'http://localhost:8080/get/leaderboard?roomId=' + roomId;
+  fetch(url, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
     });
-  });
 };
 
-export const requestTodayLeaderBoard = () => {
-  return new Promise((resolve, reject) => {
-    client.sendCommand(['ZREVRANGE', `today_ranking`, '0', '-1'], (err, result) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
-      }
+export const requestTodayRanking = () => {
+  const url = 'http://localhost:8080/get/today_ranking';
+  fetch(url, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
     });
-  });
 };
+
+requestLeaderBoard(10);
