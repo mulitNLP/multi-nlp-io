@@ -19,8 +19,8 @@ function performSentimentAnalysis(playerID, targetID, inputValue) {
     })
       .then(response => response.json())
       .then(data => {
-        const result = data.result;
-        handleChatAttack(targetId, inputValue, result, 0);
+        const result =data.result;
+        handleChatAttack(targetId, inputValue, result, data.percentage);
         console.log(result);
         // Update the UI with the sentiment analysis result as needed
       })
