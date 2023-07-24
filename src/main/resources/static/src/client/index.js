@@ -8,7 +8,7 @@ import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
 import { throttle } from 'throttle-debounce';
 import { targetId } from './input';
-
+import { playerId } from './input';
 // I'm using a tiny subset of Bootstrap here for convenience - there's some wasted CSS,
 // but not much. In general, you should be careful using Bootstrap because it makes it
 // easy to unnecessarily bloat your site.
@@ -44,34 +44,61 @@ function onGameOver() {
   setLeaderboardHidden(true);
 }
 
-export const enterKeyBoard = throttle (10, ()=> {
-  
-  // nlp는 부정이면 -1 긍정이면 1
-  // const nlp = -1;
 
-  // if (nlp === 1) {
+function performSentimentAnalysis(playerID, targetID, inputValue) {
+  const url = 'http://localhost:5000/sentiment-analysis'; // Adjust the URL to match your Python server
+  const dataString = playerID + '|' + targetID + '|' + inputValue;
+  // Send the input value to the Python server using fetch API
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+      'Connection': 'keep-alive'
+    },
+    body: dataString
+  })
+    .then(response => response.json())
+    .then(data => {
+      const result = data.result;
+      handleChatAttack(targetId, inputValue, result, 0);
+      console.log(result);
+      // Update the UI with the sentiment analysis result as needed
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
 
 
-  // } else
-
-  if (document.activeElement === enterInputBar){
+export const enterKeyBoard = throttle(10, () => {
+  if (document.activeElement === enterInputBar) {
+    const inputOrigin = enterInputBar.value.trim()
     if (targetId > 0) {
-      if (enterInputBar.value.trim() === "") {
-        // 아무것도 입력하지 않았다면 알람을 표시하고 포커스를 제거합니다.
+      if (inputOrigin === "") {
         console.log("입력 실패, 메세지를 입력해 주세요!");
-        enterInputBar.blur();
       } else {
-        handleChatAttack(targetId, enterInputBar.value, true, 0);
-        enterInputBar.value="";
-        enterInputBar.blur();
+        console.log(enterInputBar.value);
+        performSentimentAnalysis(playerId, targetId, enterInputBar.value);
       }
+    } else {
+      if (inputOrigin === "") {
+        console.log("입력 실패, 메세지를 입력해 주세요!");
+      } else {
+        console.log(enterInputBar.value);
+        performSentimentAnalysis(playerId, targetId, enterInputBar.value);
+      }
+      //handleChatAttack(targetId, enterInputBar.value, true, 0);
     }
+    enterInputBar.value = "";
+    enterInputBar.blur();
   } else {
-    // 포커스가 없으니까 포커스 잡아줌
-    if(targetId < 0) {
-      console.log("타겟이 지정되지 않았음!");
-      return;
-    }
     enterInputBar.focus();
   }
 });
+    // } else {
+    //   handleChatAttack(targetId, enterInputBar.value(), true, 0); //본인 아이디를 넘겨줘야함!
+    //   enterInputBar.value = "";
+    //   enterInputBar.blur();
+    // }
+  // }
+  // }
