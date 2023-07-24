@@ -73,6 +73,8 @@ function performSentimentAnalysis(playerID, targetID, inputValue) {
 export const enterKeyBoard = throttle(10, () => {
   if (document.activeElement === enterInputBar) {
     const inputOrigin = enterInputBar.value.trim()
+    // } else
+
     if (targetId > 0) {
       if (inputOrigin === "") {
         console.log("입력 실패, 메세지를 입력해 주세요!");
@@ -93,6 +95,7 @@ export const enterKeyBoard = throttle(10, () => {
     enterInputBar.blur();
   } else {
     enterInputBar.focus();
+
   }
 });
     // } else {

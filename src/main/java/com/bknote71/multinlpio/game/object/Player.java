@@ -7,8 +7,7 @@ import com.bknote71.multinlpio.session.ClientSession;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter @Setter
 public class Player extends GameObject {
@@ -18,6 +17,9 @@ public class Player extends GameObject {
     private double direction;
     private double speed;
     private int mapSize;
+
+    // shield
+    private Deque<Shield> shields = new ArrayDeque<>();
 
     public Player() {
         setType(GameObjectType.Player);
@@ -38,6 +40,11 @@ public class Player extends GameObject {
     }
 
     public void update() {
+        // shield update ??
+        // 처음부터 ~ removePoint 까지 모두 제거
+        while (!shields.isEmpty() && System.currentTimeMillis() > shields.peekFirst().getRemoveTime())
+            shields.pollFirst();
+
         Vector2d curpos = pos();
 
         curpos.x = Math.max(0, Math.min(mapSize, curpos.x));
@@ -59,6 +66,20 @@ public class Player extends GameObject {
             direction = Math.atan2(curpos.x - speed - mapSize, 0); // 200 이 나중에는 player.speed()
             curpos.x -= speed / 40;
         }
+    }
+
+    @Override
+    public boolean guard() {
+        // 제일 앞의 쉴드 제거
+        if (shields.isEmpty())
+            return false;
+
+        Shield shield = shields.pollFirst();
+        return true;
+    }
+
+    public void addShield(Shield shield) {
+        shields.offerLast(shield);
     }
 
     public void addDir(MoveDir dir) {

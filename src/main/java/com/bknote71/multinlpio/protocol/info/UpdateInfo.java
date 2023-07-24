@@ -29,11 +29,13 @@ public class UpdateInfo {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdatePos {
+        String username;
         double direction;
         int hp;
         int id;
         double x;
         double y;
+        int shields;
     }
 
     @Data
