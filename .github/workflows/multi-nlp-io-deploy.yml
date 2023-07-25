@@ -35,7 +35,7 @@ jobs:
 
       - name: npm run build:prd and copy
         run: |
-          npm run build
+          npm run build:prd
           cp -f  ./src/main/resources/static/dist/index.html ./src/main/resources/templates/index.html
 
       - name: Set up JDK 17
