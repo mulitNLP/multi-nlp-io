@@ -164,10 +164,25 @@ button:focus {
 #checkbox {
 
   position: fixed;
-  bottom: 15%;
+  bottom: 20%;
   left: 0;
   right: 0;
   width: 300px;
+  margin: auto;
+  background-color: gray;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+
+}
+
+#micbutton {
+
+  position: fixed;
+  bottom: 10%;
+  left: 0;
+  right: 30%;
+  width: 50px;
   margin: auto;
   background-color: gray;
   padding: 10px;

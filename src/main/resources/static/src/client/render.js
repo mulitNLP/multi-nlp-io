@@ -10,7 +10,7 @@ import renderLine from './render/line';
 import renderMeteor from './render/meteor';
 import renderTarget from './render/target';
 import renderBullet from './render/bullet';
-import renderCheckbox from './render/checkbox';
+import renderCheckbox from './htmlRender/checkbox';
 import maptrick from './render/maptrick';
 
 const Constants = require('../shared/constants');
