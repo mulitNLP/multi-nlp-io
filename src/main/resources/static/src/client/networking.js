@@ -252,7 +252,7 @@ export { analysisResult };
 
 export const requestLeaderBoard = (roomId) => {
   console.log(`roomId? ${roomId}`);
-  const url = 'http://localhost:8080/get/leaderboard?roomId=' + roomId;
+  const url = `http://${addr}8080/get/leaderboard?roomId=` + roomId;
   return fetch(url, {
     method: 'GET',
   })
@@ -263,7 +263,7 @@ export const requestLeaderBoard = (roomId) => {
 };
 
 export const requestTodayRanking = () => {
-  const url = 'http://localhost:8080/get/today_ranking';
+  const url = `http://${addr}:8080/get/today_ranking`;
   fetch(url, {
     method: 'GET',
   })
