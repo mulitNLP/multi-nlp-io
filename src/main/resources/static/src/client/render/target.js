@@ -1,10 +1,14 @@
 import { getAsset } from '../assets';
 import { getCurrentState } from '../state';
 import { targetId ,lnittargetId } from '../input';
+import maptrick from './maptrick';
 
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
+const Constants = require('../../shared/constants');
+
+const { MAP_SIZE } = Constants;
 
 function renderTarget(me,nearplayers,nearmeteors) {
   const lockedEntities = [...nearplayers, ...nearmeteors];
@@ -15,9 +19,10 @@ function renderTarget(me,nearplayers,nearmeteors) {
     return;
   }
 
-  const { x, y } = lockedEntity;
-  const canvasX = canvas.width / 2 + x - me.x;
-  const canvasY = canvas.height / 2 + y - me.y;
+  const { rx , ry } = maptrick(me, lockedEntity);  
+
+    const canvasX = canvas.width / 2 + rx - me.x;
+    const canvasY = canvas.height / 2 + ry - me.y;
 
   const targetImage = getAsset('target.png');
   context.drawImage(
