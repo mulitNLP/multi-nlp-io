@@ -29,13 +29,16 @@ model = keras.models.load_model('DATA/my_senti_models')
 model.load_weights('DATA/DATA_SENTI_OUT/cnn_classifier_kr/weights.h5')
 
 
-
+@app.route('/', methods = ['POST'])
+def home():
+    return "flask server is running now"
 
 
 WSGIRequestHandler.protocol_version = 'HTTP/1.1' #keep alive를 지원
 @app.route('/sentiment-analysis', methods=['POST'])
 def sentiment_analysis():
-    result, percentage
+    result = False
+    percentage = 0
     dataString = request.get_data(as_text=True)
     values = dataString.split('|')
     print(values)
@@ -90,4 +93,4 @@ def sentiment_analysis():
     #     return jsonify({'ID' : playerID, "user" : "player" , "skill" : "shield", 'predictions' :predictions})
     
 if __name__ == '__main__':
-    app.run(debug=True, port=5050)
+    app.run(host="0.0.0.0", debug=True, port=5050)

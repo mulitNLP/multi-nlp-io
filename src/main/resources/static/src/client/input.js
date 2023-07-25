@@ -70,15 +70,10 @@ export function lnittargetId() {
   targetId = -1;
 }
 
-<<<<<<< HEAD
 function playertargeting() {
-=======
-function playertargeting(){
- 
->>>>>>> 97248b1273ab1907a068da77d54ab6d981d040c2
   let others = getnearbyothers();
-  if(targetId !== -1){
-    if((targetId >> 24) & 0x7f !== 1){
+  if (targetId !== -1) {
+    if ((targetId >> 24) & 0x7f !== 1) {
       targetId = -1;
     }
   }
@@ -87,25 +82,17 @@ function playertargeting(){
 
 function meteortargeting() {
   let others = getnearmeteors();
-  if(targetId !== -1){
-    if((targetId >> 24) & 0x7f !== 2){
+  if (targetId !== -1) {
+    if ((targetId >> 24) & 0x7f !== 2) {
       targetId = -1;
     }
   }
   targetlogic(others);
 }
 
-<<<<<<< HEAD
-
-
 function targetlogic(others) {
-  if (others && others.length > 0) {
+  if (others.length > 0) {
     if (targetId === -1) {
-=======
-function targetlogic(others){
-  if(others.length > 0){
-    if(targetId === -1){
->>>>>>> 97248b1273ab1907a068da77d54ab6d981d040c2
       targetId = others[0].id;
       return;
     } else {
@@ -115,12 +102,7 @@ function targetlogic(others){
             targetId = others[0].id;
             return;
           }
-<<<<<<< HEAD
           targetId = others[i + 1].id;
-          console.log(others[i + 1].id);
-=======
-          targetId = others[i+1].id;
->>>>>>> 97248b1273ab1907a068da77d54ab6d981d040c2
           return;
         }
       }

@@ -19,7 +19,6 @@ if (!("webkitSpeechRecognition" in window)) {
 
     recognition.onspeechend = function () {
         recognition.stop();
-        $('.dictate').classList.remove("on");
         store.isRecognizing = true;
     };
 
@@ -44,7 +43,6 @@ function enterSpacebar() {
 }
 
 function mic_unactive() {
-    $('.dictate').classList.remove('on')
     if (recognition) {
         recognition.stop();
     }
@@ -52,7 +50,6 @@ function mic_unactive() {
 }
 
 function mic_active() {
-    $('.dictate').classList.add('on')
     if (recognition) {
         recognition.start();
     }
