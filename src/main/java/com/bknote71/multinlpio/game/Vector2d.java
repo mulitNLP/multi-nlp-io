@@ -63,6 +63,10 @@ public class Vector2d {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
+    public double mag() {
+        return Math.pow(x, 2) + Math.pow(y, 2);
+    }
+
     public static Vector2d unitVector(Vector2d dest, Vector2d src) { //src to dest
         Vector2d d = new Vector2d(dest.x - src.x, dest.y - src.y);
         return new Vector2d(d.x / d.dist(), d.y / d.dist());
