@@ -6,6 +6,7 @@ import { startCapturingInput, stopCapturingInput } from './input';
 import { downloadAssets } from './assets';
 import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
+import deadResons from './htmlRender/deadresons';
 // I'm using a tiny subset of Bootstrap here for convenience - there's some wasted CSS,
 // but not much. In general, you should be careful using Bootstrap because it makes it
 // easy to unnecessarily bloat your site.
@@ -15,6 +16,9 @@ import './css/main.css';
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
+
+const gameoverMenu = document.getElementById('game-over');
+const replayButton = document.getElementById('replay-button');
 
 Promise.all([
   connect(onGameOver),
@@ -33,9 +37,19 @@ Promise.all([
   };
 }).catch(console.error);
 
-function onGameOver() {
+function onGameOver(obj) {
   stopCapturingInput();
   stopRendering();
-  playMenu.classList.remove('hidden');
   setLeaderboardHidden(true);
+  gameoverMenu.classList.remove('hidden');
+  deadResons(obj);
+  usernameInput.focus();
+  replayButton.onclick = () =>{
+    play(usernameInput.value);
+    gameoverMenu.classList.add('hidden');
+    initState();
+    startCapturingInput();
+    startRendering();
+    setLeaderboardHidden(false);
+  }
 }

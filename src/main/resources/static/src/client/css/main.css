@@ -190,3 +190,35 @@ button:focus {
   color: white;
 
 }
+
+#game-over {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 20px 30px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#game-over p {
+  margin-bottom: 0;
+}
+
+#game-over input {
+  font-size: 18px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 5px;
+  padding: 3px;
+  text-align: center;
+}
+
+#game-over input:hover {
+  outline: none;
+}

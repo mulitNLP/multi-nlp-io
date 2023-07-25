@@ -22,6 +22,7 @@
 </head>
 <body>
   <canvas id="game-canvas"></canvas>
+
   <div id="play-menu" class="hidden">
     <h1>
       multiNLP.io
@@ -41,6 +42,7 @@
     <input type="text" id="username-input" placeholder="Username" />
     <button id="play-button">PLAY</button>
   </div>
+
   <div id="leaderboard" class="hidden">
     <table>
       <tr>
@@ -59,14 +61,30 @@
     <script>
     </script>
   </div>
-    
-  <div id="disconnect-modal" class="hidden">
-    <div>
-      <h2>Disconnected from Server </h2>
-      <hr />
-      <button id="reconnect-button">RECONNECT</button>
+
+  <div id="game-over" class="hidden">
+    <h1>
+      GAME OVER 
+    </h1>
+    <p>
+      <h2>
+      ▼▼죽은▼▼원인▼▼
+      <br />
+      <div id ="dead-reason">
+
+      </div>
+      </h2>
+    </p>
+    <input type="text" id="username-input" placeholder="Username" />
+    <button id="replay-button">¿재도전¿</button>
     </div>
-  </div>
-  
+
+    <div id="disconnect-modal" class="hidden">
+      <div>
+        <h2>Disconnected from Server </h2>
+        <hr />
+        <button id="reconnect-button">RECONNECT</button>
+      </div>
+    </div>
 </body>
 </html>
