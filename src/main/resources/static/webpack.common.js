@@ -50,10 +50,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/main/resources/static/src/client/html/index.html',
-    }),
-    new EnvironmentPlugin({
-      ADDRR: 'localhost',
-      PRDDRR: '3.35.214.100',
-    }),
+    })
   ],
 };
