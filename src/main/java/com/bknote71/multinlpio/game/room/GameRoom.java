@@ -67,6 +67,7 @@ public class GameRoom extends JobSerializer {
         this.updateLeaderboardTask = new TimerTask() {
             @Override
             public void run() {
+                System.out.println("update leader board task");
                 // call redis server
                 // 동시성 문제
                 List<Player> tplayers = new ArrayList<>(players.values());
@@ -146,6 +147,8 @@ public class GameRoom extends JobSerializer {
             player.init(gameMap.sizeX());
             player.setGameRoom(this);
             player.getInfo().getPosInfo().setPos(Vector2d.createRandom(0, gameMap.sizeX()));
+            // 바로 업데이트
+            LeaderBoardTemplate.updateLeaderBoard(roomId, player.getInfo().getName(), 0);
 
             // room 과 세션 이어주기
             ClientSession session = player.getSession();
@@ -158,9 +161,6 @@ public class GameRoom extends JobSerializer {
             session.send(enterPacket);
         } else if (gameObjectType == GameObjectType.Bullet) {
             Bullet bullet = (Bullet) gameObject;
-            // log.info("bullet({}) enter game target: {}", bullet.getId(),
-            // bullet.getTarget().getId());
-            // log.info("bullet info: {}", bullet.getInfo());
             bullets.put(bullet.getId(), bullet);
             bullet.setGameRoom(this);
             bullet.getTarget().addAttacker(bullet);
@@ -268,6 +268,7 @@ public class GameRoom extends JobSerializer {
         SkillInfo skill = DataManager.skillInfoMap.get(skillPacket.getInfo().getSkillId());
         if (skill == null)
             return;
+
         SkillType skillType = skill.getSkillType();
         switch (skillType) {
             case BULLET -> {

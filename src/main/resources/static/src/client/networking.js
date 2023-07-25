@@ -24,7 +24,8 @@ const wsconnectedPromise = new Promise(resolve => {
   });
 });
 
-let playerId;
+export let playerId;
+export let playerName;
 
 // connect 이후 콜백 등록
 export const connect = onGameOver => (
@@ -38,6 +39,7 @@ export const connect = onGameOver => (
 
       if (message.type === 'sentergame') {
         playerId = message.player.objectId;
+        playerName = message.player.name;
         console.log(`enter game!! ${playerId}`);
 
       } else if (message.type === 'sspawn') {
@@ -197,7 +199,7 @@ export const handleChatAttack = (targetID, content, positive, percent) => {
 
 function sendSkill(targetId, positive) {
 
-  if (positive === null){
+  if (positive === null) {
     return;
   }
 
@@ -244,14 +246,16 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
 export { analysisResult };
 
 // get leaderboard
+
 export const requestLeaderBoard = (roomId) => {
+  console.log(`roomId? ${roomId}`);
   const url = 'http://localhost:8080/get/leaderboard?roomId=' + roomId;
-  fetch(url, {
+  return fetch(url, {
     method: 'GET',
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      return data;
     });
 };
 
@@ -266,5 +270,4 @@ export const requestTodayRanking = () => {
     });
 };
 
-requestLeaderBoard(10);
 

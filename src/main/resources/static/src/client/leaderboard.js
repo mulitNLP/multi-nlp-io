@@ -1,20 +1,46 @@
 import escape from 'lodash/escape';
+import { throttle } from 'throttle-debounce';
+import { requestLeaderBoard, playerId, playerName } from './networking';
 
 const leaderboard = document.getElementById('leaderboard');
 const rows = document.querySelectorAll('#leaderboard table tr');
 
-export function updateLeaderboard(data) {
-  // This is a bit of a hacky way to do this and can get dangerous if you don't escape usernames
-  // properly. You would probably use something like React instead if this were a bigger project.
-  for (let i = 0; i < data.length; i++) {
-    rows[i + 1].innerHTML = `<td>${escape(data[i].username.slice(0, 15)) || 'Anonymous'}</td><td>${
-      data[i].score
-    }</td>`;
-  }
-  for (let i = data.length; i < 5; i++) {
-    rows[i + 1].innerHTML = '<td>-</td><td>-</td>';
-  }
-}
+export const updateLeaderboard = throttle(1500, () => {
+  var roomId = 1;
+  requestLeaderBoard(roomId)
+    .then(data => {
+      let maxLent = Math.max(data.length, 5);
+      let playerRank;
+
+      for (let i = 0; i < data.length; i++) {
+        if (playerName === data[i].username) {
+          playerRank = i;
+        }
+      }
+
+      console.log(`player ranking!!!: ${playerRank}`)
+
+      if (playerRank < 5) {
+        for (let i = 0; i < 5; i++) {
+          rows[i + 1].innerHTML = `<td>${i + 1} ${escape(data[i].username.slice(0, 15)) || 'Anonymous'}</td><td>${data[i].score
+            }</td>`;
+        }
+      }
+      else {
+        for (let i = 0; i < 3; i++) {
+          rows[i + 1].innerHTML = `<td>${i + 1} ${escape(data[i].username.slice(0, 15)) || 'Anonymous'}</td><td>${data[i].score
+            }</td>`;
+        }
+        rows[4].innerHTML = '<td>...</td><td>...</td>';
+        rows[5].innerHTML = `<td>${playerRank + 1} ${escape(data[playerRank].username.slice(0, 15)) || 'Anonymous'}</td><td>${data[playerRank].score
+          }</td>`;
+      }
+
+      for (let i = data.length; i < 5; i++) {
+        rows[i + 1].innerHTML = '<td>-</td><td>-</td>';
+      }
+    });
+});
 
 export function setLeaderboardHidden(hidden) {
   if (hidden) {
