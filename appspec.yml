@@ -18,4 +18,4 @@ hooks:
   ApplicationStart:
     - location: startdocker.sh
       timeout: 180
-      runas: ec2-user
+      runas: ubuntu
