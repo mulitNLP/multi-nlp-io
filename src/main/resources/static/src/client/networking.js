@@ -12,7 +12,7 @@ import renderCheckbox from './htmlRender/checkbox';
 const roomId = 1;
 const devaddr = 'localhost';
 const prodaddr = '3.35.214.100';
-const addr = prodaddr;
+const addr = devaddr;
 // const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
 const websocket = new WebSocket(`ws://${addr}:8080/room/${roomId}`);
 
@@ -252,7 +252,7 @@ export { analysisResult };
 
 export const requestLeaderBoard = (roomId) => {
   console.log(`roomId? ${roomId}`);
-  const url = 'http://localhost:8080/get/leaderboard?roomId=' + roomId;
+  const url = `http://${addr}8080/get/leaderboard?roomId=` + roomId;
   return fetch(url, {
     method: 'GET',
   })
@@ -263,7 +263,7 @@ export const requestLeaderBoard = (roomId) => {
 };
 
 export const requestTodayRanking = () => {
-  const url = 'http://localhost:8080/get/today_ranking';
+  const url = `http://${addr}:8080/get/today_ranking`;
   fetch(url, {
     method: 'GET',
   })
