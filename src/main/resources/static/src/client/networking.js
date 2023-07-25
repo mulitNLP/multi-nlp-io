@@ -76,7 +76,7 @@ export const connect = onGameOver => (
       } else if (message.type === 'sdie') {
         console.log('sdie');
         if (message.objectId === playerId)
-          onGameOver();
+          onGameOver(message.attackerId);
       }
     };
 
