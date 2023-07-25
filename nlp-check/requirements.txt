@@ -1,0 +1,5 @@
+konlpy
+keras
+tensorflow
+flask
+flask-cors

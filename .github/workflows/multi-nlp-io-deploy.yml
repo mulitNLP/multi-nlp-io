@@ -13,8 +13,8 @@ on:
       - closed
 
 env: # 새로 추가한 부분
-  S3_BUCKET_NAME: multi-nlpgame
-  PROJECT_NAME: multi-nlpgame
+  S3_BUCKET_NAME: multi-nlp-io
+  PROJECT_NAME: multi-nlp-io
 
 jobs:
   #build:
@@ -22,10 +22,17 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo The PR was merged
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: install npm
+      - run: npm install
+
+      - name: npm run build and copy
+      - run: |
+          npm run build
+          cp -f  ./src/main/resources/static/dist/index.html ./src/main/resources/templates/index.html
+
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -38,9 +45,8 @@ jobs:
         shell: bash
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build
         shell: bash
-
 
       ### 새로 추가한 부분 ###
       - name: Make zip file
@@ -57,7 +63,6 @@ jobs:
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
-
       ### 새로 추가한 부분 ###
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name multi-nlpgame --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name develop --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+        run: aws deploy create-deployment --application-name multi-nlp-io --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name develop --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
