@@ -9,6 +9,7 @@ import renderLine from './render/line';
 import renderMeteor from './render/meteor';
 import renderTarget from './render/target';
 import renderBullet from './render/bullet';
+import renderCheckbox from './render/checkbox';
 
 const Constants = require('../shared/constants');
 
@@ -60,6 +61,9 @@ function render() {
     // 모든 플레이어 그리기
     renderPlayer(me, me);
     nearplayers.forEach(renderPlayer.bind(null, me));
+
+    renderCheckbox();
+
   }
  
   // 다음 프레임에서 이 render 함수를 다시 실행

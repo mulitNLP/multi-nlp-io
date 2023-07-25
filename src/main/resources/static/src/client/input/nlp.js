@@ -2,6 +2,7 @@ import { performSentimentAnalysis } from '../networking';
 import { throttle } from 'throttle-debounce';
 import { targetId } from '../input';
 import { playerId } from '../input';
+import renderCheckbox from '../render/checkbox';
 
 const enterInputBar = document.getElementById('inputbar');
 
@@ -28,7 +29,6 @@ const enterInputBar = document.getElementById('inputbar');
 //       console.error('Error:', error);
 //     });
 // }
-
 
 export const enterKeyBoard = throttle(10, () => {
   if (document.activeElement === enterInputBar) {
@@ -58,3 +58,5 @@ export const enterKeyBoard = throttle(10, () => {
 
   }
 });
+
+export { analysisResult };
