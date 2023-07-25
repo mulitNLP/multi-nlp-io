@@ -4,7 +4,6 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
-import { targetId } from './input';
 
 // import redis from 'redis';
 
@@ -169,8 +168,8 @@ const shieldInstance = {
   skillType: 'SHIELD',
 };
 
-export const handleChatAttack = (targetId, content, positive, percent) => {
-  console.log(`${targetId} ${content}, ${positive}, ${percent}`);
+export const handleChatAttack = (targetID, content, positive, percent) => {
+  console.log(`${targetID} ${content}, ${positive}, ${percent}`);
   // if (content === 's') {
   //   positive = false;
   // }
@@ -192,7 +191,7 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
 
   // console.log(`${targetId} ${result}`)
 
-  sendSkill(targetId, positive);
+  sendSkill(targetID, positive);
 
 }
 
@@ -231,7 +230,7 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
     .then(response => response.json())
     .then(data => {
       const result = data.result;
-      handleChatAttack(targetId, inputValue, result, data.percentage);
+      handleChatAttack(targetID, inputValue, result, data.percentage);
       console.log(result);
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;

@@ -34,20 +34,21 @@ export const enterKeyBoard = throttle(10, () => {
   if (document.activeElement === enterInputBar) {
     const inputOrigin = enterInputBar.value.trim()
     // } else
+    const targetid_sub = targetId;
 
-    if (targetId > 0) {
+    if (targetid_sub > 0) {
       if (inputOrigin === "") {
         console.log("입력 실패, 메세지를 입력해 주세요!");
       } else {
         console.log(enterInputBar.value);
-        performSentimentAnalysis(playerId, targetId, enterInputBar.value);
+        performSentimentAnalysis(playerId, targetid_sub, enterInputBar.value);
       }
     } else {
       if (inputOrigin === "") {
         console.log("입력 실패, 메세지를 입력해 주세요!");
       } else {
         console.log(enterInputBar.value);
-        performSentimentAnalysis(playerId, targetId, enterInputBar.value);
+        performSentimentAnalysis(playerId, targetid_sub, enterInputBar.value);
       }
       //handleChatAttack(targetId, enterInputBar.value, true, 0);
     }
