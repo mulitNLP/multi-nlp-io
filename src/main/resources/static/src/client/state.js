@@ -2,6 +2,9 @@
 // https://victorzhou.com/blog/build-an-io-game-part-1/#7-client-state
 import { updateLeaderboard } from './leaderboard';
 
+const Constants = require('../shared/constants');
+
+const { MAP_SIZE } = Constants;
 // The "current" state will always be RENDER_DELAY ms behind server time.
 // This makes gameplay smoother and lag less noticeable.
 const RENDER_DELAY = 100;
@@ -92,8 +95,9 @@ function interpolateObject(object1, object2, ratio) {
   Object.keys(object1).forEach(key => {
     if (key === 'direction') {
       interpolated[key] = interpolateDirection(object1[key], object2[key], ratio);
-    } else if (key === 'x' || key === 'y' || key === 'hp'){
-      interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
+    } else if (key === 'x' || key === 'y'){
+      interpolated[key] = interpolatePosition(object1[key], object2[key], ratio);
+      //interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
     } else {
       interpolated[key] = object1[key];
     }
@@ -104,6 +108,20 @@ function interpolateObject(object1, object2, ratio) {
 // 객체 배열을 보간하는 함수
 function interpolateObjectArray(objects1, objects2, ratio) {
   return objects1.map(o => interpolateObject(o, objects2.find(o2 => o.id === o2.id), ratio));
+}
+
+// 위치 값을 보간하는 함수
+function interpolatePosition(p1, p2, ratio) {
+  const distance = Math.abs(p2 - p1);
+  if (distance > MAP_SIZE / 2) {
+    // 경계를 넘어가는 경우, 반대편으로 회전하여 보간
+    if (p1 < p2) {
+      p1 += MAP_SIZE;
+    } else {
+      p1 -= MAP_SIZE;
+    }
+  }
+  return p1 + (p2 - p1) * ratio;
 }
 
 // Determines the best way to rotate (cw or ccw) when interpolating a direction.

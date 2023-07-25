@@ -47,8 +47,8 @@ public class Player extends GameObject {
 
         Vector2d curpos = pos();
 
-        curpos.x = Math.max(0, Math.min(mapSize, curpos.x));
-        curpos.y = Math.max(0, Math.min(mapSize, curpos.y));
+        /* curpos.x = Math.max(0, Math.min(mapSize, curpos.x));
+        curpos.y = Math.max(0, Math.min(mapSize, curpos.y)); */
 
         if (dirs.contains(MoveDir.North)) {
             direction = Math.atan2(0, curpos.y - speed); // 200 이 나중에는 player.speed()
@@ -66,6 +66,10 @@ public class Player extends GameObject {
             direction = Math.atan2(curpos.x - speed - mapSize, 0); // 200 이 나중에는 player.speed()
             curpos.x -= speed / 40;
         }
+
+        curpos.x = (curpos.x + mapSize) % mapSize;
+        curpos.y = (curpos.y + mapSize) % mapSize;
+
     }
 
     @Override
