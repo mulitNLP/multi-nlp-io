@@ -59,10 +59,8 @@ public class Bullet extends GameObject {
             double nx = targetPos.x + dx[i] * mapSize;
             double ny = targetPos.y + dy[i] * mapSize;
             Vector2d cand = new Vector2d(nx - pos().x, ny - pos().y);
-            if (cand.mag() < dir.mag()) {
-                System.out.println("cand? " + cand.x + " " + cand.y);
+            if (cand.mag() < dir.mag())
                 dir = cand;
-            }
         }
 
         Vector2d dest = Vector2d.dest(pos(), dir.unit(), speed);

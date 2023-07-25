@@ -1,6 +1,7 @@
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
 import { enterKeyBoard } from './input/nlp';
-import { getnearbyothers , getnearmeteors } from './render';
+import { getnearbyothers, getnearmeteors } from './render';
+import { enterSpacebar } from './mic';
 
 const enterInputBar = document.getElementById('inputbar');
 
@@ -9,7 +10,7 @@ function onkeyDown(e) {
   // If the Enter key is pressed and the input bar is not focused, focus the input bar
   if (e.keyCode === 13 && document.activeElement !== enterInputBar) {
     enterInputBar.focus();
-  } 
+  }
   // If the Enter key is pressed and the input bar is focused, trigger enterKeyBoard and blur the input bar
   else if (e.keyCode === 13 && document.activeElement === enterInputBar) {
     enterKeyBoard();
@@ -23,18 +24,18 @@ function onkeyDown(e) {
     enterSpacebar();
   }
 
-  if (e.keyCode === 222){
+  if (e.keyCode === 222) {
     // 엔터키 옆 ' >> 플레이어 지정           
     playertargeting();
   }
-  if(e.keyCode === 186){
+  if (e.keyCode === 186) {
     // 엔터키 옆옆 ; >> 메테오 지정
     meteortargeting();
   }
   if (e.keyCode === 191) {
     // 우측 쉬프트키 왼쪽 / >> 지정 해제
     lnittargetId();
-  } 
+  }
 
 }
 

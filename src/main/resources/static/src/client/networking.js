@@ -22,7 +22,6 @@ const wsconnectedPromise = new Promise(resolve => {
   websocket.onopen = (() => {
     console.log('Connected to web socket game server!');
     resolve();
-    requestLeaderBoard(-1);
   });
 });
 
@@ -173,7 +172,6 @@ const shieldInstance = {
 };
 
 export const handleChatAttack = (targetID, content, positive, percent) => {
-  console.log(`${targetID} ${content}, ${positive}, ${percent}`);
   // if (content === 's') {
   //   positive = false;
   // }
@@ -252,7 +250,6 @@ export { analysisResult };
 // get leaderboard
 
 export const requestLeaderBoard = (roomId) => {
-  console.log(`roomId? ${roomId}`);
   const url = `http://${addr}:8080/get/leaderboard?roomId=` + roomId;
   return fetch(url, {
     method: 'GET',

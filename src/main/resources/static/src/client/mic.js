@@ -1,10 +1,19 @@
+import { performNlp } from "./input/nlp";
+
 const $ = (el) => document.querySelector(el);
 let recognition;
 
 const store = {
     texts: '',
-    isRecognizing: true
+    isRecognizing: true,
+    readySignal: true,
 };
+
+export const resetStore = () => {
+    text = '';
+    store.isRecognizing = true;
+    store.readySignal = true;
+}
 
 /* Speech API start */
 let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -12,10 +21,10 @@ if (!("webkitSpeechRecognition" in window)) {
     alert("지원 안되는 브라우저 입니다. !")
 } else {
     recognition = new SpeechRecognition();
-    recognition.interimResults = true;
+    recognition.interimResults = false;
     recognition.lang = 'ko-KR';
     recognition.continuous = false;
-    recognition.maxAlternatives = 16000;
+    recognition.maxAlternatives = 20000;
 
     recognition.onspeechend = function () {
         recognition.stop();
@@ -25,35 +34,47 @@ if (!("webkitSpeechRecognition" in window)) {
     recognition.onresult = function (e) {
         store.texts = Array.from(e.results)
             .map(results => results[0].transcript).join("");
-        enterInputBar.value = store.texts;
-        // You can update the inputbar here if needed:
-        // $('inputbar').value = store.texts;
+
+        // enterInputBar.value = store.texts;
+        console.log(`store.text? ${store.texts}`);
+        performNlp(store.texts);
     };
+
+    recognition.onerror = function (e) {
+        console.log(`Error: ${e}`);
+    };
+
 }
 /* Speech API END */
 
-function enterSpacebar() {
-    if (store.isRecognizing) {
-        console.log("now recognizing")
+export const enterSpacebar = () => {
+    console.log('enter spacebar');
+
+    if (store.readySignal) {
         mic_active();
+    } else if (!store.readySignal && store.isRecognizing) {
+        console.log("아직은 종료하실 수 없습니다.");
     } else {
         mic_unactive();
-        console.log("stopped recording")
+        console.log("stopped recording");
     }
-}
-
-function mic_unactive() {
-    if (recognition) {
-        recognition.stop();
-    }
-    store.isRecognizing = true;
 }
 
 function mic_active() {
-    if (recognition) {
-        recognition.start();
-    }
-    store.isRecognizing = false;
+    recognition.start();
+    store.readySignal = false;
+    setTimeout(signalCompleteReady, 1000);
+
 }
 
-export default enterSpacebar;
+function mic_unactive() {
+    recognition.stop();
+    store.isRecognizing = true;
+    store.readySignal = true;
+}
+
+function signalCompleteReady() {
+    store.isRecognizing = false;
+    console.log('이제 끝낼 수 있습니다.');
+}
+

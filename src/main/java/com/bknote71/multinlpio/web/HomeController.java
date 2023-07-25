@@ -38,7 +38,6 @@ public class HomeController {
     @GetMapping("/get/leaderboard")
     @ResponseBody
     public List<LeaderBoardInfo> getLeaderBoard(int roomId) {
-        System.out.println(roomId);
         return LeaderBoardTemplate.getLeaderBoard(roomId);
     }
 
