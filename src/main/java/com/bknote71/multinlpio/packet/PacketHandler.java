@@ -44,8 +44,6 @@ public class PacketHandler {
     }
 
     public static void CChatHandler(ClientSession clientSession, Protocol protocol) {
-        log.info("client chat handling");
-
         CChat chatPacket = (CChat) protocol;
         // validation << 나중에 함수로 묶짜.
         Player player = clientSession.getMyPlayer();
@@ -66,7 +64,6 @@ public class PacketHandler {
     }
 
     public static void CMoveHandler(ClientSession clientSession, Protocol protocol) {
-        log.info("in cmove handing");
         CMove movePacket = (CMove) protocol;
 
         // SMove 패킷 전송
