@@ -39,12 +39,11 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 let animationFrameRequestId;
 let nearplayers = [];
 let nearmeteors = [];
-let nearbullets = [];
+//let nearbullets = [];
 // 게임의 현재 상태를 그리는 함수
 function render() {
   const { me, others, bullets, meteors } = getCurrentState();
   if (me) {
-    nearbullets = Object.values(bullets).filter(p => distanceTo(me,p) <= Constants.MAP_SIZE /2);
     nearplayers = Object.values(others).filter(p => distanceTo(me,p)<= 600)
                         .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
     nearmeteors = Object.values(meteors).filter(p =>  distanceTo(me,p)<= 600)
@@ -58,7 +57,7 @@ function render() {
 
     renderTarget(me,nearplayers,nearmeteors);
     // 모든 총알 그리기
-    nearbullets.forEach(renderBullet.bind(null, me));
+    bullets.forEach(renderBullet.bind(null, me));
 
     // 운석 그리기
     meteors.forEach(renderMeteor.bind(null, me));
