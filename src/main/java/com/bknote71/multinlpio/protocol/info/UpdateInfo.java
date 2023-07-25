@@ -53,6 +53,7 @@ public class UpdateInfo {
         double x;
         double y;
         boolean invisible;
+        String word;
     }
 
 }

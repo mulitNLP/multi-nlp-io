@@ -197,6 +197,11 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
 }
 
 function sendSkill(targetId, positive) {
+
+  if (positive === null){
+    return;
+  }
+
   let info = positive === true ? bullletInstance : shieldInstance;
   const skillPacket = {
     type: 'cskill',
@@ -211,6 +216,7 @@ function sendSkill(targetId, positive) {
 let analysisResult = { result: null, percentage: null };
 
 export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
+
   const url = `http://${addr}:5050/sentiment-analysis`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API

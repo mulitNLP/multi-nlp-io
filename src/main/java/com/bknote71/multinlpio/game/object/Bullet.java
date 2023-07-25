@@ -20,6 +20,8 @@ public class Bullet extends GameObject {
     private double speed;
     private double range;
 
+    private int[] dx = {0, 1, 0, -1, 0};
+    private int[] dy = {0, 0, 1, 0, -1};
     public Bullet() {
         setType(GameObjectType.Bullet);
     }
@@ -27,10 +29,11 @@ public class Bullet extends GameObject {
     // 다음 움직일 틱 기간, 이 틱을 기준으로 update
     // 참고로 자바에서는 "1틱"이 거의 1ms라고 한다.
     long nextMoveTick = 0;
+
     public void update() {
         GameRoom room = getGameRoom();
         int objectId = getId();
-        if (room == null)
+        if (room == null || room.getGameMap() == null)
             return;
 
         if (owner == null || target == null) {
@@ -45,18 +48,34 @@ public class Bullet extends GameObject {
         // next move tick 갱신
         long tick = (long) (1000 / 60); // tick(대기 시간) = 1초(도달 거리)/(속도s?)
         nextMoveTick = System.currentTimeMillis() + tick;
-        // 다음 위치로 갈 수 있으면 이동한다.
-        Vector2d targetPos = target.pos();
-        Vector2d dir = Vector2d.unitVector(targetPos, pos());
-        Vector2d dest = Vector2d.dest(pos(), dir, speed);
 
+        // 다음 위치로 갈 수 있으면 이동한다.
+        int mapSize = 2000;
+        Vector2d targetPos = target.pos();
+        // 거리가 짧은 곳으로 dir 를 설정해야 한다.
+
+        Vector2d dir = new Vector2d(10000, 10000);
+        for (int i = 0; i < 5; ++i) {
+            double nx = targetPos.x + dx[i] * mapSize;
+            double ny = targetPos.y + dy[i] * mapSize;
+            Vector2d cand = new Vector2d(nx - pos().x, ny - pos().y);
+            if (cand.mag() < dir.mag()) {
+                System.out.println("cand? " + cand.x + " " + cand.y);
+                dir = cand;
+            }
+        }
+
+        Vector2d dest = Vector2d.dest(pos(), dir.unit(), speed);
+        dest.x = (dest.x + mapSize) % mapSize;
+        dest.y = (dest.y + mapSize) % mapSize;
+      
         // log
-        // log.info("target type: {}, target pos ({}, {})", target.getType(), targetPos.x, targetPos.y);
-        // log.info("방향 단위 벡터: ({}, {})", dir.x, dir.y);
-        // log.info("bullet 이동 위치 ({}, {})", dest.x, dest.y);
+         log.info("target type: {}, target pos ({}, {})", target.getType(), targetPos.x, targetPos.y);
+         log.info("방향 단위 벡터: ({}, {})", dir.x, dir.y);
+         log.info("bullet 이동 위치 ({}, {})", dest.x, dest.y);
 
         // 갈 수 있는 조건: dest, range 안에 target 플레이어가 없어야 한다. + 맵 밖이 아니여야 한다.
-        if (room.cango(dest) && !Vector2d.isIncludedInRange(dest, range, targetPos)) {
+        if (!Vector2d.isIncludedInRange(dest, range, targetPos)) {
             // 좌표 갱신 이후 이동 패킷 보내기(SMove)
             pos(dest.x, dest.y);
             SMove movePacket = new SMove();
@@ -64,13 +83,7 @@ public class Bullet extends GameObject {
             movePacket.setPosInfo(getPosInfo());
             room.broadcast(movePacket);
         } else {
-            log.info("can't go ? {}", Vector2d.isIncludedInRange(dest, range, targetPos));
-            // 갈 수 없다. (예를 들어, 사용자와 부딪히거나, 맵의 끝에 도달)
-            // 그러면 소멸한다는 의미다.
-            // 소멸: 상대 피해 입히기 or 맵에서 나가기
-            if (Vector2d.isIncludedInRange(dest, range, targetPos))
-                target.onDamaged(this, skill.getDamage());
-
+            target.onDamaged(this, skill.getDamage());
             room.push(room::leaveGame, objectId);
         }
     }

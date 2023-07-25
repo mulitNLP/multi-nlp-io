@@ -23,6 +23,15 @@ function renderShields(me,player, i){
       PLAYER_RADIUS * 2 + (ssize),
     );
     context.restore();
+
+    if (i !== 0) {
+
+      context.fillStyle = 'white'; // 텍스트 색상 설정
+      context.font = '20px Arial'; // 텍스트 폰트 설정
+      context.textAlign = 'center'; // 텍스트 정렬 설정
+      context.fillText('x' + i, canvasX + PLAYER_RADIUS + 5, canvasY - PLAYER_RADIUS - 10); // 텍스트 그리기
+
+    }
   
   }
   

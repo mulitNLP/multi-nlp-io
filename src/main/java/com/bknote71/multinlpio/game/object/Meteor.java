@@ -14,9 +14,12 @@ public class Meteor extends GameObject {
     // 메테오 전용 방향 단위 벡터. 따라서 moveDir 가 필요 없다.
     private Vector2d dirvec;
     // private double speed = 20;
-    private double speed = 1;
+    private double speed = 2;
     private double range = 50;
     private int damage = 1000;
+
+    @Getter
+    private String word;
 
     // 태어나고 1초 뒤에 false 됨 <<
     @Getter
@@ -44,6 +47,10 @@ public class Meteor extends GameObject {
 
     public void setDirvec(Vector2d vec) {
         this.dirvec = vec.unit(); // 단위 벡터여야 함
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
     // 틱: 움직임 업데이트 기간 단위
