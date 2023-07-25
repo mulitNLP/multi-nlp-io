@@ -176,18 +176,17 @@ button:focus {
 
 }
 
-#micbutton {
+
+#micimage  {
 
   position: fixed;
   bottom: 10%;
   left: 0;
-  right: 30%;
+  right: 350px;
   width: 50px;
   margin: auto;
-  background-color: gray;
   padding: 10px;
   border-radius: 5px;
-  color: white;
 
 }
 

@@ -7,6 +7,7 @@ import { downloadAssets } from './assets';
 import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
 import deadResons from './htmlRender/deadresons';
+import renderMicbutton from './htmlRender/micbutton';
 // I'm using a tiny subset of Bootstrap here for convenience - there's some wasted CSS,
 // but not much. In general, you should be careful using Bootstrap because it makes it
 // easy to unnecessarily bloat your site.
@@ -33,6 +34,7 @@ Promise.all([
     initState();
     startCapturingInput();
     startRendering();
+    renderMicbutton(false);
     setLeaderboardHidden(false);
   };
 }).catch(console.error);
@@ -50,6 +52,7 @@ function onGameOver(obj) {
     initState();
     startCapturingInput();
     startRendering();
+    renderMicbutton(false);
     setLeaderboardHidden(false);
   }
 }
