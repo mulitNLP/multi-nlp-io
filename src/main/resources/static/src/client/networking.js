@@ -205,6 +205,8 @@ function sendSkill(targetId, positive) {
   websocket.send(JSON.stringify(skillPacket));
 }
 
+let analysisResult = { result: null, percentage: null };
+
 export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
   const url = 'http://localhost:5050/sentiment-analysis'; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
@@ -222,12 +224,16 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
       const result = data.result;
       handleChatAttack(targetId, inputValue, result, data.percentage);
       console.log(result);
+      analysisResult.result = data.result;
+      analysisResult.percentage = data.percentage;
       // Update the UI with the sentiment analysis result as needed
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
+
+export { analysisResult };
 
 // get leaderboard
 export const requestLeaderBoard = (roomId) => {
