@@ -30,7 +30,6 @@ public class ObjectManager {
             T gameObject = constructor.newInstance();
             synchronized (lock) {
                 int objectId = generateId(gameObject.getType());
-                System.out.println("object type? " + gameObject.getType());
                 gameObject.setId(objectId);
 
                 if (gameObject.getType() == GameObjectType.Player || gameObject.getType() == GameObjectType.Meteor)
