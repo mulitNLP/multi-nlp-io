@@ -187,42 +187,14 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   // }
 
 
+<<<<<<< HEAD
   console.log(`${targetId} ${positive}`)
+=======
+  // console.log(`${targetId} ${result}`)
+>>>>>>> 894ee68 (325123461234641264136413)
 
   sendSkill(targetId, positive);
 
-
-
-  /*
-  const url = 'http://localhost:5000/use-skill';
-
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      targetId: targetId,
-      content: content,
-      playerId: playerId,
-    }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      if (targetType === 1) { // 1: player
-        if (data.result == true)
-          positive = true;
-        else
-          positive = false;
-      } else if (targetType === 2) { // 2: meteor
-        if (data.result === true)
-          positive = true;
-        else
-          return;
-      }
-      sendSkill(targetId, positive);
-    })*/
 }
 
 function sendSkill(targetId, positive) {
