@@ -67,7 +67,6 @@ public class GameRoom extends JobSerializer {
         this.updateLeaderboardTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("update leader board task");
                 // call redis server
                 // 동시성 문제
                 List<Player> tplayers = new ArrayList<>(players.values());

@@ -12,8 +12,11 @@ export const updateLeaderboard = throttle(1500, () => {
       let maxLent = Math.max(data.length, 5);
       let playerRank;
 
+      console.log(`playername? ${playerName}`);
+
       for (let i = 0; i < data.length; i++) {
         if (playerName === data[i].username) {
+
           playerRank = i;
         }
       }
