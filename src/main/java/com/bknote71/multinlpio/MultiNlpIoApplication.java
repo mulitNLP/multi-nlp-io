@@ -13,6 +13,7 @@ public class MultiNlpIoApplication {
 		SpringApplication.run(MultiNlpIoApplication.class, args);
 
 		DataManager.loadData();
+		DataManager.loadWord();
 
 		// 무조건 처음 룸 생성하도록 할까?
 		GameRoom room = RoomManager.Instance.poll();

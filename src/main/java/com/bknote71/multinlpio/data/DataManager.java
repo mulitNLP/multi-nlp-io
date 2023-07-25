@@ -53,7 +53,7 @@ public class DataManager {
     }
 
     // csv 읽기
-    static void loadWord() {
+    public static void loadWord() {
         String path = env.getProperty("data_path") + "wordlist.csv";
         Resource resource = resourceLoader.getResource(path);
         List<WordData> wordlist = new ArrayList<>();
