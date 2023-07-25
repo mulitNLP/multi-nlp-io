@@ -309,7 +309,7 @@ public class GameRoom extends JobSerializer {
             return;
 
         String word = DataManager.words[ThreadLocalRandom.current().nextInt(0, DataManager.words.length)].getWord();
-
+        System.out.println(word);
         // init bullet, bullet 은 moveDir 가 필요 없음!
         PositionInfo meteorPosInfo = new PositionInfo();
         meteorPosInfo.setPos(Vector2d.createRandom(0, gameMap.sizeX()));
