@@ -1,5 +1,5 @@
 import { getAsset } from '../assets';
-
+import maptrick from './maptrick';
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
@@ -8,14 +8,20 @@ const Constants = require('../../shared/constants');
 const { BULLET_RADIUS } = Constants;
 
 function renderBullet(me, bullet) {
-    const { x, y } = bullet;
+    const { rx , ry } = maptrick(me, bullet);  
+
+    const canvasX = canvas.width / 2 + rx - me.x;
+    const canvasY = canvas.height / 2 + ry - me.y;
+    context.save();
+    context.translate(canvasX, canvasY);
     context.drawImage(
         getAsset('bullet.svg'),
-        canvas.width / 2 + x - me.x - BULLET_RADIUS,
-        canvas.height / 2 + y - me.y - BULLET_RADIUS,
+        - BULLET_RADIUS,
+        - BULLET_RADIUS,
         BULLET_RADIUS * 2,
         BULLET_RADIUS * 2,
     );
+    context.restore();
 }
 
 export default renderBullet;
