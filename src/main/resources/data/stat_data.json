@@ -2,9 +2,9 @@
   "type" : "statdata",
   "stats": [
     {
-      "hp": "100",
-      "maxHp": "100",
-      "speed":  "200"
+      "hp": "30",
+      "maxHp": "30",
+      "speed":  "150"
     }
   ]
 }

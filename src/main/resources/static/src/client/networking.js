@@ -217,9 +217,6 @@ let analysisResult = { result: null, percentage: null };
 
 export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
 
-  if (targetID === -1)
-    return;
-
   const url = `http://${addr}:5050/sentiment-analysis`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
