@@ -18,6 +18,9 @@ public class Meteor extends GameObject {
     private double range = 50;
     private int damage = 1000;
 
+    @Getter
+    private String word;
+
     // 태어나고 1초 뒤에 false 됨 <<
     @Getter
     private boolean invisible;
@@ -44,6 +47,10 @@ public class Meteor extends GameObject {
 
     public void setDirvec(Vector2d vec) {
         this.dirvec = vec.unit(); // 단위 벡터여야 함
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
     // 틱: 움직임 업데이트 기간 단위
