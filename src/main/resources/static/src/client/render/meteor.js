@@ -28,10 +28,10 @@ function renderMeteor(me, meteor) {
     );
     context.restore();
 
-/*  context.fillStyle = 'white'; // 텍스트 색상 설정
+    context.fillStyle = 'white'; // 텍스트 색상 설정
     context.font = '20px Arial'; // 텍스트 폰트 설정
     context.textAlign = 'center'; // 텍스트 정렬 설정
-    context.fillText(word, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기 */
+    context.fillText(word, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기 
 }
 
 export default renderMeteor;
