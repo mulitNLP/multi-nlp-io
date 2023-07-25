@@ -4,6 +4,8 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
+import { targetId } from './input';
+
 // import redis from 'redis';
 
 // websocket connection
@@ -170,24 +172,24 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   //   positive = false;
   // }
 
-  const targetType = (targetId >> 24) & 0x7f;
-  var result;
-  if (targetType === 1) { // 1: player
-    if (positive == true)
-      result = true;
-    else
-      result = false;
-  } else if (targetType === 2) { // 2: meteor
-    if (positive === true)
-      result = true;
-    else
-      return;
-  }
+  // const targetType = (targetId >> 24) & 0x7f;
+  // var result;
+  // if (targetType === 1) { // 1: player
+  //   if (positive == true)
+  //     result = true;
+  //   else
+  //     result = false;
+  // } else if (targetType === 2) { // 2: meteor
+  //   if (positive === true)
+  //     result = true;
+  //   else
+  //     return;
+  // }
 
 
-  console.log(`${targetId} ${result}`)
+  console.log(`${targetId} ${positive}`)
 
-  sendSkill(targetId, result);
+  sendSkill(targetId, positive);
 
 
 
@@ -235,6 +237,29 @@ function sendSkill(targetId, positive) {
   websocket.send(JSON.stringify(skillPacket));
 }
 
+export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
+  const url = 'http://localhost:5050/sentiment-analysis'; // Adjust the URL to match your Python server
+  const dataString = playerID + '|' + targetID + '|' + inputValue;
+  // Send the input value to the Python server using fetch API
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+      'Connection': 'keep-alive'
+    },
+    body: dataString
+  })
+    .then(response => response.json())
+    .then(data => {
+      const result = data.result;
+      handleChatAttack(targetId, inputValue, result, data.percentage);
+      console.log(result);
+      // Update the UI with the sentiment analysis result as needed
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
 
 // get leaderboard
 export const requestLeaderBoard = (roomId) => {
@@ -260,3 +285,4 @@ export const requestTodayRanking = () => {
 };
 
 requestLeaderBoard(10);
+

@@ -3,7 +3,8 @@
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
 import { enterKeyBoard } from './input/nlp';
 import { getCurrentState } from './state';
-import { getnearbyothers , getnearmeteors } from './render';
+import { getnearbyothers, getnearmeteors } from './render';
+import { enterSpacebar } from './mic';
 const Constants = require('../shared/constants');
 const canvas = document.getElementById('game-canvas');
 
@@ -16,13 +17,17 @@ function onkeyDown(e) {
   if (e.keyCode === 13) {
     enterKeyBoard();
   }
+  if (e.keyCode === 32) {
+    enterSpacebar();
+  }
 
-  if (e.keyCode === 222){
+  if (e.keyCode === 222) {
     //  엔터키 옆 '           
     playertargeting();
   }
-  if(e.keyCode === 186){
-    //엔터키 옆옆 ; 
+
+  if (e.keyCode === 186) {
+    // 엔터키 옆옆 ; 
     meteortargeting();
   }
 }
@@ -32,17 +37,7 @@ function onkeyUp(e) {
     updateInputKeyBoardUp(e.keyCode);
   }
 }
-function onkeySpeak(e) {
-  let isRecording = false
-  if (e.keyCode === 32 && isRecording === false) {
-    isRecording = true
-    //speech recording start
-  } else {
-    //speech recording end
 
-  }
-  isRecording = false
-}
 // function onTouchInput(e) {
 //   const touch = e.touches[0];
 //   handleInput(touch.clientX, touch.clientY);
@@ -70,39 +65,39 @@ export function stopCapturingInput() {
 
 export let targetId = -1;
 
-export function lnittargetId(){
+export function lnittargetId() {
   targetId = -1;
 }
 
-function playertargeting(){
+function playertargeting() {
   let saveid = (targetId >> 24) & 0x7f;
-  if(targetId !== -1 && saveid !== 1){
+  if (targetId !== -1 && saveid !== 1) {
     targetId = -1;
   }
   targetlogic(getnearbyothers());
 }
 
-function meteortargeting(){
+function meteortargeting() {
   let saveid = (targetId >> 24) & 0x7f;
-  if(targetId !== -1 && saveid !== 2){
+  if (targetId !== -1 && saveid !== 2) {
     targetId = -1;
   }
   targetlogic(getnearmeteors());
 }
 
-function targetlogic(others){
-  if(others.length > 0){
-    if(targetId === -1){
+function targetlogic(others) {
+  if (others.length > 0) {
+    if (targetId === -1) {
       targetId = others[0].id;
       return;
-    }else{
-      for(let i = 0; i < others.length; i++){
-        if(targetId === others[i].id){
-          if(i === others.length -1){
+    } else {
+      for (let i = 0; i < others.length; i++) {
+        if (targetId === others[i].id) {
+          if (i === others.length - 1) {
             targetId = others[0].id;
             return;
           }
-          targetId = others[i+1].id;
+          targetId = others[i + 1].id;
           return;
         }
       }
