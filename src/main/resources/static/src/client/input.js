@@ -70,24 +70,19 @@ export function lnittargetId() {
 }
 
 function playertargeting() {
-
-  let others = getnearbyothers();
-  if (targetId !== -1) {
-    if ((targetId >> 24) & 0x7f !== 1) {
-      targetId = -1;
-    }
+  let saveid = (targetId >> 24) & 0x7f;
+  if (targetId !== -1 && saveid !== 1) {
+    targetId = -1;
   }
-  targetlogic(others);
+  targetlogic(getnearbyothers());
 }
 
 function meteortargeting() {
-  let others = getnearmeteors();
-  if (targetId !== -1) {
-    if ((targetId >> 24) & 0x7f !== 2) {
-      targetId = -1;
-    }
+  let saveid = (targetId >> 24) & 0x7f;
+  if (targetId !== -1 && saveid !== 2) {
+    targetId = -1;
   }
-  targetlogic(others);
+  targetlogic(getnearmeteors());
 }
 
 function targetlogic(others) {
