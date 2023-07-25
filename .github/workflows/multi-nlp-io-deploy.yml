@@ -26,13 +26,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: install npm
-      - run: npm install
+        run: npm install
 
       - name: npm run build and copy
-      - run: |
+        run: |
           npm run build
           cp -f  ./src/main/resources/static/dist/index.html ./src/main/resources/templates/index.html
-
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
