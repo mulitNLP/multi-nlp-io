@@ -12,16 +12,11 @@ export const updateLeaderboard = throttle(1500, () => {
       let minLenth = Math.min(data.length, 5);
       let playerRank;
 
-      console.log(`playername? ${playerName}`);
-
       for (let i = 0; i < data.length; i++) {
         if (playerName === data[i].username) {
-
           playerRank = i;
         }
       }
-
-      console.log(`player ranking!!!: ${playerRank}`)
 
       if (playerRank < 5) {
         for (let i = 0; i < minLenth; i++) {
