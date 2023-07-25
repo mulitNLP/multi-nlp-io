@@ -4,7 +4,6 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
-import { targetId } from './input';
 
 // import redis from 'redis';
 
@@ -12,7 +11,7 @@ import { targetId } from './input';
 const roomId = 1;
 const devaddr = 'localhost';
 const prodaddr = '3.35.214.100';
-const addr = devaddr;
+const addr = prodaddr;
 // const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
 const websocket = new WebSocket(`ws://${addr}:8080/room/${roomId}`);
 
@@ -171,8 +170,8 @@ const shieldInstance = {
   skillType: 'SHIELD',
 };
 
-export const handleChatAttack = (targetId, content, positive, percent) => {
-  console.log(`${targetId} ${content}, ${positive}, ${percent}`);
+export const handleChatAttack = (targetID, content, positive, percent) => {
+  console.log(`${targetID} ${content}, ${positive}, ${percent}`);
   // if (content === 's') {
   //   positive = false;
   // }
@@ -194,7 +193,7 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
 
   // console.log(`${targetId} ${result}`)
 
-  sendSkill(targetId, positive);
+  sendSkill(targetID, positive);
 
 }
 
@@ -219,9 +218,6 @@ let analysisResult = { result: null, percentage: null };
 
 export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
 
-  if (targetID === -1)
-    return;
-
   const url = `http://${addr}:5050/sentiment-analysis`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
@@ -236,7 +232,7 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
     .then(response => response.json())
     .then(data => {
       const result = data.result;
-      handleChatAttack(targetId, inputValue, result, data.percentage);
+      handleChatAttack(targetID, inputValue, result, data.percentage);
       console.log(result);
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;
