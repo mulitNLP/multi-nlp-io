@@ -22,7 +22,7 @@ function onkeyDown(e) {
   }
 
   if (e.keyCode === 222) {
-    // 엔터키 옆 '
+    //  엔터키 옆 '           
     playertargeting();
   }
 
@@ -30,7 +30,6 @@ function onkeyDown(e) {
     // 엔터키 옆옆 ; 
     meteortargeting();
   }
-
 }
 
 function onkeyUp(e) {
@@ -46,7 +45,7 @@ function onkeyUp(e) {
 
 export function startCapturingInput() {
   // window.addEventListener('mousemove', onMouseInput);
-  window.addEventListener('click', onMouseInput);
+  // window.addEventListener('click', onMouseInput);
   // window.addEventListener('touchstart', onTouchInput);
   // window.addEventListener('touchmove', onTouchInput);
   window.addEventListener('keydown', onkeyDown);
@@ -55,7 +54,7 @@ export function startCapturingInput() {
 
 export function stopCapturingInput() {
   // window.removeEventListener('mousemove', onMouseInput);
-  window.removeEventListener('click', onMouseInput);
+  // window.removeEventListener('click', onMouseInput);
   // window.removeEventListener('touchstart', onTouchInput);
   // window.removeEventListener('touchmove', onTouchInput);
   window.removeEventListener('keydown', onkeyDown);
@@ -71,6 +70,7 @@ export function lnittargetId() {
 }
 
 function playertargeting() {
+
   let others = getnearbyothers();
   if (targetId !== -1) {
     if ((targetId >> 24) & 0x7f !== 1) {
@@ -111,7 +111,7 @@ function targetlogic(others) {
   targetId = -1
 }
 
-// 여기에 상대 플레이어를 마우스 클릭 하는 기능을 구현하고 싶어
+/* // 여기에 상대 플레이어를 마우스 클릭 하는 기능을 구현하고 싶어
 function onMouseInput(e) {
   const rect = canvas.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -159,4 +159,4 @@ function clickPlayer(x, y) {
 
   targetId = -1;
 
-}
+} */

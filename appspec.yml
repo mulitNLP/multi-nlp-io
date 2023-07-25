@@ -4,17 +4,18 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/multi-nlpgame/ # 프로젝트 이름
+    destination: /home/ubuntu/multi-nlpgame/ # 프로젝트 이름
     overwrite: yes
 
 permissions:
   - object: /
     pattern: "**"
-    owner: ec2-user
-    group: ec2-user
+    owner: ubuntu
+    group: ubuntu
 
+### 도커 시작 (?) ###
 hooks:
   ApplicationStart:
-    - location: startapp.sh
+    - location: startdocker.sh
       timeout: 180
       runas: ec2-user
