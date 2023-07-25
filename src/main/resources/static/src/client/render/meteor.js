@@ -7,31 +7,31 @@ const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
 
 // 주어진 좌표에서 운석을 그리는 함수
-function renderMeteor(old_pos, new_pos) {
-    const { x, y, direction,word , invisible } = new_pos;
-    const canvasX = canvas.width / 2 + x - old_pos.x;
-    const canvasY = canvas.height / 2 + y - old_pos.y;
-
+function renderMeteor(me, meteor) {
+    
+    const { x, y, direction, word , invisible } = meteor;
+    const canvasX = canvas.width / 2 + x - me.x;
+    const canvasY = canvas.height / 2 + y - me.y;
+    /* console.log(`X : ${canvasX}`);
+    console.log(`Y : ${canvasY}`); */
     // 운석 그리기
     context.save();
     context.translate(canvasX, canvasY);
     context.rotate(direction);
+    const meteorImage = invisible ? getAsset(`meteorv.png`) : getAsset(`meteor.png`) ;
     context.drawImage(
-        getAsset('meteor.png'),
+        meteorImage,
         -PLAYER_RADIUS,
         -PLAYER_RADIUS,
         PLAYER_RADIUS * 2,
         PLAYER_RADIUS * 2,
     );
-    if(invisible){
-        context.globalAlpha = 0.3;
-    }
     context.restore();
 
-    context.fillStyle = 'white'; // 텍스트 색상 설정
+/*  context.fillStyle = 'white'; // 텍스트 색상 설정
     context.font = '20px Arial'; // 텍스트 폰트 설정
     context.textAlign = 'center'; // 텍스트 정렬 설정
-    context.fillText(word, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기
+    context.fillText(word, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기 */
 }
 
 export default renderMeteor;

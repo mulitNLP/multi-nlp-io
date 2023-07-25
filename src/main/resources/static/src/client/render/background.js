@@ -9,8 +9,31 @@ const { MAP_SIZE } = Constants;
 
 // 배경을 그리는 역할, 그라데이션
 function renderBackground(x, y) {
+    
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw black background
+    const gridSize = 50;
+    context.strokeStyle = 'gray';
+    context.lineWidth = 0.2;
+    
+    const offsetX = -x % gridSize;
+    const offsetY = -y % gridSize;
+
+    for (let x = offsetX; x < canvas.width; x += gridSize) {
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.lineTo(x, canvas.height);
+        context.stroke();
+    }
+
+    for (let y = offsetY; y < canvas.height; y += gridSize) {
+        context.beginPath();
+        context.moveTo(0, y);
+        context.lineTo(canvas.width, y);
+        context.stroke();
+    }
+    /* // Draw black background
     context.fillStyle = 'black';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -43,7 +66,7 @@ function renderBackground(x, y) {
             context.lineTo(boundaryX + MAP_SIZE, canvasY);
             context.stroke();
         }
-    }
+    } */
 }
 
 export default renderBackground;

@@ -7,6 +7,7 @@ import renderBackground from './render/background';
 import renderPlayer from './render/player';
 import renderLine from './render/line';
 import renderMeteor from './render/meteor';
+import renderoutMeteor from './render/outmeteor';
 import renderTarget from './render/target';
 import renderBullet from './render/bullet';
 import renderCheckbox from './render/checkbox';
@@ -52,12 +53,13 @@ function render() {
     renderBackground(me.x, me.y);
 
     // 경계선 그리기
-    renderLine(me);
+    // renderLine(me);
 
     renderTarget(me,nearplayers,nearmeteors);
     // 모든 총알 그리기
     nearbullets.forEach(renderBullet.bind(null, me));
-    nearmeteors.forEach(renderMeteor.bind(null, me));
+    meteors.forEach(renderMeteor.bind(null, me));
+    meteors.forEach(renderoutMeteor.bind(null,me));
     // 모든 플레이어 그리기
     renderPlayer(me, me);
     nearplayers.forEach(renderPlayer.bind(null, me));

@@ -8,6 +8,7 @@ const ASSET_NAMES = [
   'circle.png',
   'target.png',
   'meteor.png',
+  'meteorv.png',
   'shield1.png',
   'shield2.png',
   'shield3.png',
