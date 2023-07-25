@@ -9,7 +9,7 @@ export const updateLeaderboard = throttle(1500, () => {
   var roomId = 1;
   requestLeaderBoard(roomId)
     .then(data => {
-      let maxLent = Math.max(data.length, 5);
+      let minLenth = Math.min(data.length, 5);
       let playerRank;
 
       console.log(`playername? ${playerName}`);
@@ -24,7 +24,7 @@ export const updateLeaderboard = throttle(1500, () => {
       console.log(`player ranking!!!: ${playerRank}`)
 
       if (playerRank < 5) {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < minLenth; i++) {
           rows[i + 1].innerHTML = `<td>${i + 1} ${escape(data[i].username.slice(0, 15)) || 'Anonymous'}</td><td>${data[i].score
             }</td>`;
         }
