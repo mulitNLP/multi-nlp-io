@@ -58,5 +58,3 @@ export const enterKeyBoard = throttle(10, () => {
 
   }
 });
-
-export { analysisResult };

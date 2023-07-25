@@ -1,4 +1,4 @@
-import { analysisResult } from '../input/nlp';
+import { analysisResult } from '../networking';
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
