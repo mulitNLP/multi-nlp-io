@@ -68,7 +68,7 @@ function render() {
     others.forEach(renderPlayer.bind(null, me));
     others.forEach(renderoutPlayer.bind(null, me));
 
-    renderCheckbox();
+    // renderCheckbox();
 
   }
  
