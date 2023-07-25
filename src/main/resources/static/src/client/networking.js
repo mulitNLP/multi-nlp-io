@@ -10,8 +10,11 @@ import { targetId } from './input';
 
 // websocket connection
 const roomId = 1;
+const devaddr = 'localhost';
+const prodaddr = '3.35.214.100';
+const addr = prodaddr;
 // const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
-const websocket = new WebSocket(`ws://localhost:8080/room/${roomId}`);
+const websocket = new WebSocket(`ws://${addr}:8080/room/${roomId}`);
 
 const wsconnectedPromise = new Promise(resolve => {
   // to websocket, 이벤트 핸들러 변경
@@ -208,7 +211,7 @@ function sendSkill(targetId, positive) {
 let analysisResult = { result: null, percentage: null };
 
 export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
-  const url = 'http://localhost:5050/sentiment-analysis'; // Adjust the URL to match your Python server
+  const url = `http://${addr}:5050/sentiment-analysis`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
   fetch(url, {
