@@ -6,36 +6,52 @@ const checkbox = document.getElementById('checkbox');
 
 function renderCheckbox() {
 
-    const yOffset = 100;  // Adjust this value to change the vertical position of the text
     const result = analysisResult.result;
     const percent = analysisResult.percentage;
 
     // 긍정 입력
     if (result === true) {
-        context.fillStyle = 'white'; // 텍스트 색상 설정
-        context.font = '20px Arial'; // 텍스트 폰트 설정
-        context.textAlign = 'center'; // 텍스트 정렬 설정
-        context.fillText("긍정!", canvas.width / 2, canvas.height / 2 + yOffset); // 텍스트 그리기
+        checkbox.innerText = "긍정!";
+        checkbox.style.backgroundColor = "green";
+        console.log("hi");
 
     // 부정 입력
     } else if (result === false) {
-        context.fillStyle = 'white'; // 텍스트 색상 설정
-        context.font = '20px Arial'; // 텍스트 폰트 설정
-        context.textAlign = 'center'; // 텍스트 정렬 설정
-        context.fillText("부정!", canvas.width / 2, canvas.height / 2 + yOffset); // 텍스트 그리기
+        checkbox.innerText = "부정!";
+        checkbox.style.backgroundColor = "red";
+        console.log("hi");
 
     // 입력 실패
     } else if (result === null) {
-        context.fillStyle = 'white'; // 텍스트 색상 설정
-        context.font = '20px Arial'; // 텍스트 폰트 설정
-        context.textAlign = 'center'; // 텍스트 정렬 설정
-        context.fillText("입력 실패!", canvas.width / 2, canvas.height / 2 + yOffset); // 텍스트 그리기
+        checkbox.innerText = "입력 실패!";
+        checkbox.style.backgroundColor = "gray";
+        console.log("hi");
     }
 
-    // setTimeout(() => {
-    //     context.clearRect(0, 0, canvas.width, canvas.height);
-        
-    // }, 3000);
+    // Clear the message after 3 seconds
+    setTimeout(() => {
+        checkbox.innerText = "";
+    }, 3000);
+
 }
 
 export default renderCheckbox;
+
+/* ----------------------------------------------------------- */
+
+{/* <div id="checkbox"></div>
+
+#checkbox {
+
+    position: fixed;
+    bottom: 20%;
+    left: 0;
+    right: 0;
+    width: 300px;
+    margin: auto;
+    background-color: gray;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+  
+} */}

@@ -169,10 +169,10 @@ button:focus {
   right: 0;
   width: 300px;
   margin: auto;
-  background-color: gray;
   padding: 10px;
   border-radius: 5px;
   color: white;
+  text-align: center;
 
 }
 
