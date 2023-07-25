@@ -2,7 +2,7 @@ import { performSentimentAnalysis } from '../networking';
 import { throttle } from 'throttle-debounce';
 import { targetId } from '../input';
 import { playerId } from '../input';
-import renderCheckbox from '../render/checkbox';
+import renderCheckbox from '../htmlRender/checkbox';
 
 const enterInputBar = document.getElementById('inputbar');
 

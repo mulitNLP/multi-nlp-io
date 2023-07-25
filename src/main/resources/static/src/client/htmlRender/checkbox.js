@@ -2,6 +2,7 @@ import { analysisResult } from '../networking';
 
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
+const checkbox = document.getElementById('checkbox');
 
 function renderCheckbox() {
 
