@@ -49,7 +49,11 @@ public class GameRoom extends JobSerializer {
         this.updateRoomTask = new TimerTask() {
             @Override
             public void run() {
-                update();
+                try {
+                    update();
+                } catch (RuntimeException e) {
+                    log.error("error: {}", e);
+                }
             }
         };
         this.createMeteorTask = new TimerTask() {
