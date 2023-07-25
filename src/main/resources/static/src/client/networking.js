@@ -197,6 +197,11 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
 }
 
 function sendSkill(targetId, positive) {
+
+  if (positive === null){
+    return;
+  }
+
   let info = positive === true ? bullletInstance : shieldInstance;
   const skillPacket = {
     type: 'cskill',
