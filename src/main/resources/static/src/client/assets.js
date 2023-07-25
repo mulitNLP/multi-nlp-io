@@ -12,6 +12,8 @@ const ASSET_NAMES = [
   'shield1.png',
   'shield2.png',
   'shield3.png',
+  'icon_sound_off.png',
+  'icon_sound_on.png',
 ];
 
 // assets을 저장할 객체

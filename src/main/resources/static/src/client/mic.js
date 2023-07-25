@@ -1,4 +1,5 @@
 import { performNlp } from "./input/nlp";
+import renderMicbutton from './htmlRender/micbutton';
 
 const $ = (el) => document.querySelector(el);
 let recognition;
@@ -34,7 +35,7 @@ if (!("webkitSpeechRecognition" in window)) {
     recognition.onresult = function (e) {
         store.texts = Array.from(e.results)
             .map(results => results[0].transcript).join("");
-
+        
         // enterInputBar.value = store.texts;
         console.log(`store.text? ${store.texts}`);
         performNlp(store.texts);
@@ -49,13 +50,14 @@ if (!("webkitSpeechRecognition" in window)) {
 
 export const enterSpacebar = () => {
     console.log('enter spacebar');
-
     if (store.readySignal) {
         mic_active();
+        renderMicbutton(true);
     } else if (!store.readySignal && store.isRecognizing) {
         console.log("아직은 종료하실 수 없습니다.");
     } else {
         mic_unactive();
+        renderMicbutton(false);
         console.log("stopped recording");
     }
 }
