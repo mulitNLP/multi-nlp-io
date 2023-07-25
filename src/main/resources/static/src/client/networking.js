@@ -12,7 +12,7 @@ import { targetId } from './input';
 const roomId = 1;
 const devaddr = 'localhost';
 const prodaddr = '3.35.214.100';
-const addr = prodaddr;
+const addr = devaddr;
 // const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
 const websocket = new WebSocket(`ws://${addr}:8080/room/${roomId}`);
 

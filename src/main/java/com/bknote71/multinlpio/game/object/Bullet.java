@@ -20,8 +20,8 @@ public class Bullet extends GameObject {
     private double speed;
     private double range;
 
-    private int[] dx = {1, 0, -1, 0};
-    private int[] dy = {0, 1, 0, -1};
+    private int[] dx = {0, 1, 0, -1, 0};
+    private int[] dy = {0, 0, 1, 0, -1};
 
     public Bullet() {
         setType(GameObjectType.Bullet);
@@ -54,8 +54,8 @@ public class Bullet extends GameObject {
         int mapSize = 2000;
         Vector2d targetPos = target.pos();
         // 거리가 짧은 곳으로 dir 를 설정해야 한다.
-        Vector2d dir = Vector2d.unitVector(targetPos, pos());
-        for (int i = 0; i < 4; ++i) {
+        Vector2d dir = new Vector2d(10000, 10000);
+        for (int i = 0; i < 5; ++i) {
             double nx = targetPos.x + dx[i] * mapSize;
             double ny = targetPos.y + dy[i] * mapSize;
             Vector2d cand = new Vector2d(nx - pos().x, ny - pos().y);
@@ -67,12 +67,12 @@ public class Bullet extends GameObject {
 
         Vector2d dest = Vector2d.dest(pos(), dir.unit(), speed);
         dest.x = (dest.x + mapSize) % mapSize;
-        dest.y = (dest.y + mapSize) % mapSize;
+        dest.y = (dest.y + mapSize) % mapSize;;
 
         // log
-        // log.info("target type: {}, target pos ({}, {})", target.getType(), targetPos.x, targetPos.y);
-        // log.info("방향 단위 벡터: ({}, {})", dir.x, dir.y);
-        // log.info("bullet 이동 위치 ({}, {})", dest.x, dest.y);
+         log.info("target type: {}, target pos ({}, {})", target.getType(), targetPos.x, targetPos.y);
+         log.info("방향 단위 벡터: ({}, {})", dir.x, dir.y);
+         log.info("bullet 이동 위치 ({}, {})", dest.x, dest.y);
 
         // 갈 수 있는 조건: dest, range 안에 target 플레이어가 없어야 한다. + 맵 밖이 아니여야 한다.
         if (!Vector2d.isIncludedInRange(dest, range, targetPos)) {
