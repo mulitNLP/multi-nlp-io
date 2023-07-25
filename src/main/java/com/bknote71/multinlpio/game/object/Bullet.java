@@ -22,7 +22,6 @@ public class Bullet extends GameObject {
 
     private int[] dx = {0, 1, 0, -1, 0};
     private int[] dy = {0, 0, 1, 0, -1};
-
     public Bullet() {
         setType(GameObjectType.Bullet);
     }
@@ -54,6 +53,7 @@ public class Bullet extends GameObject {
         int mapSize = 2000;
         Vector2d targetPos = target.pos();
         // 거리가 짧은 곳으로 dir 를 설정해야 한다.
+
         Vector2d dir = new Vector2d(10000, 10000);
         for (int i = 0; i < 5; ++i) {
             double nx = targetPos.x + dx[i] * mapSize;
@@ -67,8 +67,8 @@ public class Bullet extends GameObject {
 
         Vector2d dest = Vector2d.dest(pos(), dir.unit(), speed);
         dest.x = (dest.x + mapSize) % mapSize;
-        dest.y = (dest.y + mapSize) % mapSize;;
-
+        dest.y = (dest.y + mapSize) % mapSize;
+      
         // log
          log.info("target type: {}, target pos ({}, {})", target.getType(), targetPos.x, targetPos.y);
          log.info("방향 단위 벡터: ({}, {})", dir.x, dir.y);
