@@ -31,6 +31,7 @@ function renderCheckbox() {
     // Clear the message after 3 seconds
     setTimeout(() => {
         checkbox.innerText = "";
+        checkbox.style.backgroundColor = "";
     }, 3000);
 
 }
