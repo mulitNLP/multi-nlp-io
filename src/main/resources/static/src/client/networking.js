@@ -4,6 +4,7 @@
 import { throttle } from 'throttle-debounce';
 import { processGameUpdate } from './state';
 import constants from '../shared/constants';
+import renderCheckbox from './htmlRender/checkbox';
 
 // import redis from 'redis';
 
@@ -11,7 +12,7 @@ import constants from '../shared/constants';
 const roomId = 1;
 const devaddr = 'localhost';
 const prodaddr = '3.35.214.100';
-const addr = devaddr;
+const addr = prodaddr;
 // const websocket = new WebSocket(`ws://13.124.67.137:8080/room/${roomId}`);
 const websocket = new WebSocket(`ws://${addr}:8080/room/${roomId}`);
 
@@ -237,6 +238,8 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;
       // Update the UI with the sentiment analysis result as needed
+      renderCheckbox(data.result);
+
     })
     .catch(error => {
       console.error('Error:', error);
