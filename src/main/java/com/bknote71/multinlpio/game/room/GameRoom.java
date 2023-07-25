@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -113,7 +114,7 @@ public class GameRoom extends JobSerializer {
         for (Meteor meteor : meteors.values()) {
             meteor.update();
             update.meteors.add(
-                    new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y, meteor.isInvisible()));
+                    new UpdateInfo.MeteorInfo(meteor.getId(), meteor.pos().x, meteor.pos().y, meteor.isInvisible(), meteor.getWord()));
         }
 
         flush();
@@ -307,11 +308,14 @@ public class GameRoom extends JobSerializer {
         if (meteor == null)
             return;
 
+        String word = DataManager.words[ThreadLocalRandom.current().nextInt(0, DataManager.words.length)].getWord();
+
         // init bullet, bullet 은 moveDir 가 필요 없음!
         PositionInfo meteorPosInfo = new PositionInfo();
         meteorPosInfo.setPos(Vector2d.createRandom(0, gameMap.sizeX()));
         meteor.setDirvec(Vector2d.createRandom(-1, 1));
         meteor.setPosInfo(meteorPosInfo);
+        meteor.setWord(word);
         push(this::enterGame, meteor);
     }
 
