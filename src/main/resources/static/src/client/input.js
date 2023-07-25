@@ -1,14 +1,6 @@
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
 import { enterKeyBoard } from './input/nlp';
-<<<<<<< HEAD
-import { getCurrentState } from './state';
-import { getnearbyothers, getnearmeteors } from './render';
-import { enterSpacebar } from './mic';
-const Constants = require('../shared/constants');
-const canvas = document.getElementById('game-canvas');
-=======
 import { getnearbyothers , getnearmeteors } from './render';
->>>>>>> 894ee68 (325123461234641264136413)
 
 const enterInputBar = document.getElementById('inputbar');
 
@@ -31,22 +23,12 @@ function onkeyDown(e) {
     enterSpacebar();
   }
 
-<<<<<<< HEAD
-  if (e.keyCode === 222) {
-    //  엔터키 옆 '           
-    playertargeting();
-  }
-
-  if (e.keyCode === 186) {
-    // 엔터키 옆옆 ; 
-=======
   if (e.keyCode === 222){
     // 엔터키 옆 ' >> 플레이어 지정           
     playertargeting();
   }
   if(e.keyCode === 186){
     // 엔터키 옆옆 ; >> 메테오 지정
->>>>>>> 894ee68 (325123461234641264136413)
     meteortargeting();
   }
   if (e.keyCode === 191) {
@@ -62,25 +44,7 @@ function onkeyUp(e) {
   }
 }
 
-<<<<<<< HEAD
-// function onTouchInput(e) {
-//   const touch = e.touches[0];
-//   handleInput(touch.clientX, touch.clientY);
-// }
-=======
-function onkeySpeak(e) {
-  let isRecording = false
-  if (e.keyCode === 32 && isRecording === false) {
-    isRecording = true
-    //speech recording start
-  } else {
-    //speech recording end
-  }
-  isRecording = false
-}
-
 /* ------------------------------------------------------------ */
->>>>>>> 894ee68 (325123461234641264136413)
 
 export function startCapturingInput() {
   window.addEventListener('keydown', onkeyDown);

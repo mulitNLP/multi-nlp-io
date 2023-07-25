@@ -187,11 +187,7 @@ export const handleChatAttack = (targetId, content, positive, percent) => {
   // }
 
 
-<<<<<<< HEAD
-  console.log(`${targetId} ${positive}`)
-=======
   // console.log(`${targetId} ${result}`)
->>>>>>> 894ee68 (325123461234641264136413)
 
   sendSkill(targetId, positive);
 
