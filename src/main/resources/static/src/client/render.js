@@ -5,12 +5,13 @@ import { getCurrentState } from './state';
 
 import renderBackground from './render/background';
 import renderPlayer from './render/player';
+import renderoutPlayer from './render/outplayer';
 import renderLine from './render/line';
 import renderMeteor from './render/meteor';
-import renderoutMeteor from './render/outmeteor';
 import renderTarget from './render/target';
 import renderBullet from './render/bullet';
 import renderCheckbox from './render/checkbox';
+import maptrick from './render/maptrick';
 
 const Constants = require('../shared/constants');
 
@@ -44,25 +45,28 @@ function render() {
   const { me, others, bullets, meteors } = getCurrentState();
   if (me) {
     nearbullets = Object.values(bullets).filter(p => distanceTo(me,p) <= Constants.MAP_SIZE /2);
-    nearplayers = Object.values(others).filter(p => distanceTo(me,p) <= 600)
+    nearplayers = Object.values(others).filter(p => distanceTo(me,p)<= 600)
                         .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
-    nearmeteors = Object.values(meteors).filter(p => distanceTo(me,p) <= 600)
+    nearmeteors = Object.values(meteors).filter(p =>  distanceTo(me,p)<= 600)
                         .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
     
     // 배경 그리기
     renderBackground(me.x, me.y);
 
     // 경계선 그리기
-    // renderLine(me);
+    renderLine(me);
 
     renderTarget(me,nearplayers,nearmeteors);
     // 모든 총알 그리기
     nearbullets.forEach(renderBullet.bind(null, me));
+
+    // 운석 그리기
     meteors.forEach(renderMeteor.bind(null, me));
-    meteors.forEach(renderoutMeteor.bind(null,me));
+
     // 모든 플레이어 그리기
     renderPlayer(me, me);
-    nearplayers.forEach(renderPlayer.bind(null, me));
+    others.forEach(renderPlayer.bind(null, me));
+    others.forEach(renderoutPlayer.bind(null, me));
 
     renderCheckbox();
 
@@ -74,11 +78,11 @@ function render() {
 
 // 나와 상대방의 거리
 function distanceTo(me,other){
-    let dx = other.x - me.x;
-    let dy = other.y - me.y;
-    return Math.sqrt(dx * dx + dy * dy);
+  const { rx , ry } = maptrick(me,other)
+  let dx = rx - me.x;
+  let dy = ry - me.y;
+  return Math.sqrt(dx * dx + dy * dy);
 }
-
 
 
 
