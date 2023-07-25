@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "webpack --config ./src/main/resources/static/webpack.prod.js"
+    "build": "webpack --config ./src/main/resources/static/webpack.dev.js",
+    "build:prd": "webpack --config ./src/main/resources/static/webpack.prod.js"
   },
   "dependencies": {
     "express": "^4.17.3",
