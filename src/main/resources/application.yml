@@ -4,7 +4,7 @@ data_path: "classpath:data/"
 spring:
   config:
     activate:
-      on-profiles:
+      on-profile:
         default
   redis:
     host: localhost
@@ -14,7 +14,7 @@ spring:
 spring:
   config:
     activate:
-      on-profiles:
+      on-profile:
         prod
   redis:
     host: redis

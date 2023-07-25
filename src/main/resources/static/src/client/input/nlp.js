@@ -30,6 +30,8 @@ const enterInputBar = document.getElementById('inputbar');
 //     });
 // }
 
+let wordSet = new Set();
+
 export const enterKeyBoard = throttle(10, () => {
   if (document.activeElement === enterInputBar) {
     const inputOrigin = enterInputBar.value.trim()
@@ -39,17 +41,26 @@ export const enterKeyBoard = throttle(10, () => {
       if (inputOrigin === "") {
         console.log("입력 실패, 메세지를 입력해 주세요!");
       } else {
-        console.log(enterInputBar.value);
-        performSentimentAnalysis(playerId, targetId, enterInputBar.value);
+        console.log(inputOrigin);
+        if (wordSet.has(inputOrigin)) {
+          console.log("이미 한번 친 단어입니다. 다시 입력하시오");
+          return;
+        }
+        wordSet.add(inputOrigin);
+        performSentimentAnalysis(playerId, targetId, inputOrigin);
       }
     } else {
       if (inputOrigin === "") {
         console.log("입력 실패, 메세지를 입력해 주세요!");
       } else {
-        console.log(enterInputBar.value);
-        performSentimentAnalysis(playerId, targetId, enterInputBar.value);
+        console.log(inputOrigin);
+        if (wordSet.has(inputOrigin)) {
+          console.log("이미 한번 친 단어입니다. 다시 입력하시오");
+          return;
+        }
+        wordSet.add(inputOrigin);
+        performSentimentAnalysis(playerId, targetId, inputOrigin);
       }
-      //handleChatAttack(targetId, enterInputBar.value, true, 0);
     }
     enterInputBar.value = "";
     enterInputBar.blur();
