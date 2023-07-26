@@ -22,15 +22,19 @@ const usernameInput = document.getElementById('username-input');
 
 const gameoverMenu = document.getElementById('game-over');
 const replayButton = document.getElementById('replay-button');
+const usernamereInput = document.getElementById('username-reinput');
+let flag = true;
 
 Promise.all([
   connect(onGameOver),
   downloadAssets(),
   pixitest(),
 ]).then(() => {
+  window.addEventListener('keydown' ,handleEnterKey);
   playMenu.classList.remove('hidden');
   usernameInput.focus();
   playButton.onclick = () => {
+    window.removeEventListener('keydown' ,handleEnterKey);
     // Play!
     play(usernameInput.value);
     playMenu.classList.add('hidden');
@@ -43,14 +47,21 @@ Promise.all([
 }).catch(console.error);
 
 function onGameOver(obj) {
+  window.addEventListener('keydown' ,handleEnterKey);
   stopCapturingInput();
   stopRendering();
   setLeaderboardHidden(true);
   gameoverMenu.classList.remove('hidden');
   deadResons(obj);
-  usernameInput.focus();
+
+  if(flag){
+    usernamereInput.value = usernameInput.value;
+    flag = false;
+  }
+  usernamereInput.focus();
   replayButton.onclick = () => {
-    play(usernameInput.value);
+    window.removeEventListener('keydown' ,handleEnterKey);
+    play(usernamereInput.value);
     gameoverMenu.classList.add('hidden');
     initState();
     resetStore();
@@ -59,5 +70,19 @@ function onGameOver(obj) {
     startRendering();
     renderMicbutton(false);
     setLeaderboardHidden(false);
+  }
+}
+
+
+// 엔터 키 이벤트를 감지하는 함수
+function handleEnterKey(event) {
+  // event.keyCode는 Enter 키의 키코드가 13입니다.
+  if (event.keyCode === 13) {
+    // 엔터 키를 누른 경우, playButton을 클릭한 것과 같은 동작을 수행합니다.
+    if(flag){
+      playButton.click();
+    }else{
+      replayButton.click();
+    }
   }
 }
