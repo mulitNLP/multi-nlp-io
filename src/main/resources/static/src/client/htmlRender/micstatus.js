@@ -2,10 +2,11 @@ const micstatus = document.getElementById('micstatus');
 
 function renderMicstatus(readySignal, isRecognizing) {
 
-    
+    micstatus.innerText = "";
+    micstatus.style.backgroundColor = "";
     // 락온이 안된 상태
     if (readySignal === true) {
-
+        
         // 녹음 완료!
         micstatus.innerText = "녹음 완료!";
         micstatus.style.backgroundColor = "green";
