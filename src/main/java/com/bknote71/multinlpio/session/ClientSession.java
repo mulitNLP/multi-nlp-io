@@ -5,11 +5,13 @@ import com.bknote71.multinlpio.protocol.Protocol;
 import com.bknote71.multinlpio.util.PacketTranslator;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 
+@Slf4j
 @Getter @Setter
 public class ClientSession {
 
@@ -30,7 +32,12 @@ public class ClientSession {
             if (webSocketSession.isOpen())
                 webSocketSession.sendMessage(new TextMessage(json));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Error sending message to client: " + e.getMessage());
+            try {
+                webSocketSession.close();
+            } catch (IOException ex) {
+                log.error("Error closing session: " + ex.getMessage());
+            }
         }
     }
 }

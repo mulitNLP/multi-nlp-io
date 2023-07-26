@@ -79,7 +79,7 @@ public class GameRoom extends JobSerializer {
     public void register() {
         // tick room
         Timer updateRoomTimer = new Timer();
-        updateRoomTimer.schedule(updateRoomTask, 0, 1000 / 50); // delay, interval
+        updateRoomTimer.schedule(updateRoomTask, 0, 1000 / 30); // delay, interval
         RoomManager.Instance.registerTimerTask(updateRoomTimer);
 
         Timer createMeteorTimer = new Timer();
