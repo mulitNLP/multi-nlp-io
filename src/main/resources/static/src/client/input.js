@@ -26,15 +26,15 @@ function onkeyDown(e) {
     enterSpacebar();
   }
 
-  if (e.keyCode === 65) {
+  if (document.activeElement !== enterInputBar && e.keyCode === 65) {
     // 엔터키 옆 ' >> 플레이어 지정           
     playertargeting();
   }
-  if (e.keyCode === 83) {
+  if (document.activeElement !== enterInputBar && e.keyCode === 83) {
     // 엔터키 옆옆 ; >> 메테오 지정
     meteortargeting();
   }
-  if (e.keyCode === 68) {
+  if (document.activeElement !== enterInputBar && e.keyCode === 68) {
     // 우측 쉬프트키 왼쪽 / >> 지정 해제
     lnittargetId();
   }
