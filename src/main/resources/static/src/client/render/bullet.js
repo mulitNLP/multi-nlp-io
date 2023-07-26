@@ -15,7 +15,7 @@ function renderBullet(me, bullet) {
     context.save();
     context.translate(canvasX, canvasY);
     context.drawImage(
-        getAsset('bullet.svg'),
+        getAsset('ship.svg'),
         - BULLET_RADIUS,
         - BULLET_RADIUS,
         BULLET_RADIUS * 2,

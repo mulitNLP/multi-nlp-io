@@ -2,7 +2,8 @@ import { performSentimentAnalysis, performSentimentAnalysisMeteor, performSentim
 import { throttle } from 'throttle-debounce';
 import { targetId } from '../input';
 import { playerId } from '../input';
-import renderCheckbox from '../htmlRender/checkbox';
+import renderNlpCheckboxFail from '../htmlRender/checkboxfail';
+import renderNlpCheckboxSame from '../htmlRender/checkboxSame';
 import { getCurrentState } from '../state';
 const enterInputBar = document.getElementById('inputbar');
 
@@ -54,13 +55,9 @@ export const performNlp = (content) => {
   if ((targetid_sub >> 24 & 0x7F) == 2) {
     if (content === "") {
       console.log("입력 실패, 메세지를 입력해 주세요!");
+      renderNlpCheckboxFail();
     } else {
       console.log(content);
-      if (wordSet.has(content)) {
-        console.log("이미 한번 입력한 단어입니다. 다시 입력하시오");
-        return;
-      }
-      wordSet.add(content);
       const meteor_word = getMeteorById(targetId)
       console.log(meteor_word.word)
       performSentimentAnalysisMeteor(meteor_word.word, targetid_sub, content);
@@ -68,10 +65,12 @@ export const performNlp = (content) => {
   } else {
     if (content === "") {
       console.log("입력 실패, 메세지를 입력해 주세요!");
+      renderNlpCheckboxFail();
     } else {
       console.log(content);
       if (wordSet.has(content)) {
         console.log("이미 한번 입력한 단어입니다. 다시 입력하시오");
+        renderNlpCheckboxSame(content);
         return;
       }
       wordSet.add(content);

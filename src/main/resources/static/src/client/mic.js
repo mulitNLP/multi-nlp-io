@@ -1,5 +1,6 @@
 import { performNlp } from "./input/nlp";
 import renderMicbutton from './htmlRender/micbutton';
+import renderMicstatus from './htmlRender/micstatus';
 
 const $ = (el) => document.querySelector(el);
 let recognition;
@@ -52,13 +53,11 @@ export const enterSpacebar = () => {
     console.log('enter spacebar');
     if (store.readySignal) {
         mic_active();
-        renderMicbutton(true);
     } else if (!store.readySignal && !(Date.now() > exitTime) && store.isRecognizing) {
         console.log("아직은 종료하실 수 없습니다.");
         console.log(`${Date.now()} 와 ${exitTime}`);
     } else {
         mic_unactive();
-        renderMicbutton(false);
         console.log("stopped recording");
     }
 }
@@ -68,17 +67,21 @@ function mic_active() {
     exitTime = Date.now() + 1000;
     recognition.start();
     setTimeout(signalCompleteReady, 1000);
-
+    renderMicstatus(store.readySignal, store.isRecognizing);
 }
 
 function mic_unactive() {
     recognition.stop();
     store.isRecognizing = true;
     store.readySignal = true;
+    renderMicbutton(false);
+    renderMicstatus(store.readySignal, store.isRecognizing);
 }
 
 function signalCompleteReady() {
     store.isRecognizing = false;
+    renderMicbutton(true);
+    renderMicstatus(store.readySignal, store.isRecognizing);
     console.log('이제 끝낼 수 있습니다.');
 }
 

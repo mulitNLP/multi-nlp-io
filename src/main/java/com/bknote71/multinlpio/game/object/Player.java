@@ -15,6 +15,7 @@ public class Player extends GameObject {
     private ClientSession session;
     private int score; // 실시간 점수 ?
     private double direction;
+    private double lastdirection;
     private double speed;
     private int mapSize;
 
@@ -49,27 +50,29 @@ public class Player extends GameObject {
 
         /* curpos.x = Math.max(0, Math.min(mapSize, curpos.x));
         curpos.y = Math.max(0, Math.min(mapSize, curpos.y)); */
-
+        double nx = 0;
+        double ny = 0;
+        
         if (dirs.contains(MoveDir.North)) {
-            direction = Math.atan2(0, curpos.y - speed); // 200 이 나중에는 player.speed()
+            ny += 1;
             curpos.y -= speed / 40;
         }
         if (dirs.contains(MoveDir.South)) {
-            direction = Math.atan2(0, curpos.y + speed - mapSize); // 200 이 나중에는 player.speed()
+            ny -= 1;
             curpos.y += speed / 40;
         }
         if (dirs.contains(MoveDir.East)) {
-            direction = Math.atan2(curpos.x + speed, 0); // 200 이 나중에는 player.speed()
+            nx += 1;
             curpos.x += speed / 40;
         }
         if (dirs.contains(MoveDir.West)) {
-            direction = Math.atan2(curpos.x - speed - mapSize, 0); // 200 이 나중에는 player.speed()
+            nx -= 1;
             curpos.x -= speed / 40;
         }
 
+        direction = (nx == 0 && ny == 0) ? lastdirection : Math.atan2(nx, ny);
         curpos.x = (curpos.x + mapSize) % mapSize;
         curpos.y = (curpos.y + mapSize) % mapSize;
-
     }
 
     @Override
@@ -92,6 +95,23 @@ public class Player extends GameObject {
 
     public void removeDir(MoveDir dir) {
         dirs.remove(dir);
+        if (dirs.isEmpty()) {
+            double nx = 0, ny = 0;
+            if (dir == MoveDir.North) {
+                ny += 1;
+            }
+            if (dir == MoveDir.South) {
+                ny -= 1;
+            }
+            if (dir == MoveDir.East) {
+                nx += 1;
+            }
+            if (dir == MoveDir.West) {
+                nx -= 1;
+            }
+            lastdirection =  Math.atan2(nx, ny);
+        }
+            
     }
 
     public void addScore(int plus) {

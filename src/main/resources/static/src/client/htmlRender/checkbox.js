@@ -3,8 +3,8 @@ import { targetId } from "../input";
 const checkbox = document.getElementById('checkbox');
 
 // - 플레이어 긍정, 부정 
-// true -> 부정 -> 공격
-// false -> 긍정 -> 방어
+// true -> 긍정 -> 방어
+// false -> 부정 -> 공격
 
 // - 운석 유사도
 // true -> 맞춘거다
@@ -20,15 +20,15 @@ function renderCheckbox(targetID, contexts, result) {
 
         if (result === true) {
 
-            checkbox.innerText = contexts + " => 타겟을 지정해야지만 발사할 수 있습니다.";
-            checkbox.style.backgroundColor = "gray";
+            checkbox.innerText = contexts + " => 긍정! 방어막 생성!";
+            checkbox.style.backgroundColor = "green";
             console.log("hi");
     
         // 부정 입력
         } else if (result === false) {
 
-            checkbox.innerText = contexts + " => 긍정! 방어막 생성!";
-            checkbox.style.backgroundColor = "green";
+            checkbox.innerText = contexts + " => 부정! 락온이 된 상태에서만 미사일 발사가 가능합니다!";
+            checkbox.style.backgroundColor = "gray";
             console.log("hi");
         
         }
@@ -39,14 +39,14 @@ function renderCheckbox(targetID, contexts, result) {
         if (targetType === 1) {
 
             if (result === true) {
-                checkbox.innerText = contexts + " => 부정 입력! 미사일 발사!";
-                checkbox.style.backgroundColor = "red";
+                checkbox.innerText = contexts + " => 긍정! 방어막 생성!";
+                checkbox.style.backgroundColor = "green";
                 console.log("hi");
         
             // 부정 입력
             } else if (result === false) {
-                checkbox.innerText = contexts + " => 긍정! 방어막 생성!";
-                checkbox.style.backgroundColor = "green";
+                checkbox.innerText = contexts + " => 부정! 미사일 공격!";
+                checkbox.style.backgroundColor = "red";
                 console.log("hi");
             }
 
