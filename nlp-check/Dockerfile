@@ -45,7 +45,7 @@ RUN mkdir -p /nlp
 WORKDIR /nlp
 
 # 필요한 Python 패키지들 설치
-COPY . /nlp/
+COPY . /nlp/server
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # 컨테이너에서 실행될 명령어 지정

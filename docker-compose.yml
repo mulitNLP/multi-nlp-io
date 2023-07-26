@@ -6,6 +6,8 @@ services:
     container_name: nlp_app
     ports:
       - "5050:5050"
+    volumes:
+      - ~/DATA:/nlp/DATA
     deploy:
       resources:
         limits:
