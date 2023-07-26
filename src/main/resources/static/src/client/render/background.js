@@ -9,12 +9,16 @@ const { MAP_SIZE } = Constants;
 
 // 배경을 그리는 역할, 그라데이션
 function renderBackground(x, y) {
-    
-    context.fillStyle = 'black';
-    context.fillRect(0, 0, canvas.width, canvas.height);
 
-    const gridSize = 50;
-    context.strokeStyle = 'gray';
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+
+    // Draw grid or any other background elements that should move with the camera
+    /* context.fillStyle = 'black';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    */
+    const gridSize = 75;
+    context.strokeStyle = 'white';
     context.lineWidth = 0.2;
     
     const offsetX = -x % gridSize;
@@ -33,7 +37,7 @@ function renderBackground(x, y) {
         context.lineTo(canvas.width, y);
         context.stroke();
     }
-    
+
 }
 
 export default renderBackground;

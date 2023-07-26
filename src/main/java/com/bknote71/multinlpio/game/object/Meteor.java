@@ -96,7 +96,6 @@ public class Meteor extends GameObject {
 //            room.push(room::leaveGame, getId());
 //            return;
 //        }
-
         pos(dest);
     }
 

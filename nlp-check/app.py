@@ -98,7 +98,7 @@ def sentiment_analysis_meteor():
         print("target Meteor ATTACK")
         result = True
     else:
-        result = None
+        result = False
     print('similarity is :', similarity_check)
     return jsonify({'result' : result, 'percentage': float(similarity_check)})
 
