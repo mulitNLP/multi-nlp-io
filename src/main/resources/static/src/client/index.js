@@ -59,7 +59,7 @@ function onGameOver(obj) {
   gameoverMenu.classList.remove('hidden');
   deadResons(obj);
 
-  if(flag){
+  if(flag){// 전판과 똑같은 이름으로 복사
     usernamereInput.value = usernameInput.value;
     flag = false;
   }

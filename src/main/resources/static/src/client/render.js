@@ -28,7 +28,7 @@ function setCanvasDimensions() {
   // canvas.height = scaleRatio * window.innerHeight;
 
   canvas.width = 1200;
-  canvas.height = 900;
+  canvas.height = 950;
 }
 
 // 화면 크기가 변경될 때 캔버스 크기를 업데이트
