@@ -42,9 +42,9 @@ let nearmeteors = [];
 function render() {
   const { me, others, bullets, meteors } = getCurrentState();
   if (me) {
-    nearplayers = Object.values(others).filter(p => distanceTo(me,p)<= 600)
+    nearplayers = Object.values(others).filter(p => distanceTo(me,p)<= 700)
                         .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
-    nearmeteors = Object.values(meteors).filter(p =>  distanceTo(me,p)<= 600)
+    nearmeteors = Object.values(meteors).filter(p =>  distanceTo(me,p)<= 700)
                         .sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
     
     // 배경 그리기
