@@ -236,7 +236,8 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;
       // Update the UI with the sentiment analysis result as needed
-      renderCheckbox(data.result);
+      renderCheckbox(inputValue);
+
     })
     .catch(error => {
       console.error('Error:', error);
