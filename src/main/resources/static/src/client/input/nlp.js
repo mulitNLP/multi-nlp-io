@@ -1,9 +1,9 @@
-import { performSentimentAnalysis } from '../networking';
+import { performSentimentAnalysis, performSentimentAnalysisMeteor, performSentimentAnalysisPlayer } from '../networking';
 import { throttle } from 'throttle-debounce';
 import { targetId } from '../input';
 import { playerId } from '../input';
 import renderCheckbox from '../htmlRender/checkbox';
-
+import { getCurrentState } from '../state';
 const enterInputBar = document.getElementById('inputbar');
 
 // function performSentimentAnalysis(playerID, targetID, inputValue) {
@@ -46,7 +46,7 @@ let wordSet = new Set();
 export const performNlp = (content) => {
   const targetid_sub = targetId;
 
-  if (targetid_sub > 0) {
+  if ((targetid_sub >> 24 & 0x7F) == 2) {
     if (content === "") {
       console.log("입력 실패, 메세지를 입력해 주세요!");
     } else {
@@ -56,7 +56,9 @@ export const performNlp = (content) => {
         return;
       }
       wordSet.add(content);
-      performSentimentAnalysis(playerId, targetid_sub, content);
+      const meteor_word = getMeteorById(targetId)
+      console.log(meteor_word.word)
+      performSentimentAnalysisMeteor(meteor_word.word, targetid_sub, content);
     }
   } else {
     if (content === "") {
@@ -68,7 +70,20 @@ export const performNlp = (content) => {
         return;
       }
       wordSet.add(content);
-      performSentimentAnalysis(playerId, targetid_sub, content);
+      performSentimentAnalysisPlayer(playerId, targetid_sub, content);
     }
+  }
+}
+function getMeteorById(meteorId) {
+  const { meteors } = getCurrentState();
+
+  // Array.find() 메서드를 사용하여 주어진 id와 일치하는 메테오 객체를 반환
+  const foundMeteor = meteors.find(meteor => meteor.id === meteorId);
+
+  if (foundMeteor) {
+    return foundMeteor;
+  } else {
+    console.log(`ID ${meteorId}를 가진 메테오가 없습니다.`);
+    return null;
   }
 }
