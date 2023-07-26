@@ -1,5 +1,6 @@
 import { performNlp } from "./input/nlp";
 import renderMicbutton from './htmlRender/micbutton';
+import rendermicstatus from './htmlRender/micstatus';
 
 const $ = (el) => document.querySelector(el);
 let recognition;
@@ -53,6 +54,7 @@ export const enterSpacebar = () => {
     if (store.readySignal) {
         mic_active();
         renderMicbutton(true);
+        renderMicstatus();
     } else if (!store.readySignal && !(Date.now() > exitTime) && store.isRecognizing) {
         console.log("아직은 종료하실 수 없습니다.");
         console.log(`${Date.now()} 와 ${exitTime}`);
