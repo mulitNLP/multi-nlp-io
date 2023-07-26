@@ -76,14 +76,16 @@ public class Meteor extends GameObject {
         }
 
         // 이동할 위치
+        int mapSize = 2000;
         Vector2d dest = Vector2d.dest(pos(), dirvec, speed);
-
+        dest.x = (dest.x + mapSize) % mapSize;
+        dest.y = (dest.y + mapSize) % mapSize;
         // 만약 맵 끝에 도달한다면 소멸해야한다.
-        if (!room.cango(dest)) {
-//            System.out.println("맵의 끝에 도달했으므로 소멸");
+        /* if (!room.cango(dest)) {
+            //System.out.println("맵의 끝에 도달했으므로 소멸");
             room.push(room::leaveGame, getId());
             return;
-        }
+        } */
 
         pos(dest);
     }
