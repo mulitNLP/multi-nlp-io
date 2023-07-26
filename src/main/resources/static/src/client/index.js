@@ -16,6 +16,9 @@ import { resetWordSet } from './input/nlp';
 import './css/bootstrap-reboot.css';
 import './css/main.css';
 import pixitest from './pixi/pixitest';
+
+const gamecanvers = document.getElementById('game-canvas');
+
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
@@ -34,6 +37,7 @@ Promise.all([
   playMenu.classList.remove('hidden');
   usernameInput.focus();
   playButton.onclick = () => {
+    gamecanvers.classList.remove('hidden');
     window.removeEventListener('keydown' ,handleEnterKey);
     // Play!
     play(usernameInput.value);
@@ -47,6 +51,7 @@ Promise.all([
 }).catch(console.error);
 
 function onGameOver(obj) {
+  gamecanvers.classList.add('hidden');
   window.addEventListener('keydown' ,handleEnterKey);
   stopCapturingInput();
   stopRendering();
@@ -60,6 +65,7 @@ function onGameOver(obj) {
   }
   usernamereInput.focus();
   replayButton.onclick = () => {
+    gamecanvers.classList.remove('hidden');
     window.removeEventListener('keydown' ,handleEnterKey);
     play(usernamereInput.value);
     gameoverMenu.classList.add('hidden');

@@ -64,7 +64,7 @@ public class Bullet extends GameObject {
                 dir = cand;
         }
 
-        direction = Math.atan2(dir.x, dir.y);
+        direction = Math.atan2(dir.y, dir.x);
         Vector2d dest = Vector2d.dest(pos(), dir.unit(), speed);
         dest.x = (dest.x + mapSize) % mapSize;
         dest.y = (dest.y + mapSize) % mapSize;
