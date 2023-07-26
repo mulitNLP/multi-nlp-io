@@ -51,7 +51,7 @@ function render() {
     renderBackground(me.x, me.y);
 
     // 경계선 그리기
-    // renderLine(me);
+    renderLine(me);
 
     renderTarget(me,nearplayers,nearmeteors);
     // 모든 총알 그리기
