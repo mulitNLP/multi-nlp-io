@@ -157,13 +157,13 @@ let analysisResult = { result: null, percentage: null };
 export { analysisResult };
 
 export const performSentimentAnalysisPlayer = (playerID, targetID, inputValue) => {
-  const url = `http://${addr}:5050/sentiment-analysis-player`; // Adjust the URL to match your Python server
+  const url = `http://localhost:5050/sentiment-analysis-player`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
   sendContent(url, dataString, targetID, inputValue);
 }
 export const performSentimentAnalysisMeteor = (meteorWord, targetID, inputValue) => {
-  const url = `http://${addr}:5050/sentiment-analysis-meteor`; // Adjust the URL to match your Python server
+  const url = `http://localhost:5050/sentiment-analysis-meteor`; // Adjust the URL to match your Python server
   const dataString = meteorWord + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
   sendContent(url, dataString, targetID, inputValue);
