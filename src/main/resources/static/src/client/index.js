@@ -6,6 +6,7 @@ import { startCapturingInput, stopCapturingInput } from './input';
 import { downloadAssets } from './assets';
 import { initState } from './state';
 import { setLeaderboardHidden } from './leaderboard';
+import { resetStore } from './mic'
 import deadResons from './htmlRender/deadresons';
 import renderMicbutton from './htmlRender/micbutton';
 // I'm using a tiny subset of Bootstrap here for convenience - there's some wasted CSS,
@@ -50,6 +51,7 @@ function onGameOver(obj) {
     play(usernameInput.value);
     gameoverMenu.classList.add('hidden');
     initState();
+    resetStore();
     startCapturingInput();
     startRendering();
     renderMicbutton(false);

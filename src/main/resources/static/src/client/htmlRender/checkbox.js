@@ -4,20 +4,20 @@ const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
 const checkbox = document.getElementById('checkbox');
 
-function renderCheckbox() {
+function renderCheckbox(contexts) {
 
     const result = analysisResult.result;
     const percent = analysisResult.percentage;
 
     // 긍정 입력
     if (result === true) {
-        checkbox.innerText = "긍정!";
+        checkbox.innerText = contexts + " => 긍정!";
         checkbox.style.backgroundColor = "green";
         console.log("hi");
 
     // 부정 입력
     } else if (result === false) {
-        checkbox.innerText = "부정!";
+        checkbox.innerText = contexts + " => 부정!";
         checkbox.style.backgroundColor = "red";
         console.log("hi");
 

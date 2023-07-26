@@ -11,7 +11,7 @@ const store = {
 };
 
 export const resetStore = () => {
-    text = '';
+    store.texts = '';
     store.isRecognizing = true;
     store.readySignal = true;
 }
