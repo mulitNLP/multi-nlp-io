@@ -1,13 +1,6 @@
-import { analysisResult } from '../networking';
-
-const canvas = document.getElementById('game-canvas');
-const context = canvas.getContext('2d');
 const checkbox = document.getElementById('checkbox');
 
-function renderCheckbox(contexts) {
-
-    const result = analysisResult.result;
-    const percent = analysisResult.percentage;
+function renderCheckbox(contexts, result) {
 
     // 긍정 입력
     if (result === true) {

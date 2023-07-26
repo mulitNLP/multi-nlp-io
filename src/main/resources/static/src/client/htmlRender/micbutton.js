@@ -1,4 +1,3 @@
-import { analysisResult } from '../networking';
 import { getAsset } from '../assets';
 const canvas = document.getElementById('game-canvas');
 const micbutton = document.getElementById('micbutton');
