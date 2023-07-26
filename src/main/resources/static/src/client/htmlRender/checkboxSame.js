@@ -2,7 +2,7 @@ const checkbox = document.getElementById('checkbox');
 
 function renderNlpCheckboxSame(content) {
 
-    checkbox.innerText = content + " 는 이미 입력한 단어 입니다!";
+    checkbox.innerText = content + " : 이미 입력한 단어 입니다!";
     checkbox.style.backgroundColor = "red";
     console.log("hi");
 
