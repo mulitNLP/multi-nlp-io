@@ -90,7 +90,7 @@ function renderMainMenu() {
   // const y = MAP_SIZE / 2 + 800 * Math.sin(t);
   const x = MAP_SIZE / 2;
   const y = MAP_SIZE / 2;
-  renderBackground(x, y);
+  // renderBackground(x, y);
 
   // 다음 프레임에서 이 render 함수를 다시 실행
   animationFrameRequestId = requestAnimationFrame(renderMainMenu);

@@ -35,7 +35,6 @@ public class GameRoom extends JobSerializer {
     @Getter
     private GameMap gameMap;
 
-    private Object lock = new Object();
     private Map<Integer, Player> players = new HashMap<>();
     private Map<Integer, Bullet> bullets = new HashMap<>();
     private Map<Integer, Meteor> meteors = new HashMap<>();
@@ -60,7 +59,7 @@ public class GameRoom extends JobSerializer {
         this.createMeteorTask = new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < 8; ++i)
+                for (int i = 0; i < 2; ++i)
                     createMeteor();
             }
         };

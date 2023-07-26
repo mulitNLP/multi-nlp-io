@@ -101,13 +101,13 @@ export const play = name => {
 
 export const updateInputKeyBoardDown = throttle(20, (key) => {
   let dir;
-  if (key === 87) {
+  if (key === 38) {
     dir = 'North';
-  } else if (key === 83) {
+  } else if (key === 40) {
     dir = 'South';
-  } else if (key === 68) {
+  } else if (key === 39) {
     dir = 'East';
-  } else if (key === 65) {
+  } else if (key === 37) {
     dir = 'West';
   }
 
@@ -128,13 +128,13 @@ export const updateInputKeyBoardDown = throttle(20, (key) => {
 
 export const updateInputKeyBoardUp = (key) => {
   let dir;
-  if (key === 87) {
+  if (key === 38) {
     dir = 'North';
-  } else if (key === 83) {
+  } else if (key === 40) {
     dir = 'South';
-  } else if (key === 68) {
+  } else if (key === 39) {
     dir = 'East';
-  } else if (key === 65) {
+  } else if (key === 37) {
     dir = 'West';
   }
 

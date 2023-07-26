@@ -17,22 +17,22 @@ function onkeyDown(e) {
     enterInputBar.blur();
   }
   // Otherwise, if some other key is pressed and the input bar is not focused, move the character
-  else if (document.activeElement !== enterInputBar && (e.keyCode === 87 || e.keyCode === 83 || e.keyCode === 68 || e.keyCode === 65)) {
+  else if (document.activeElement !== enterInputBar && (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 39 || e.keyCode === 37)) {
     updateInputKeyBoardDown(e.keyCode);
   }
   if (e.keyCode === 32) {
     enterSpacebar();
   }
 
-  if (e.keyCode === 222) {
+  if (e.keyCode === 65) {
     // 엔터키 옆 ' >> 플레이어 지정           
     playertargeting();
   }
-  if (e.keyCode === 186) {
+  if (e.keyCode === 83) {
     // 엔터키 옆옆 ; >> 메테오 지정
     meteortargeting();
   }
-  if (e.keyCode === 191) {
+  if (e.keyCode === 68) {
     // 우측 쉬프트키 왼쪽 / >> 지정 해제
     lnittargetId();
   }
@@ -40,7 +40,7 @@ function onkeyDown(e) {
 }
 
 function onkeyUp(e) {
-  if (e.keyCode === 87 || e.keyCode === 83 || e.keyCode === 68 || e.keyCode === 65) {
+  if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 39 || e.keyCode === 37) {
     updateInputKeyBoardUp(e.keyCode);
   }
 }

@@ -40,7 +40,7 @@ public class Meteor extends GameObject {
     // 상태: 움직임
     public void update() {
         // 메테오 사라지는 주기
-        if (System.currentTimeMillis() > createdAt + 10000) {
+        if (System.currentTimeMillis() > createdAt + 20000) {
             GameRoom room = getGameRoom();
             if (room == null)
                 return;
