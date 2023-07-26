@@ -17,7 +17,7 @@ function renderBackground(x, y) {
     /* context.fillStyle = 'black';
     context.fillRect(0, 0, canvas.width, canvas.height);
     */
-    const gridSize = 80;
+    const gridSize = 40;
     context.strokeStyle = 'white';
     context.lineWidth = 0.1;
     
