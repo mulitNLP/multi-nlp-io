@@ -16,6 +16,7 @@ const ASSET_NAMES = [
   'icon_sound_on.png',
   'dirty-bomb.png',
   'bomb.svg',
+  'missile.svg',
 ];
 
 // assets을 저장할 객체
