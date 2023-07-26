@@ -60,7 +60,7 @@ public class GameRoom extends JobSerializer {
         this.createMeteorTask = new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < 1; ++i)
+                for (int i = 0; i < 8; ++i)
                     createMeteor();
             }
         };
