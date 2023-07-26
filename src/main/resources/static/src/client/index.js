@@ -14,7 +14,7 @@ import renderMicbutton from './htmlRender/micbutton';
 // easy to unnecessarily bloat your site.
 import './css/bootstrap-reboot.css';
 import './css/main.css';
-
+import pixitest from './pixitest';
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
@@ -25,6 +25,7 @@ const replayButton = document.getElementById('replay-button');
 Promise.all([
   connect(onGameOver),
   downloadAssets(),
+  pixitest(),
 ]).then(() => {
   playMenu.classList.remove('hidden');
   usernameInput.focus();
