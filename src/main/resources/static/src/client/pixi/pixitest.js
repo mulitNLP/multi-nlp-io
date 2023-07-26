@@ -92,26 +92,26 @@ let targetCameraY = 0;
 const cameraMoveSpeed = 0.001; // 카메라의 이동 속도를 조정
 const cameraMoveing = 7;
 export const backgroundInputKeyBoardDown = throttle(20, (key) => {
-    if (key === 87) {//W
+    if (key === 38) {//W
         targetCameraY = cameraMoveing;
-    } else if (key === 83) {//S
+    } else if (key === 40) {//S
         targetCameraY = -cameraMoveing;
-    } else if (key === 68) {//A
+    } else if (key === 39) {//A
         targetCameraX = -cameraMoveing;
-    } else if (key === 65) {//D
+    } else if (key === 37) {//D
         targetCameraX = cameraMoveing;
     }
   
   });
 
   export const backgroundInputKeyBoardUp = (key) => {
-    if (key === 87) {//W
+    if (key === 38) {//W
         targetCameraY = 0;
-    } else if (key === 83) {//S
+    } else if (key === 40) {//S
         targetCameraY = 0;
-    } else if (key === 68) {//A
+    } else if (key === 39) {//A
         targetCameraX = 0;
-    } else if (key === 65) {//D
+    } else if (key === 37) {//D
         targetCameraX = 0;
     }
   };
