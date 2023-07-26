@@ -43,6 +43,11 @@ export const enterKeyBoard = throttle(10, () => {
 
 let wordSet = new Set();
 
+export const resetWordSet = () => {
+  wordSet.clear();
+}
+
+
 export const performNlp = (content) => {
   const targetid_sub = targetId;
 

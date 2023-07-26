@@ -9,6 +9,7 @@ import { setLeaderboardHidden } from './leaderboard';
 import { resetStore } from './mic'
 import deadResons from './htmlRender/deadresons';
 import renderMicbutton from './htmlRender/micbutton';
+import { resetWordSet } from './input/nlp';
 // I'm using a tiny subset of Bootstrap here for convenience - there's some wasted CSS,
 // but not much. In general, you should be careful using Bootstrap because it makes it
 // easy to unnecessarily bloat your site.
@@ -48,11 +49,12 @@ function onGameOver(obj) {
   gameoverMenu.classList.remove('hidden');
   deadResons(obj);
   usernameInput.focus();
-  replayButton.onclick = () =>{
+  replayButton.onclick = () => {
     play(usernameInput.value);
     gameoverMenu.classList.add('hidden');
     initState();
     resetStore();
+    resetWordSet();
     startCapturingInput();
     startRendering();
     renderMicbutton(false);
