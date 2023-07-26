@@ -4,7 +4,7 @@ const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
 const checkbox = document.getElementById('checkbox');
 
-function renderCheckbox(contexts) {
+function renderCheckbox(contexts, result) {
 
     const result = analysisResult.result;
     const percent = analysisResult.percentage;
