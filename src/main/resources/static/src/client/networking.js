@@ -171,43 +171,40 @@ const shieldInstance = {
   skillType: 'SHIELD',
 };
 
-export const handleChatAttack = (targetID, content, positive, percent) => {
-  // if (content === 's') {
-  //   positive = false;
-  // }
+export const handleChatAttack = (targetID, content, result, percent) => {
 
-  // const targetType = (targetId >> 24) & 0x7f;
-  // var result;
-  // if (targetType === 1) { // 1: player
-  //   if (positive == true)
-  //     result = true;
-  //   else
-  //     result = false;
-  // } else if (targetType === 2) { // 2: meteor
-  //   if (positive === true)
-  //     result = true;
-  //   else
-  //     return;
-  // }
-
-
-  // console.log(`${targetId} ${result}`)
-
-  sendSkill(targetID, positive);
-
-}
-
-function sendSkill(targetId, positive) {
-
-  if (positive === null) {
+  if (targetID == -1 && !result) { // 
+    console.log('타겟이 없는 상태에서 부정이면 방어할 수 없습니다.');
     return;
   }
 
-  let info = positive === true ? bullletInstance : shieldInstance;
+  let targetType = ((targetID >> 24) & 0x7F);
+  if (targetType == 2 && !result) {
+    console.log('70% 의 유사도를 넘지 못했으므로 공격할 수 없습니다.');
+    return;
+  }
+
+  if (targetID == -1) {
+    sendSkill(targetID, true);
+  }
+  else if (targetType == 1) {
+    sendSkill(targetID, result);
+  }
+  else if (targetType == 2) {
+    sendSkill(targetID, false);
+  }
+  else {
+    console.log('굉장히 잘못되었다.');
+  }
+}
+
+function sendSkill(targetID, result) {
+  // false 이면 공격, true 이면 쉴드
+  let info = result === false ? bullletInstance : shieldInstance;
   const skillPacket = {
     type: 'cskill',
     protocol: 'C_Skill',
-    target: targetId,
+    target: targetID,
     info: info
   }
   // skill
@@ -232,13 +229,14 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
     .then(response => response.json())
     .then(data => {
       const result = data.result;
+
       handleChatAttack(targetID, inputValue, result, data.percentage);
+
       console.log(result);
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;
       // Update the UI with the sentiment analysis result as needed
       renderCheckbox(data.result);
-
     })
     .catch(error => {
       console.error('Error:', error);
