@@ -16,7 +16,7 @@ function renderMicstatus(readySignal, isRecognizing) {
         setTimeout(() => {
         micstatus.innerText = "";
         micstatus.style.backgroundColor = "";
-        }, 2000);
+        }, 4000);
 
     } else if (readySignal === false) {
 

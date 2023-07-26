@@ -10,7 +10,7 @@ function renderNlpCheckboxSame(content) {
     setTimeout(() => {
         checkbox.innerText = "";
         checkbox.style.backgroundColor = "";
-    }, 3000);
+    }, 5000);
     
 }
 
