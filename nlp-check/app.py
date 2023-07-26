@@ -69,10 +69,10 @@ def sentiment_analysis_player():
     predictions = model.predict(pad_new)
     predictions = float(predictions[0])
     # print('targetID 1 is Player 2 is Meteor :', target_ID)    
-    if predictions > 0.5:
+    if predictions < 0.5:
         result = True
         print("targetID 1 ATTACK")
-    elif predictions < 0.5:
+    elif predictions > 0.5:
         result = False
         print("shield generated")
     percentage = predictions * 100
@@ -98,7 +98,7 @@ def sentiment_analysis_meteor():
         print("target Meteor ATTACK")
         result = True
     else:
-        result = None
+        result = False
     print('similarity is :', similarity_check)
     return jsonify({'result' : result, 'percentage': float(similarity_check)})
 
