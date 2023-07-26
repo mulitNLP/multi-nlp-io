@@ -41,11 +41,11 @@ RUN apt-get update && apt-get install -y default-jdk
 RUN apt-get install -y python3-pip python3-dev
 
 # 작업 디렉토리 생성
-RUN mkdir -p /nlp
-WORKDIR /nlp
+RUN mkdir -p /nlp/server/app
+WORKDIR /nlp/server/app
 
 # 필요한 Python 패키지들 설치
-COPY . /nlp/
+COPY . /nlp/server/app
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # 컨테이너에서 실행될 명령어 지정
