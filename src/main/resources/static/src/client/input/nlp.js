@@ -58,12 +58,6 @@ export const performNlp = (content) => {
       renderNlpCheckboxFail();
     } else {
       console.log(content);
-      if (wordSet.has(content)) {
-        console.log("이미 한번 입력한 단어입니다. 다시 입력하시오");
-        renderNlpCheckboxSame(content);
-        return;
-      }
-      wordSet.add(content);
       const meteor_word = getMeteorById(targetId)
       console.log(meteor_word.word)
       performSentimentAnalysisMeteor(meteor_word.word, targetid_sub, content);
