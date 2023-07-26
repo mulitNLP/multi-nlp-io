@@ -255,7 +255,6 @@ function sendSkill(targetID, result) {
   websocket.send(JSON.stringify(skillPacket));
 }
 
-// get leaderboard
 export const requestLeaderBoard = (roomId) => {
   const url = `http://${addr}:8080/get/leaderboard?roomId=` + roomId;
   return fetch(url, {
