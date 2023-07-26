@@ -192,6 +192,21 @@ button:focus {
 
 }
 
+#micstatus {
+
+  position: fixed;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  width: 100px;
+  margin: auto;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+
+}
+
 #game-over {
   position: fixed;
   top: 50%;
