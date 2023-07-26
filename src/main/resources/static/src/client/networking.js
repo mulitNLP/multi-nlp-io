@@ -188,7 +188,7 @@ function sendContent(url, dataString, targetID, inputValue) {
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;
       // Update the UI with the sentiment analysis result as needed
-      renderCheckbox(inputValue, result);
+      renderCheckbox(targetID, inputValue, result);
 
     })
     .catch(error => {
