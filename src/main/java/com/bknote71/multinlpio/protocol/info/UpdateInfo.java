@@ -43,6 +43,7 @@ public class UpdateInfo {
         int id;
         double x;
         double y;
+        double direction;
     }
 
     @Data

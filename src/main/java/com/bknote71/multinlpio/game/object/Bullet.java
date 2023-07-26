@@ -19,6 +19,7 @@ public class Bullet extends GameObject {
     private SkillInfo skill;
     private double speed;
     private double range;
+    private double direction;
 
     private int[] dx = {0, 1, 0, -1, 0};
     private int[] dy = {0, 0, 1, 0, -1};
@@ -63,6 +64,7 @@ public class Bullet extends GameObject {
                 dir = cand;
         }
 
+        direction = Math.atan2(dir.x, dir.y);
         Vector2d dest = Vector2d.dest(pos(), dir.unit(), speed);
         dest.x = (dest.x + mapSize) % mapSize;
         dest.y = (dest.y + mapSize) % mapSize;

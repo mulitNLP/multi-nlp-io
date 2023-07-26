@@ -107,7 +107,7 @@ public class GameRoom extends JobSerializer {
         // meteor, bullet(projectile), shield update
         for (Bullet bullet : bullets.values()) {
             bullet.update();
-            update.bullets.add(new UpdateInfo.BulletInfo(bullet.getId(), bullet.pos().x, bullet.pos().y));
+            update.bullets.add(new UpdateInfo.BulletInfo(bullet.getId(), bullet.pos().x, bullet.pos().y, bullet.getDirection()));
         }
 
         for (Meteor meteor : meteors.values()) {
