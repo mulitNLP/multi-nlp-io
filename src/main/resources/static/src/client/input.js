@@ -1,4 +1,5 @@
 import { updateInputKeyBoardDown, updateInputKeyBoardUp } from './networking';
+import { backgroundInputKeyBoardDown , backgroundInputKeyBoardUp } from './pixi/pixitest'; 
 import { enterKeyBoard } from './input/nlp';
 import { getnearbyothers, getnearmeteors } from './render';
 import { enterSpacebar } from './mic';
@@ -19,6 +20,7 @@ function onkeyDown(e) {
   // Otherwise, if some other key is pressed and the input bar is not focused, move the character
   else if (document.activeElement !== enterInputBar && (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 39 || e.keyCode === 37)) {
     updateInputKeyBoardDown(e.keyCode);
+    backgroundInputKeyBoardDown(e.keyCode);
   }
   if (e.keyCode === 32) {
     enterSpacebar();
@@ -42,6 +44,7 @@ function onkeyDown(e) {
 function onkeyUp(e) {
   if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 39 || e.keyCode === 37) {
     updateInputKeyBoardUp(e.keyCode);
+    backgroundInputKeyBoardUp(e.keyCode);
   }
 }
 
