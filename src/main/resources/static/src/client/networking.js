@@ -153,6 +153,50 @@ export const updateInputKeyBoardUp = (key) => {
   websocket.send(JSON.stringify(message));
 };
 
+let analysisResult = { result: null, percentage: null };
+export { analysisResult };
+
+export const performSentimentAnalysisPlayer = (playerID, targetID, inputValue) => {
+  const url = `http://${addr}:5050/sentiment-analysis-player`; // Adjust the URL to match your Python server
+  const dataString = playerID + '|' + targetID + '|' + inputValue;
+  // Send the input value to the Python server using fetch API
+  sendContent(url, dataString);
+}
+export const performSentimentAnalysisMeteor = (meteorWord, targetID, inputValue) => {
+  const url = `http://${addr}:5050/sentiment-analysis-meteor`; // Adjust the URL to match your Python server
+  const dataString = meteorWord + '|' + targetID + '|' + inputValue;
+  // Send the input value to the Python server using fetch API
+  sendContent(url, dataString);
+}
+
+
+function sendContent(url, dataString) {
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+      'Connection': 'keep-alive'
+    },
+    body: dataString
+  })
+    .then(response => response.json())
+    .then(data => {
+      const result = data.result;
+      handleChatAttack(targetID, inputValue, result, data.percentage);
+
+      console.log(result);
+      analysisResult.result = data.result;
+      analysisResult.percentage = data.percentage;
+      // Update the UI with the sentiment analysis result as needed
+      renderCheckbox(inputValue);
+
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
 const bullletInstance = {
   skillId: 1,
   name: 'bullet',
@@ -171,116 +215,45 @@ const shieldInstance = {
   skillType: 'SHIELD',
 };
 
-export const handleChatAttack = (targetID, content, positive, percent) => {
-  // if (content === 's') {
-  //   positive = false;
-  // }
+export const handleChatAttack = (targetID, content, result, percent) => {
 
-  // const targetType = (targetId >> 24) & 0x7f;
-  // var result;
-  // if (targetType === 1) { // 1: player
-  //   if (positive == true)
-  //     result = true;
-  //   else
-  //     result = false;
-  // } else if (targetType === 2) { // 2: meteor
-  //   if (positive === true)
-  //     result = true;
-  //   else
-  //     return;
-  // }
-
-
-  // console.log(`${targetId} ${result}`)
-
-  sendSkill(targetID, positive);
-
-}
-
-function sendSkill(targetId, positive) {
-
-  if (positive === null) {
+  if (targetID == -1 && !result) { // 
+    console.log('타겟이 없는 상태에서 부정이면 방어할 수 없습니다.');
     return;
   }
 
-  let info = positive === true ? bullletInstance : shieldInstance;
+  let targetType = ((targetID >> 24) & 0x7F);
+  if (targetType == 2 && !result) {
+    console.log('70% 의 유사도를 넘지 못했으므로 공격할 수 없습니다.');
+    return;
+  }
+
+  if (targetID == -1) {
+    sendSkill(targetID, true);
+  }
+  else if (targetType == 1) {
+    sendSkill(targetID, result);
+  }
+  else if (targetType == 2) {
+    sendSkill(targetID, false);
+  }
+  else {
+    console.log('굉장히 잘못되었다.');
+  }
+}
+
+function sendSkill(targetID, result) {
+  // false 이면 공격, true 이면 쉴드
+  let info = result === false ? bullletInstance : shieldInstance;
   const skillPacket = {
     type: 'cskill',
     protocol: 'C_Skill',
-    target: targetId,
+    target: targetID,
     info: info
   }
   // skill
   websocket.send(JSON.stringify(skillPacket));
 }
-
-let analysisResult = { result: null, percentage: null };
-
-export const performSentimentAnalysisPlayer = (playerID, targetID, inputValue) => {
-  // if (targetID === -1)
-  //   return;
-
-  const url = `http://${addr}:5050/sentiment-analysis-player`; // Adjust the URL to match your Python server
-  const dataString = playerID + '|' + targetID + '|' + inputValue;
-  // Send the input value to the Python server using fetch API
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain',
-      'Connection': 'keep-alive'
-    },
-    body: dataString,
-  })
-    .then(response => response.json())
-    .then(data => {
-      const result = data.result;
-      handleChatAttack(targetID, inputValue, result, data.percentage);
-      console.log(
-
-      );
-      analysisResult.result = data.result;
-      analysisResult.percentage = data.percentage;
-      // Update the UI with the sentiment analysis result as needed
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
-export const performSentimentAnalysisMeteor = (meteorWord, targetID, inputValue) => {
-
-  if (targetID === -1)
-    return;
-
-  const url = `http://${addr}:5050/sentiment-analysis-meteor`; // Adjust the URL to match your Python server
-  const dataString = meteorWord + '|' + targetID + '|' + inputValue;
-  // Send the input value to the Python server using fetch API
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain',
-      'Connection': 'keep-alive'
-    },
-    body: dataString
-  })
-    .then(response => response.json())
-    .then(data => {
-      const result = data.result;
-      handleChatAttack(targetID, inputValue, result, data.percentage);
-      console.log(result);
-      analysisResult.result = data.result;
-      analysisResult.percentage = data.percentage;
-      // Update the UI with the sentiment analysis result as needed
-      renderCheckbox(inputValue);
-
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
-
-export { analysisResult };
-
-// get leaderboard
 
 export const requestLeaderBoard = (roomId) => {
   const url = `http://${addr}:8080/get/leaderboard?roomId=` + roomId;
