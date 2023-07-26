@@ -19,7 +19,7 @@ function renderBackground(x, y) {
     */
     const gridSize = 80;
     context.strokeStyle = 'white';
-    context.lineWidth = 0.2;
+    context.lineWidth = 0.1;
     
     const offsetX = -x % gridSize;
     const offsetY = -y % gridSize;
