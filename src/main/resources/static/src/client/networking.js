@@ -160,17 +160,17 @@ export const performSentimentAnalysisPlayer = (playerID, targetID, inputValue) =
   const url = `http://${addr}:5050/sentiment-analysis-player`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
-  sendContent(url, dataString);
+  sendContent(url, dataString, targetID, inputValue);
 }
 export const performSentimentAnalysisMeteor = (meteorWord, targetID, inputValue) => {
   const url = `http://${addr}:5050/sentiment-analysis-meteor`; // Adjust the URL to match your Python server
   const dataString = meteorWord + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
-  sendContent(url, dataString);
+  sendContent(url, dataString, targetID, inputValue);
 }
 
 
-function sendContent(url, dataString) {
+function sendContent(url, dataString, targetID, inputValue) {
   fetch(url, {
     method: 'POST',
     headers: {

@@ -3,4 +3,5 @@ keras
 tensorflow
 flask
 flask-cors
+gensim
 numpy==1.24.3
