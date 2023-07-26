@@ -213,10 +213,43 @@ function sendSkill(targetID, result) {
 
 let analysisResult = { result: null, percentage: null };
 
-export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
-  console.log('perform sentiment analysis');
-  const url = `http://${addr}:5050/sentiment-analysis`; // Adjust the URL to match your Python server
+export const performSentimentAnalysisPlayer = (playerID, targetID, inputValue) => {
+  // if (targetID === -1)
+  //   return;
+
+  const url = `http://${addr}:5050/sentiment-analysis-player`; // Adjust the URL to match your Python server
   const dataString = playerID + '|' + targetID + '|' + inputValue;
+  // Send the input value to the Python server using fetch API
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+      'Connection': 'keep-alive'
+    },
+    body: dataString,
+  })
+    .then(response => response.json())
+    .then(data => {
+      const result = data.result;
+      handleChatAttack(targetID, inputValue, result, data.percentage);
+      console.log(
+
+      );
+      analysisResult.result = data.result;
+      analysisResult.percentage = data.percentage;
+      // Update the UI with the sentiment analysis result as needed
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+export const performSentimentAnalysisMeteor = (meteorWord, targetID, inputValue) => {
+
+  if (targetID === -1)
+    return;
+
+  const url = `http://${addr}:5050/sentiment-analysis-meteor`; // Adjust the URL to match your Python server
+  const dataString = meteorWord + '|' + targetID + '|' + inputValue;
   // Send the input value to the Python server using fetch API
   fetch(url, {
     method: 'POST',
@@ -236,7 +269,7 @@ export const performSentimentAnalysis = (playerID, targetID, inputValue) => {
       analysisResult.result = data.result;
       analysisResult.percentage = data.percentage;
       // Update the UI with the sentiment analysis result as needed
-      renderCheckbox(inputValue);
+      renderCheckbox(data.result);
 
     })
     .catch(error => {
