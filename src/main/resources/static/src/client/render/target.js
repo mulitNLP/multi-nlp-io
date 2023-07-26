@@ -18,9 +18,15 @@ function renderTarget(me,nearplayers,nearmeteors) {
     lnittargetId();
     return;
   }
-
+/*   let targetsize = 16 */
   const { rx , ry } = maptrick(me, lockedEntity);  
-
+/*   let saveid = (lockedEntity.id >> 24) & 0x7f; */
+ /*  if (saveid === 1) {//플레이어
+    targetsize = 10
+  }
+  if (saveid === 2) {//운석
+    targetsize = 16
+  } */
     const canvasX = canvas.width / 2 + rx - me.x;
     const canvasY = canvas.height / 2 + ry - me.y;
 
