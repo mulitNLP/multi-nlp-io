@@ -23,7 +23,7 @@ function renderoutPlayer(me, player) {
     context.translate(canvasX, canvasY);
     context.rotate(direction);
     context.drawImage(
-        getAsset('circle.png'),
+        getAsset('ship.svg'),
         -PLAYER_RADIUS,
         -PLAYER_RADIUS,
         PLAYER_RADIUS * 2,
