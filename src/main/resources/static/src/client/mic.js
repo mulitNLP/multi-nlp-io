@@ -35,7 +35,7 @@ if (!("webkitSpeechRecognition" in window)) {
     recognition.onresult = function (e) {
         store.texts = Array.from(e.results)
             .map(results => results[0].transcript).join("");
-        
+
         // enterInputBar.value = store.texts;
         console.log(`store.text? ${store.texts}`);
         performNlp(store.texts);
@@ -47,14 +47,15 @@ if (!("webkitSpeechRecognition" in window)) {
 
 }
 /* Speech API END */
-
+let exitTime = Date.now();
 export const enterSpacebar = () => {
     console.log('enter spacebar');
     if (store.readySignal) {
         mic_active();
         renderMicbutton(true);
-    } else if (!store.readySignal && store.isRecognizing) {
+    } else if (!store.readySignal && !(Date.now() > exitTime) && store.isRecognizing) {
         console.log("아직은 종료하실 수 없습니다.");
+        console.log(`${Date.now()} 와 ${exitTime}`);
     } else {
         mic_unactive();
         renderMicbutton(false);
@@ -63,8 +64,9 @@ export const enterSpacebar = () => {
 }
 
 function mic_active() {
-    recognition.start();
     store.readySignal = false;
+    exitTime = Date.now() + 1000;
+    recognition.start();
     setTimeout(signalCompleteReady, 1000);
 
 }
