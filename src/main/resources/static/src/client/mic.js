@@ -64,9 +64,9 @@ export const enterSpacebar = () => {
 
 function mic_active() {
     store.readySignal = false;
-    exitTime = Date.now() + 1000;
+    exitTime = Date.now() + 300;
     recognition.start();
-    setTimeout(signalCompleteReady, 1000);
+    setTimeout(signalCompleteReady, 300);
     renderMicstatus(store.readySignal, store.isRecognizing);
 }
 
