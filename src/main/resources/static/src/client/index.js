@@ -14,7 +14,7 @@ import renderMicbutton from './htmlRender/micbutton';
 // easy to unnecessarily bloat your site.
 import './css/bootstrap-reboot.css';
 import './css/main.css';
-import pixitest from './pixitest';
+import pixitest from './pixi/pixitest';
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');

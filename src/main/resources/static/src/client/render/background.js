@@ -10,7 +10,9 @@ const { MAP_SIZE } = Constants;
 // 배경을 그리는 역할, 그라데이션
 function renderBackground(x, y) {
     
-    context.fillStyle = 'black';
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    /* context.fillStyle = 'black';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     const gridSize = 50;
@@ -32,8 +34,8 @@ function renderBackground(x, y) {
         context.moveTo(0, y);
         context.lineTo(canvas.width, y);
         context.stroke();
-    }
-    
+    } */
+
 }
 
 export default renderBackground;
