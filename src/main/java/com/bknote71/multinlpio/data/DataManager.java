@@ -36,9 +36,16 @@ public class DataManager {
     public static void loadData() {
         statInfoMap = DataManager.<StatData, Integer, StatInfo>loadJson("stat_data").makeMap();
         skillInfoMap = DataManager.<SkillData, Integer, SkillInfo>loadJson("skill_data").makeMap();
+
+        // load word list
+        List<WordData> wordList = new ArrayList<>();
+        wordList.addAll(loadWord("wordlist.csv"));
+        wordList.addAll(loadWord("foodword.txt"));
+        wordList.addAll(loadWord("techword.txt"));
+        words = wordList.toArray(new WordData[wordList.size()]);
     }
 
-    static <T extends ILoader<K, V>, K, V> T loadJson(String path) {
+    private static <T extends ILoader<K, V>, K, V> T loadJson(String path) {
         try {
             String fullPath = env.getProperty("data_path") + path + ".json";
             Resource resource = resourceLoader.getResource(fullPath);
@@ -53,9 +60,9 @@ public class DataManager {
     }
 
     // csv 읽기
-    public static void loadWord() {
-        String path = env.getProperty("data_path") + "wordlist.csv";
-        Resource resource = resourceLoader.getResource(path);
+    private static List<WordData> loadWord(String path) {
+        String fullPath = env.getProperty("data_path") + path;
+        Resource resource = resourceLoader.getResource(fullPath);
         List<WordData> wordlist = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             // skip first line
@@ -65,13 +72,16 @@ public class DataManager {
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
                 String[] strs = line.split(",");
-                if (strs[1].contains("0"))
-                    continue;
+                if (path.endsWith(".csv")) {
+                    if (strs[2] != "명" || strs[1].contains("0") || strs[1].contains("1") || strs[1].contains("2"))
+                        continue;
 
-                wordlist.add(new WordData(strs[1], strs[2]));
+                    wordlist.add(new WordData(strs[1], strs[2]));
+                } else {
+                    wordlist.add(new WordData(strs[0], "명"));
+                }
             }
-
-            words = wordlist.toArray(new WordData[wordlist.size()]);
+            return wordlist;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

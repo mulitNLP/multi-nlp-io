@@ -39,6 +39,15 @@ public class Meteor extends GameObject {
 
     // 상태: 움직임
     public void update() {
+        // 메테오 사라지는 주기
+        if (System.currentTimeMillis() > createdAt + 10000) {
+            GameRoom room = getGameRoom();
+            if (room == null)
+                return;
+            room.push(room::leaveGame, getId());
+            return;
+        }
+
         // invisible 세팅
         if (System.currentTimeMillis() > createdAt + 1000)
             invisible = false;
@@ -76,14 +85,17 @@ public class Meteor extends GameObject {
         }
 
         // 이동할 위치
+        int mapSize = room.getGameMap().sizeX();
         Vector2d dest = Vector2d.dest(pos(), dirvec, speed);
+        dest.x = (dest.x + mapSize) % mapSize;
+        dest.y = (dest.y + mapSize) % mapSize;
 
-        // 만약 맵 끝에 도달한다면 소멸해야한다.
-        if (!room.cango(dest)) {
-//            System.out.println("맵의 끝에 도달했으므로 소멸");
-            room.push(room::leaveGame, getId());
-            return;
-        }
+        // 만약 맵 끝에 도달한다면 소멸해야한다. (맵의 끝 삭제 <<)
+//        if (!room.cango(dest)) {
+////            System.out.println("맵의 끝에 도달했으므로 소멸");
+//            room.push(room::leaveGame, getId());
+//            return;
+//        }
 
         pos(dest);
     }
