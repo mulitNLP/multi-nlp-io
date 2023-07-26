@@ -133,10 +133,19 @@ public class GameObject { // player, bullet, meteor
     }
 
     public void onDead(GameObject attacker) {
-        log.info("on dead {}.",getId());
+        log.info("on dead {}.", getId());
 
         if (gameRoom == null)
             return;
+
+        // score: 운석 1점, 사람 5점
+        GameObjectType attackerType = attacker.getType();
+        if (attackerType == GameObjectType.Bullet) {
+            Bullet bullet = (Bullet) attacker;
+            Player owner = (Player) bullet.getOwner();
+            if (owner != null)
+                owner.addScore(type == GameObjectType.Player ? 5 : 2);
+        }
 
         SDie diePacket = new SDie();
         diePacket.setObjectId(getId());

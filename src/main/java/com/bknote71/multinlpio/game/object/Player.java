@@ -93,4 +93,8 @@ public class Player extends GameObject {
     public void removeDir(MoveDir dir) {
         dirs.remove(dir);
     }
+
+    public void addScore(int plus) {
+        this.score += plus;
+    }
 }
