@@ -1,34 +1,42 @@
-import { getAsset } from '../assets';
-const canvas = document.getElementById('game-canvas');
-const micbutton = document.getElementById('micbutton');
+const micstatus = document.getElementById('micstatus');
 
-const context = canvas.getContext('2d');
-const changeImage = document.createElement('img');
+function renderMicstatus(readySignal, isRecognizing) {
 
-
-function renderMicstatus(onoff) {
-
-    // 긍정 입력
-    let targetType = ((targetID >> 24) & 0x7F);
     
     // 락온이 안된 상태
-    if (targetID === -1) {
+    if (readySignal === true) {
 
-        if (result === true) {
+        // 녹음 완료!
+        micstatus.innerText = "녹음 완료!";
+        micstatus.style.backgroundColor = "green";
+        console.log("hii");
 
-            checkbox.innerText = contexts + " => 긍정! 방어막 생성!";
-            checkbox.style.backgroundColor = "green";
-            console.log("hi");
-    
-        // 부정 입력
-        } else if (result === false) {
+        // Clear the message after 3 seconds
+        setTimeout(() => {
+        micstatus.innerText = "";
+        micstatus.style.backgroundColor = "";
+        }, 2000);
 
-            checkbox.innerText = contexts + " => 부정! 락온이 된 상태에서만 미사일 발사가 가능합니다!";
-            checkbox.style.backgroundColor = "gray";
-            console.log("hi");
+    } else if (readySignal === false) {
+
+        if (isRecognizing === true) {
+
+            // 활성화 대기중!
+            micstatus.innerText = "활성화 대기중!";
+            micstatus.style.backgroundColor = "gray";
+            console.log("hii");
+
+        } else if (isRecognizing === false) {
+
+            // 녹음중!!
+            micstatus.innerText = "녹음중!";
+            micstatus.style.backgroundColor = "red";
+            console.log("hii");
         
         }
-    
+        
+    }
+
 }
 
 export default renderMicstatus;
