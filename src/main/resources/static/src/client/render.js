@@ -1,5 +1,3 @@
-// Learn more about this file at:
-// https://victorzhou.com/blog/build-an-io-game-part-1/#5-client-rendering
 import { debounce } from 'throttle-debounce';
 import { getCurrentState } from './state';
 
@@ -114,11 +112,9 @@ export function stopRendering() {
 }
 
 export function getnearbyothers(){
-  //nearplayers.sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
   return nearplayers;
 }
 
 export function getnearmeteors(){
-  //nearmeteors.sort((p1,p2) => distanceTo(me, p1) - distanceTo(me, p2));
   return nearmeteors;
 }
