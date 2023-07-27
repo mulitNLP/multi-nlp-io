@@ -42,6 +42,7 @@ public class DataManager {
         wordList.addAll(loadWord("wordlist.csv"));
         wordList.addAll(loadWord("foodword.txt"));
         wordList.addAll(loadWord("techword.txt"));
+        wordList.addAll(loadWord("koword.txt"));
         words = wordList.toArray(new WordData[wordList.size()]);
     }
 
